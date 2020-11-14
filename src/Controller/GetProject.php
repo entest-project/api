@@ -3,30 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\Project;
-use App\Repository\ProjectRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/projects/{slug}", methods={"GET"}, requirements={"id": "[0-9a-z-]+"})
+ * @Route("/projects/{id}", methods={"GET"}, requirements={"id": "[0-9a-z-]+"})
  */
-class GetProject
+class GetProject extends Api
 {
-    private ProjectRepository $projectRepository;
-
-    public function __construct(ProjectRepository $projectRepository)
+    /**
+     * @ParamConverter(
+     *     name="project",
+     *     class="App\Entity\Project",
+     *     converter="rollandrock_entity_converter"
+     * )
+     */
+    public function __invoke(Project $project): Response
     {
-        $this->projectRepository = $projectRepository;
-    }
-
-    public function __invoke(string $slug): Project
-    {
-        $project = $this->projectRepository->findOneBy(['slug' => $slug]);
-
-        if ($project === null) {
-            throw new NotFoundHttpException();
-        }
-
-        return $project;
+        return $this->buildSerializedResponse($project, 'READ_PROJECT');
     }
 }

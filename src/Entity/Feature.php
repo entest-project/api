@@ -13,25 +13,14 @@ class Feature
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="string")
      */
-    public int $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="features")
-     */
-    public Project $project;
+    public string $id = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Path")
      */
     public Path $path;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    public string $slug = '';
 
     /**
      * @ORM\Column(type="string")
@@ -48,11 +37,20 @@ class Feature
      */
     public iterable $scenarios = [];
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
     /**
      * @ORM\PrePersist
      */
     public function prePersist(): void
     {
-        $this->slug = Slugify::create()->slugify($this->title);
+        $this->id = sprintf(
+            '%s-%s-',
+            $this->path->id,
+            Slugify::create()->slugify($this->title)
+        );
     }
 }

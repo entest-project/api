@@ -41,4 +41,9 @@ class ScenarioStep
      * @ORM\OneToMany(targetEntity="App\Entity\StepParam", mappedBy="step", orphanRemoval=true)
      */
     public iterable $params;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }

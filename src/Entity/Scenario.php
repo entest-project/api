@@ -43,5 +43,10 @@ class Scenario
     /**
      * @ORM\Column(type="json", nullable=true)
      */
-    public ?array $examples;
+    public ?array $examples = null;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }

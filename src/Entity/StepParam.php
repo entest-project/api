@@ -27,4 +27,9 @@ abstract class StepParam
      * @ORM\ManyToOne(targetEntity="App\Entity\ScenarioStep", inversedBy="params")
      */
     public ScenarioStep $step;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }

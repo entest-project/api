@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Repository\ProjectRepository;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/projects", methods={"GET"})
  */
-class GetProjects
+class GetProjects extends Api
 {
     private ProjectRepository $projectRepository;
 
@@ -17,8 +18,8 @@ class GetProjects
         $this->projectRepository = $projectRepository;
     }
 
-    public function __invoke(): array
+    public function __invoke(): Response
     {
-        return $this->projectRepository->findAll();
+        return $this->buildSerializedResponse($this->projectRepository->findAll(), 'LIST_PROJECTS');
     }
 }

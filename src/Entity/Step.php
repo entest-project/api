@@ -29,4 +29,9 @@ class Step
      * @ORM\OneToMany(targetEntity="App\Entity\StepPart", mappedBy="step", cascade={"all"}, orphanRemoval=true)
      */
     public iterable $parts;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }

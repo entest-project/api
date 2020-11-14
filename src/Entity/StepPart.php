@@ -42,4 +42,9 @@ class StepPart
      * @ORM\ManyToOne(targetEntity="App\Entity\Step", inversedBy="parts")
      */
     public Step $step;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
 }

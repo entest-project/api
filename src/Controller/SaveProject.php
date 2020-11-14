@@ -8,13 +8,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/projects", methods={"POST"})
+ * @Route("/projects", methods={"POST", "PUT"})
  */
-class PostProject
+class SaveProject extends Api
 {
     private EntityManagerInterface $entityManager;
     private ProjectRepository $projectRepository;
@@ -32,12 +33,12 @@ class PostProject
      *     converter="rollandrock_entity_converter"
      * )
      */
-    public function __invoke(Project $project): Project
+    public function __invoke(Project $project): Response
     {
         try {
             $this->projectRepository->save($project);
 
-            return $project;
+            return $this->buildSerializedResponse($project, 'READ_PROJECT');
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }

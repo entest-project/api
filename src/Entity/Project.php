@@ -14,39 +14,54 @@ class Project
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"collection", "display"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT"})
      */
-    public int $id;
+    public string $id = '';
 
     /**
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"collection", "display"})
-     */
-    public string $slug = '';
-
-    /**
-     * @ORM\Column(type="string")
-     *
-     * @Serializer\Groups({"collection", "display"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT"})
      */
     public string $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Feature", mappedBy="project", cascade={"all"}, orphanRemoval=true)
+     * @var Path[]
      *
-     * @Serializer\Groups({"display"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Path", mappedBy="project", cascade={"all"}, orphanRemoval=true)
+     *
+     * @Serializer\Groups({"READ_PROJECT"})
      */
-    public iterable $features = [];
+    public iterable $paths = [];
+
+    /**
+     * @Serializer\Groups({"READ_PROJECT"})
+     * @Serializer\VirtualProperty("tree")
+     */
+    public function getTree(): array
+    {
+        $tree = [];
+        foreach ($this->paths as $path) {
+            if ($path->parent === null) {
+                $tree[] = $path;
+            }
+        }
+
+        return $tree;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
     /**
      * @ORM\PrePersist
      */
     public function prePersist(): void
     {
-        $this->slug = Slugify::create()->slugify($this->title);
+        $this->id = Slugify::create()->slugify($this->title);
     }
 }
