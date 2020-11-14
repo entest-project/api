@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/projects/{slug}", methods={"GET"}, requirements={"id": "[a-z-]+"})
+ * @Route("/projects/{slug}", methods={"GET"}, requirements={"id": "[0-9a-z-]+"})
  */
 class GetProject
 {
