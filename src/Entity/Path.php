@@ -17,6 +17,11 @@ class Path
     public int $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project")
+     */
+    public Project $project;
+
+    /**
      * @ORM\Column(type="string")
      */
     public string $path;
