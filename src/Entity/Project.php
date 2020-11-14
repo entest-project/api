@@ -28,29 +28,11 @@ class Project
     public string $title;
 
     /**
-     * @var Path[]
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Path", mappedBy="project", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Path", inversedBy="project", cascade={"all"})
      *
      * @Serializer\Groups({"READ_PROJECT"})
      */
-    public iterable $paths = [];
-
-    /**
-     * @Serializer\Groups({"READ_PROJECT"})
-     * @Serializer\VirtualProperty("tree")
-     */
-    public function getTree(): array
-    {
-        $tree = [];
-        foreach ($this->paths as $path) {
-            if ($path->parent === null) {
-                $tree[] = $path;
-            }
-        }
-
-        return $tree;
-    }
+    public Path $rootPath;
 
     public function getId(): string
     {
@@ -59,9 +41,11 @@ class Project
 
     /**
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function prePersist(): void
     {
         $this->id = Slugify::create()->slugify($this->title);
+        $this->rootPath->id = $this->id;
     }
 }

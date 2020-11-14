@@ -21,9 +21,9 @@ class Path
     public string $id = '';
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="paths")
+     * @ORM\OneToOne(targetEntity="App\Entity\Project", mappedBy="rootPath")
      */
-    public Project $project;
+    public ?Project $project = null;
 
     /**
      * @ORM\Column(type="string")
@@ -39,8 +39,6 @@ class Path
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Path", mappedBy="parent", cascade={"all"}, orphanRemoval=true)
-     *
-     * @Serializer\Groups({"READ_PROJECT"})
      */
     public iterable $children = [];
 
@@ -54,13 +52,12 @@ class Path
      */
     public function prePersist()
     {
-        $this->id = sprintf(
-            '%s-%s',
-            $this->parent === null ? $this->project->id : $this->parent->id,
-            Slugify::create()->slugify($this->path)
-        );
         if ($this->parent !== null) {
-            $this->project = $this->parent->project;
+            $this->id = sprintf(
+                '%s-%s',
+                $this->parent->id,
+                Slugify::create()->slugify($this->path)
+            );
         }
     }
 }
