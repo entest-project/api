@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Project;
-use App\Repository\ProjectRepository;
+use App\Entity\Path;
+use App\Repository\PathRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -12,30 +12,30 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/projects", methods={"POST", "PUT"})
+ * @Route("/paths", methods={"POST", "PUT"})
  */
-class SaveProject extends Api
+class SavePath extends Api
 {
-    private ProjectRepository $projectRepository;
+    private PathRepository $pathRepository;
 
-    public function __construct(ProjectRepository $projectRepository)
+    public function __construct(PathRepository $pathRepository)
     {
-        $this->projectRepository = $projectRepository;
+        $this->pathRepository = $pathRepository;
     }
 
     /**
      * @ParamConverter(
-     *     name="project",
-     *     class="App\Entity\Project",
+     *     name="path",
+     *     class="App\Entity\Path",
      *     converter="rollandrock_entity_converter"
      * )
      */
-    public function __invoke(Project $project): Response
+    public function __invoke(Path $path): Response
     {
         try {
-            $this->projectRepository->save($project);
+            $this->pathRepository->save($path);
 
-            return $this->buildSerializedResponse($project, 'READ_PROJECT');
+            return $this->buildSerializedResponse($path, 'READ_PATH');
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }

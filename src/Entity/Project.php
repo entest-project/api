@@ -16,21 +16,21 @@ class Project
      * @ORM\Id
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT", "READ_PATH"})
      */
     public string $id = '';
 
     /**
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT", "READ_PATH"})
      */
     public string $title;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Path", inversedBy="project", cascade={"all"})
      *
-     * @Serializer\Groups({"READ_PROJECT"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT"})
      */
     public Path $rootPath;
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity
@@ -14,16 +15,20 @@ class Feature
     /**
      * @ORM\Id
      * @ORM\Column(type="string")
+     *
+     * @Serializer\Groups({"READ_PATH"})
      */
     public string $id = '';
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Path")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Path", inversedBy="features")
      */
     public Path $path;
 
     /**
      * @ORM\Column(type="string")
+     *
+     * @Serializer\Groups({"READ_PATH"})
      */
     public string $title;
 
