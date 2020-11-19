@@ -11,7 +11,17 @@ class ProjectRepository extends EntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function save(Project $project)
+    public function delete(Project $project): void
+    {
+        $this->_em->remove($project);
+        $this->_em->flush();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function save(Project $project): void
     {
         $this->_em->persist($project);
         $this->_em->flush();

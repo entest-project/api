@@ -11,7 +11,7 @@ class FeatureRepository extends EntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function save(Feature $feature)
+    public function save(Feature $feature): void
     {
         $this->_em->persist($feature);
         $this->_em->flush();
