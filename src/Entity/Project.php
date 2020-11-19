@@ -16,14 +16,14 @@ class Project
      * @ORM\Id
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT", "READ_PATH"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      */
     public string $id = '';
 
     /**
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT", "READ_PATH"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      */
     public string $title;
 

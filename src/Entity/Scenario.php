@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity
@@ -17,6 +18,8 @@ class Scenario
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public int $id;
 
@@ -27,21 +30,29 @@ class Scenario
 
     /**
      * @ORM\Column(type="string", columnDefinition="scenario_type")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public string $type;
 
     /**
      * @ORM\Column(type="string")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public string $title;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="scenario", cascade={"all"})
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public iterable $steps;
 
     /**
      * @ORM\Column(type="json", nullable=true)
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public ?array $examples = null;
 

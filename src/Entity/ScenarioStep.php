@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity
@@ -19,6 +20,8 @@ class ScenarioStep
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public int $id;
 
@@ -29,16 +32,22 @@ class ScenarioStep
 
     /**
      * @ORM\Column(type="string", columnDefinition="step_adverb")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public string $adverb;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Step")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public Step $step;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StepParam", mappedBy="step", orphanRemoval=true)
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public iterable $params;
 

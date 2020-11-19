@@ -16,28 +16,28 @@ class Path
      * @ORM\Id
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT", "READ_PATH"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      */
     public string $id = '';
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project", mappedBy="rootPath")
      *
-     * @Serializer\Groups({"READ_PATH"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
     public ?Project $project = null;
 
     /**
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"READ_PATH", "READ_PROJECT"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      */
     public string $path;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Path", inversedBy="children")
      *
-     * @Serializer\Groups({"READ_PATH"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
     public ?Path $parent = null;
 
@@ -51,6 +51,7 @@ class Path
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Feature", mappedBy="path", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"title": "ASC"})
      *
      * @Serializer\Groups({"READ_PATH"})
      */

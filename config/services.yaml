@@ -40,6 +40,9 @@ services:
     ################
     # REPOSITORIES #
     ################
+    App\Repository\FeatureRepository:
+        factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
+        arguments: [ 'App:Feature' ]
     App\Repository\PathRepository:
         factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
         arguments: [ 'App:Path' ]

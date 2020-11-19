@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\FeatureRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Feature
@@ -16,29 +16,35 @@ class Feature
      * @ORM\Id
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"READ_PATH"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
     public string $id = '';
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Path", inversedBy="features")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public Path $path;
 
     /**
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"READ_PATH"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
     public string $title;
 
     /**
      * @ORM\Column(type="string")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
-    public string $description;
+    public string $description = '';
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Scenario", mappedBy="feature", cascade={"all"})
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
      */
     public iterable $scenarios = [];
 
