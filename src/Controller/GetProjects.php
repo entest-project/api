@@ -20,6 +20,6 @@ class GetProjects extends Api
 
     public function __invoke(): Response
     {
-        return $this->buildSerializedResponse($this->projectRepository->findAll(), 'LIST_PROJECTS');
+        return $this->buildSerializedResponse($this->projectRepository->findBy([], ['title' => 'ASC']), 'LIST_PROJECTS');
     }
 }

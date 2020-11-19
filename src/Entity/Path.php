@@ -43,6 +43,7 @@ class Path
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Path", mappedBy="parent", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"path": "ASC"})
      *
      * @Serializer\Groups({"READ_PATH"})
      */
