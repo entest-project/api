@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/projects", methods={"DELETE"})
+ * @Route("/projects/{id}", methods={"DELETE"}, requirements={"id": "[0-9a-z-]+"})
  */
 class DeleteProject extends Api
 {
