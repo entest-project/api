@@ -6,7 +6,6 @@ use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,13 +22,6 @@ class DeleteProject extends Api
         $this->projectRepository = $projectRepository;
     }
 
-    /**
-     * @ParamConverter(
-     *     name="project",
-     *     class="App\Entity\Project",
-     *     converter="rollandrock_entity_converter"
-     * )
-     */
     public function __invoke(Project $project): Response
     {
         try {

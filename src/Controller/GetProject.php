@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Project;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,13 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GetProject extends Api
 {
-    /**
-     * @ParamConverter(
-     *     name="project",
-     *     class="App\Entity\Project",
-     *     converter="rollandrock_entity_converter"
-     * )
-     */
     public function __invoke(Project $project): Response
     {
         return $this->buildSerializedResponse($project, 'READ_PROJECT');

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Feature;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,13 +11,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GetFeature extends Api
 {
-    /**
-     * @ParamConverter(
-     *     name="feature",
-     *     class="App\Entity\Feature",
-     *     converter="rollandrock_entity_converter"
-     * )
-     */
     public function __invoke(Feature $feature): Response
     {
         return $this->buildSerializedResponse($feature, 'READ_FEATURE');

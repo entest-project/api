@@ -42,7 +42,7 @@ class Feature
     public string $description = '';
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Scenario", mappedBy="feature", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Scenario", mappedBy="feature", cascade={"all"}, orphanRemoval=true)
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */

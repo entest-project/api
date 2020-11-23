@@ -21,7 +21,7 @@ class Scenario
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
-    public int $id;
+    public ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Feature", inversedBy="scenarios")
@@ -47,7 +47,7 @@ class Scenario
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
-    public iterable $steps;
+    public iterable $steps = [];
 
     /**
      * @ORM\Column(type="json", nullable=true)

@@ -6,7 +6,6 @@ use App\Entity\Path;
 use App\Repository\PathRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,13 +22,6 @@ class DeletePath extends Api
         $this->pathRepository = $pathRepository;
     }
 
-    /**
-     * @ParamConverter(
-     *     name="path",
-     *     class="App\Entity\Path",
-     *     converter="rollandrock_entity_converter"
-     * )
-     */
     public function __invoke(Path $path): Response
     {
         try {
