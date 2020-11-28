@@ -22,28 +22,28 @@ class StepPart
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Serializer\Groups({"READ_FEATURE"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
     public int $id;
 
     /**
      * @ORM\Column(type="string", columnDefinition="step_part_type")
      *
-     * @Serializer\Groups({"READ_FEATURE"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
     public string $type;
 
     /**
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"READ_FEATURE"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
     public string $content;
 
     /**
      * @ORM\Column(type="integer")
      *
-     * @Serializer\Groups({"READ_FEATURE"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
     public int $priority;
 

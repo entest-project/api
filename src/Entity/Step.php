@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\StepRepository")
  */
 class Step
 {
@@ -19,23 +19,23 @@ class Step
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      *
-     * @Serializer\Groups({"READ_FEATURE"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
     public int $id;
 
     /**
      * @ORM\Column(type="string", columnDefinition="step_type")
      *
-     * @Serializer\Groups({"READ_FEATURE"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
     public string $type;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StepPart", mappedBy="step", cascade={"all"}, orphanRemoval=true)
      *
-     * @Serializer\Groups({"READ_FEATURE"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
-    public iterable $parts;
+    public iterable $parts = [];
 
     public function getId(): int
     {
