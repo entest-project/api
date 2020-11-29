@@ -16,7 +16,7 @@ class Project
      * @ORM\Id
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT", "READ_STEP"})
      */
     public string $id = '';
 

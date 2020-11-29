@@ -39,7 +39,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE TABLE scenario_step (id INT NOT NULL, scenario_id INT DEFAULT NULL, step_id INT DEFAULT NULL, adverb step_adverb, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_23742800E04E49DF ON scenario_step (scenario_id)');
         $this->addSql('CREATE INDEX IDX_2374280073B21E9C ON scenario_step (step_id)');
-        $this->addSql('CREATE TABLE step (id INT NOT NULL, type step_type, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE step (id INT NOT NULL, type step_type, project_id VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE step_param (id INT NOT NULL, step_id INT DEFAULT NULL, type param_type, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_B8D88B7673B21E9C ON step_param (step_id)');
         $this->addSql('CREATE TABLE step_part (id INT NOT NULL, step_id INT DEFAULT NULL, type step_part_type, content VARCHAR(255) NOT NULL, priority INT NOT NULL, PRIMARY KEY(id))');
@@ -54,6 +54,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('ALTER TABLE scenario ADD CONSTRAINT FK_3E45C8D860E4B879 FOREIGN KEY (feature_id) REFERENCES feature (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE scenario_step ADD CONSTRAINT FK_23742800E04E49DF FOREIGN KEY (scenario_id) REFERENCES scenario (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE scenario_step ADD CONSTRAINT FK_2374280073B21E9C FOREIGN KEY (step_id) REFERENCES step (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE step ADD CONSTRAINT FK_43B9FE3C166D1F9C FOREIGN KEY (project_id) REFERENCES project (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE step_param ADD CONSTRAINT FK_B8D88B7673B21E9C FOREIGN KEY (step_id) REFERENCES scenario_step (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE step_part ADD CONSTRAINT FK_799ED9773B21E9C FOREIGN KEY (step_id) REFERENCES step (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE table_step_param ADD CONSTRAINT FK_E536D31BBF396750 FOREIGN KEY (id) REFERENCES step_param (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');

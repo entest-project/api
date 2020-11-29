@@ -24,6 +24,13 @@ class Step
     public int $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project")
+     *
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
+     */
+    public Project $project;
+
+    /**
      * @ORM\Column(type="string", columnDefinition="step_type")
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
