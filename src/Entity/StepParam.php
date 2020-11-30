@@ -14,6 +14,16 @@ use JMS\Serializer\Annotation as Serializer;
  *     "multiline"="App\Entity\MultilineStepParam",
  *     "table"="App\Entity\TableStepParam"
  * })
+ *
+ * @Serializer\Discriminator(
+ *     field="type",
+ *     map={
+ *      "inline": "App\Entity\InlineStepParam",
+ *      "multiline": "App\Entity\MultilineStepParam",
+ *      "table": "App\Entity\TableStepParam"
+ *     },
+ *     groups={"READ_FEATURE"}
+ * )
  */
 abstract class StepParam
 {
