@@ -23,7 +23,7 @@ class ScenarioStep
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
-    public int $id;
+    public ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Scenario", inversedBy="steps")

@@ -43,7 +43,7 @@ class Scenario
     public string $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="scenario", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="scenario", cascade={"all"}, orphanRemoval=true)
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */

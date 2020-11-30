@@ -24,7 +24,7 @@ abstract class StepParam
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
-    public int $id;
+    public ?int $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ScenarioStep", inversedBy="params")
