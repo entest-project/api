@@ -55,9 +55,4 @@ class Scenario
      * @Serializer\Groups({"READ_FEATURE"})
      */
     public ?array $examples = null;
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
 }

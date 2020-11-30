@@ -45,11 +45,11 @@ class ScenarioStep
     public Step $step;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StepParam", mappedBy="step", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\StepParam", mappedBy="step", cascade={"all"}, orphanRemoval=true)
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
-    public iterable $params;
+    public iterable $params = [];
 
     public function getId(): int
     {

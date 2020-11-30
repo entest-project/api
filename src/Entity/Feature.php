@@ -48,11 +48,6 @@ class Feature
      */
     public iterable $scenarios = [];
 
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
     /**
      * @ORM\PrePersist
      */

@@ -57,11 +57,6 @@ class Path
      */
     public iterable $features = [];
 
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
     /**
      * @ORM\PrePersist
      */

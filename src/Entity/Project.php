@@ -34,11 +34,6 @@ class Project
      */
     public Path $rootPath;
 
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate

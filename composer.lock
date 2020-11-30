@@ -2176,16 +2176,16 @@
         },
         {
             "name": "rollandrock/param-converter-bundle",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierrerolland/param-converter-bundle.git",
-                "reference": "1df07569a7555adf4904f1eae95630f68c00cb55"
+                "reference": "163d3a32dffbd0935068af07768fc4625d9e9efe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierrerolland/param-converter-bundle/zipball/1df07569a7555adf4904f1eae95630f68c00cb55",
-                "reference": "1df07569a7555adf4904f1eae95630f68c00cb55",
+                "url": "https://api.github.com/repos/pierrerolland/param-converter-bundle/zipball/163d3a32dffbd0935068af07768fc4625d9e9efe",
+                "reference": "163d3a32dffbd0935068af07768fc4625d9e9efe",
                 "shasum": ""
             },
             "require": {
@@ -2222,7 +2222,7 @@
                 "param",
                 "symfony"
             ],
-            "time": "2020-06-02T15:53:58+00:00"
+            "time": "2020-11-30T11:59:47+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
