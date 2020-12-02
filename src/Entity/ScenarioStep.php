@@ -50,9 +50,4 @@ class ScenarioStep
      * @Serializer\Groups({"READ_FEATURE"})
      */
     public iterable $params = [];
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
 }

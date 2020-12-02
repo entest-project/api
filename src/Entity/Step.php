@@ -38,6 +38,13 @@ class Step
     public string $type;
 
     /**
+     * @ORM\Column(type="string", columnDefinition="step_extra_param_type")
+     *
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
+     */
+    public string $extraParamType;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\StepPart", mappedBy="step", cascade={"all"}, orphanRemoval=true)
      * @ORM\OrderBy({"priority": "ASC"})
      *
