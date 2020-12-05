@@ -2,6 +2,7 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
         mapping_types:
+            step_extra_param_type: string
             step_part_type: string
             step_type: string
             step_adverb: string

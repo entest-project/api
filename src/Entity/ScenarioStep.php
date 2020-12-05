@@ -50,4 +50,11 @@ class ScenarioStep
      * @Serializer\Groups({"READ_FEATURE"})
      */
     public iterable $params = [];
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
+     */
+    public int $priority;
 }

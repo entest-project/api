@@ -46,6 +46,7 @@ class Scenario
      * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="scenario", cascade={"all"}, orphanRemoval=true)
      *
      * @Serializer\Groups({"READ_FEATURE"})
+     * @ORM\OrderBy({"priority": "ASC"})
      */
     public iterable $steps = [];
 

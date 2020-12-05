@@ -36,7 +36,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE352D1EA1 ON project (root_path_id)');
         $this->addSql('CREATE TABLE scenario (id INT NOT NULL, feature_id VARCHAR(255) DEFAULT NULL, type scenario_type, title VARCHAR(255) NOT NULL, examples JSON DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_3E45C8D860E4B879 ON scenario (feature_id)');
-        $this->addSql('CREATE TABLE scenario_step (id INT NOT NULL, scenario_id INT DEFAULT NULL, step_id INT DEFAULT NULL, adverb step_adverb, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE scenario_step (id INT NOT NULL, scenario_id INT DEFAULT NULL, step_id INT DEFAULT NULL, adverb step_adverb, priority INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_23742800E04E49DF ON scenario_step (scenario_id)');
         $this->addSql('CREATE INDEX IDX_2374280073B21E9C ON scenario_step (step_id)');
         $this->addSql('CREATE TABLE step (id INT NOT NULL, type step_type, project_id VARCHAR(255) DEFAULT NULL, extra_param_type step_extra_param_type, PRIMARY KEY(id))');
