@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -44,9 +45,9 @@ class Scenario
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="scenario", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"priority": "ASC"})
      *
      * @Serializer\Groups({"READ_FEATURE"})
-     * @ORM\OrderBy({"priority": "ASC"})
      */
     public iterable $steps = [];
 
