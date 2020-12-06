@@ -36,7 +36,6 @@ class Project
 
     /**
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
     public function prePersist(): void
     {
