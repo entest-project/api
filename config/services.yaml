@@ -52,6 +52,9 @@ services:
     App\Repository\StepRepository:
         factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
         arguments: ['App:Step']
+    App\Repository\UserRepository:
+        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
+        arguments: ['App:User']
 
     ###############
     # SUBSCRIBERS #

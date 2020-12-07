@@ -45,6 +45,8 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE TABLE step_part (id INT NOT NULL, step_id INT DEFAULT NULL, type step_part_type, content VARCHAR(255) NOT NULL, priority INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_799ED9773B21E9C ON step_part (step_id)');
         $this->addSql('CREATE TABLE table_step_param (id INT NOT NULL, content JSON NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE app_user (id UUID NOT NULL, username VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(100) NOT NULL, roles JSON NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('COMMENT ON COLUMN app_user.id IS \'(DC2Type:ulid)\'');
         $this->addSql('ALTER TABLE feature ADD CONSTRAINT FK_1FD77566D96C566B FOREIGN KEY (path_id) REFERENCES path (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inline_step_param ADD CONSTRAINT FK_13CFC238FC1ECD03 FOREIGN KEY (step_part_id) REFERENCES step_part (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inline_step_param ADD CONSTRAINT FK_13CFC238BF396750 FOREIGN KEY (id) REFERENCES step_param (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
