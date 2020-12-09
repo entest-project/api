@@ -28,6 +28,8 @@ class Me extends Api
             throw new UnauthorizedHttpException('Bearer');
         }
 
-        return $this->buildSerializedResponse($user);
+        return $this->buildSerializedResponse([
+            'user' => $user
+        ]);
     }
 }
