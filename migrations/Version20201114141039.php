@@ -32,7 +32,9 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE TABLE multiline_step_param (id INT NOT NULL, content VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE path (id VARCHAR(255) NOT NULL, parent_id VARCHAR(255) DEFAULT NULL, path VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_B548B0F727ACA70 ON path (parent_id)');
-        $this->addSql('CREATE TABLE project (id VARCHAR(255) NOT NULL, root_path_id VARCHAR(255) DEFAULT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE organization (id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE project (id VARCHAR(255) NOT NULL, root_path_id VARCHAR(255) DEFAULT NULL, title VARCHAR(255) NOT NULL, organization_id VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_2FB3D0EE32C8A3DE ON project (organization_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE352D1EA1 ON project (root_path_id)');
         $this->addSql('CREATE TABLE scenario (id INT NOT NULL, feature_id VARCHAR(255) DEFAULT NULL, type scenario_type, title VARCHAR(255) NOT NULL, examples JSON DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_3E45C8D860E4B879 ON scenario (feature_id)');
@@ -53,6 +55,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('ALTER TABLE multiline_step_param ADD CONSTRAINT FK_9C00174BF396750 FOREIGN KEY (id) REFERENCES step_param (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE path ADD CONSTRAINT FK_B548B0F727ACA70 FOREIGN KEY (parent_id) REFERENCES path (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE project ADD CONSTRAINT FK_2FB3D0EE352D1EA1 FOREIGN KEY (root_path_id) REFERENCES path (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE project ADD CONSTRAINT FK_2FB3D0EE32C8A3DE FOREIGN KEY (organization_id) REFERENCES organization (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE scenario ADD CONSTRAINT FK_3E45C8D860E4B879 FOREIGN KEY (feature_id) REFERENCES feature (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE scenario_step ADD CONSTRAINT FK_23742800E04E49DF FOREIGN KEY (scenario_id) REFERENCES scenario (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE scenario_step ADD CONSTRAINT FK_2374280073B21E9C FOREIGN KEY (step_id) REFERENCES step (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -88,6 +91,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('DROP TABLE multiline_step_param');
         $this->addSql('DROP TABLE path');
         $this->addSql('DROP TABLE project');
+        $this->addSql('DROP TABLE organization');
         $this->addSql('DROP TABLE scenario');
         $this->addSql('DROP TABLE scenario_step');
         $this->addSql('DROP TABLE step');

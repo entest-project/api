@@ -35,6 +35,13 @@ class Project
     public Path $rootPath;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="projects")
+     *
+     * @Serializer\Groups({"READ_PROJECT"})
+     */
+    public ?Organization $organization = null;
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist(): void
