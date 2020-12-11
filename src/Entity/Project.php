@@ -37,7 +37,7 @@ class Project
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="projects")
      *
-     * @Serializer\Groups({"READ_PROJECT"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      */
     public ?Organization $organization = null;
 

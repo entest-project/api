@@ -16,14 +16,14 @@ class Organization
      * @ORM\Id
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_ORGANIZATION"})
+     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH",})
      */
     public string $id = '';
 
     /**
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_ORGANIZATION"})
+     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH",})
      */
     public string $name;
 
