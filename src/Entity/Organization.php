@@ -37,6 +37,7 @@ class Organization
 
     /**
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function prePersist(): void
     {
