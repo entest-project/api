@@ -42,6 +42,11 @@ class Project
     public ?Organization $organization = null;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectUser", mappedBy="project", cascade={"all"}, orphanRemoval=true)
+     */
+    public iterable $users = [];
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist(): void

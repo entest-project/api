@@ -49,6 +49,10 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE TABLE table_step_param (id INT NOT NULL, content JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE app_user (id UUID NOT NULL, username VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(100) NOT NULL, roles JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN app_user.id IS \'(DC2Type:ulid)\'');
+        $this->addSql('CREATE TABLE project_user (project_id VARCHAR(255) NOT NULL, user_id UUID NOT NULL, permissions JSON NOT NULL, PRIMARY KEY(project_id, user_id))');
+        $this->addSql('CREATE INDEX IDX_B4021E51166D1F9C ON project_user (project_id)');
+        $this->addSql('CREATE INDEX IDX_B4021E51A76ED395 ON project_user (user_id)');
+        $this->addSql('COMMENT ON COLUMN project_user.user_id IS \'(DC2Type:ulid)\'');
         $this->addSql('ALTER TABLE feature ADD CONSTRAINT FK_1FD77566D96C566B FOREIGN KEY (path_id) REFERENCES path (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inline_step_param ADD CONSTRAINT FK_13CFC238FC1ECD03 FOREIGN KEY (step_part_id) REFERENCES step_part (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inline_step_param ADD CONSTRAINT FK_13CFC238BF396750 FOREIGN KEY (id) REFERENCES step_param (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -63,6 +67,8 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('ALTER TABLE step_param ADD CONSTRAINT FK_B8D88B7673B21E9C FOREIGN KEY (step_id) REFERENCES scenario_step (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE step_part ADD CONSTRAINT FK_799ED9773B21E9C FOREIGN KEY (step_id) REFERENCES step (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE table_step_param ADD CONSTRAINT FK_E536D31BBF396750 FOREIGN KEY (id) REFERENCES step_param (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE project_user ADD CONSTRAINT FK_B4021E51166D1F9C FOREIGN KEY (project_id) REFERENCES project (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE project_user ADD CONSTRAINT FK_B4021E51A76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema) : void

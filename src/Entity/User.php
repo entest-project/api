@@ -9,7 +9,6 @@ use Symfony\Component\Uid\Ulid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="app_user")
  */
 class User implements UserInterface
@@ -45,6 +44,13 @@ class User implements UserInterface
      * @ORM\Column(type="json")
      */
     public array $roles = ['ROLE_USER'];
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProjectUser", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     *
+     * @Serializer\Exclude
+     */
+    public iterable $projects = [];
 
     public function getUsername(): ?string
     {
