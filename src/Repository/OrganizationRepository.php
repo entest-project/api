@@ -3,10 +3,24 @@
 namespace App\Repository;
 
 use App\Entity\Organization;
+use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 class OrganizationRepository extends EntityRepository
 {
+    public function getOrganizationsForUser(User $user): iterable
+    {
+        return $this
+            ->createQueryBuilder('o')
+            ->join('o.users', 'ou')
+            ->join('ou.user', 'u')
+            ->where('u.id = :id')
+            ->orderBy('o.name', 'ASC')
+            ->setParameter('id', $user->id)
+            ->getQuery()
+            ->getResult();
+    }
+
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

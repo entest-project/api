@@ -36,3 +36,4 @@ security:
     access_control:
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY, methods: [DELETE, POST, PUT] }
+        - { path: ^/organizations/?$, roles: IS_AUTHENTICATED_FULLY, methods: [GET] }

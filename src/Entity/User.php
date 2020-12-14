@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Uid\Ulid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -15,13 +14,13 @@ class User implements UserInterface
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="ulid", unique=true)
+     * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="\Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator")
+     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
      * @Serializer\Type("string")
      */
-    public Ulid $id;
+    public $id;
 
     /**
      * @ORM\Column(type="string", length=255)

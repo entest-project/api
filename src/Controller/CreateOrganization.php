@@ -34,8 +34,7 @@ class CreateOrganization extends Api
      * @ParamConverter(
      *     name="organization",
      *     class="App\Entity\Organization",
-     *     converter="rollandrock_entity_converter",
-     *     options={"properties": {"slug"}}
+     *     converter="rollandrock_entity_converter"
      * )
      */
     public function __invoke(Organization $organization): Response

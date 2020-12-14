@@ -20,6 +20,6 @@ class GetOrganizations extends Api
 
     public function __invoke(): Response
     {
-        return $this->buildSerializedResponse($this->organizationRepository->findBy([], ['name' => 'ASC']), 'LIST_ORGANIZATIONS');
+        return $this->buildSerializedResponse($this->organizationRepository->getOrganizationsForUser($this->getUser()), 'LIST_ORGANIZATIONS');
     }
 }

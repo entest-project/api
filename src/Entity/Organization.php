@@ -14,13 +14,13 @@ class Organization
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="ulid", unique=true)
+     * @ORM\Column(type="uuid", unique=true)
      * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="\Symfony\Bridge\Doctrine\IdGenerator\UlidGenerator")
+     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
-     * @Serializer\Exclude
+     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH"})
      */
-    public string $id = '';
+    public string $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)

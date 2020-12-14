@@ -19,6 +19,7 @@ final class Version20201113213723 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
+        $this->addSql('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
         $this->addSql("CREATE TYPE step_part_type AS ENUM ('sentence', 'param')");
         $this->addSql("CREATE TYPE step_type AS ENUM ('given', 'when', 'then')");
         $this->addSql("CREATE TYPE step_adverb AS ENUM ('given', 'when', 'then', 'and', 'but')");
