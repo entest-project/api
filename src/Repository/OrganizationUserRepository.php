@@ -2,11 +2,26 @@
 
 namespace App\Repository;
 
+use App\Entity\Organization;
 use App\Entity\OrganizationUser;
+use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 class OrganizationUserRepository extends EntityRepository
 {
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function makeAdmin(User $user, Organization $organization): void
+    {
+        $organizationUser = new OrganizationUser();
+        $organizationUser->organization = $organization;
+        $organizationUser->user = $user;
+
+        $this->save($organizationUser);
+    }
+
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

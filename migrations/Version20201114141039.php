@@ -32,8 +32,9 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE TABLE multiline_step_param (id INT NOT NULL, content VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE path (id VARCHAR(255) NOT NULL, parent_id VARCHAR(255) DEFAULT NULL, path VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_B548B0F727ACA70 ON path (parent_id)');
-        $this->addSql('CREATE TABLE organization (id VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE project (id VARCHAR(255) NOT NULL, root_path_id VARCHAR(255) DEFAULT NULL, title VARCHAR(255) NOT NULL, organization_id VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE organization (id UUID NOT NULL, name VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_C1EE637C989D9B62 ON organization (slug)');
+        $this->addSql('CREATE TABLE project (id VARCHAR(255) NOT NULL, root_path_id VARCHAR(255) DEFAULT NULL, title VARCHAR(255) NOT NULL, organization_id UUID DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2FB3D0EE32C8A3DE ON project (organization_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE352D1EA1 ON project (root_path_id)');
         $this->addSql('CREATE TABLE scenario (id INT NOT NULL, feature_id VARCHAR(255) DEFAULT NULL, type scenario_type, title VARCHAR(255) NOT NULL, examples JSON DEFAULT NULL, PRIMARY KEY(id))');
@@ -53,7 +54,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B4021E51166D1F9C ON project_user (project_id)');
         $this->addSql('CREATE INDEX IDX_B4021E51A76ED395 ON project_user (user_id)');
         $this->addSql('COMMENT ON COLUMN project_user.user_id IS \'(DC2Type:ulid)\'');
-        $this->addSql('CREATE TABLE organization_user (organization_id VARCHAR(255) NOT NULL, user_id UUID NOT NULL, permissions JSON NOT NULL, PRIMARY KEY(organization_id, user_id))');
+        $this->addSql('CREATE TABLE organization_user (organization_id UUID NOT NULL, user_id UUID NOT NULL, permissions JSON NOT NULL, PRIMARY KEY(organization_id, user_id))');
         $this->addSql('CREATE INDEX IDX_B49AE8D432C8A3DE ON organization_user (organization_id)');
         $this->addSql('CREATE INDEX IDX_B49AE8D4A76ED395 ON organization_user (user_id)');
         $this->addSql('COMMENT ON COLUMN organization_user.user_id IS \'(DC2Type:ulid)\'');
