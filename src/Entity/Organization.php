@@ -36,6 +36,11 @@ class Organization
     public iterable $projects = [];
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrganizationUser", mappedBy="organization", cascade={"all"}, orphanRemoval=true)
+     */
+    public iterable $users = [];
+
+    /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */

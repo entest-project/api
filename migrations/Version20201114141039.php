@@ -53,6 +53,10 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B4021E51166D1F9C ON project_user (project_id)');
         $this->addSql('CREATE INDEX IDX_B4021E51A76ED395 ON project_user (user_id)');
         $this->addSql('COMMENT ON COLUMN project_user.user_id IS \'(DC2Type:ulid)\'');
+        $this->addSql('CREATE TABLE organization_user (organization_id VARCHAR(255) NOT NULL, user_id UUID NOT NULL, permissions JSON NOT NULL, PRIMARY KEY(organization_id, user_id))');
+        $this->addSql('CREATE INDEX IDX_B49AE8D432C8A3DE ON organization_user (organization_id)');
+        $this->addSql('CREATE INDEX IDX_B49AE8D4A76ED395 ON organization_user (user_id)');
+        $this->addSql('COMMENT ON COLUMN organization_user.user_id IS \'(DC2Type:ulid)\'');
         $this->addSql('ALTER TABLE feature ADD CONSTRAINT FK_1FD77566D96C566B FOREIGN KEY (path_id) REFERENCES path (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inline_step_param ADD CONSTRAINT FK_13CFC238FC1ECD03 FOREIGN KEY (step_part_id) REFERENCES step_part (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inline_step_param ADD CONSTRAINT FK_13CFC238BF396750 FOREIGN KEY (id) REFERENCES step_param (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -69,6 +73,8 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('ALTER TABLE table_step_param ADD CONSTRAINT FK_E536D31BBF396750 FOREIGN KEY (id) REFERENCES step_param (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE project_user ADD CONSTRAINT FK_B4021E51166D1F9C FOREIGN KEY (project_id) REFERENCES project (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE project_user ADD CONSTRAINT FK_B4021E51A76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE organization_user ADD CONSTRAINT FK_B49AE8D432C8A3DE FOREIGN KEY (organization_id) REFERENCES organization (id) ON UPDATE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE organization_user ADD CONSTRAINT FK_B49AE8D4A76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
     public function down(Schema $schema) : void
@@ -92,6 +98,8 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('DROP SEQUENCE step_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE step_param_id_seq CASCADE');
         $this->addSql('DROP SEQUENCE step_part_id_seq CASCADE');
+        $this->addSql('DROP TABLE organization_user');
+        $this->addSql('DROP TABLE project_user');
         $this->addSql('DROP TABLE feature');
         $this->addSql('DROP TABLE inline_step_param');
         $this->addSql('DROP TABLE multiline_step_param');

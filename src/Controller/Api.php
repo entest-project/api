@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class Api
+abstract class Api extends AbstractController
 {
     protected SerializerInterface $serializer;
 

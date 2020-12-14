@@ -6,19 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ProjectUserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OrganizationUserRepository")
  */
-class ProjectUser
+class OrganizationUser
 {
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="users")
      */
-    public Project $project;
+    public Organization $organization;
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="projects")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="organizations")
      */
     public User $user;
 

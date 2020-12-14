@@ -52,6 +52,13 @@ class User implements UserInterface
      */
     public iterable $projects = [];
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrganizationUser", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     *
+     * @Serializer\Exclude
+     */
+    public iterable $organizations = [];
+
     public function getUsername(): ?string
     {
         return $this->username;
