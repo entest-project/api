@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Organization;
 use App\Entity\OrganizationUser;
 use App\Entity\User;
+use App\Security\OrganizationPermission;
 use Doctrine\ORM\EntityRepository;
 
 class OrganizationUserRepository extends EntityRepository
@@ -18,6 +19,7 @@ class OrganizationUserRepository extends EntityRepository
         $organizationUser = new OrganizationUser();
         $organizationUser->organization = $organization;
         $organizationUser->user = $user;
+        $organizationUser->permissions = [OrganizationPermission::ADMIN];
 
         $this->save($organizationUser);
     }

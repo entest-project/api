@@ -4,8 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Organization;
 use App\Entity\User;
-use App\Repository\OrganizationRepository;
-use App\Repository\OrganizationUserRepository;
+use App\Manager\OrganizationManager;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -21,13 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CreateOrganization extends Api
 {
-    private OrganizationRepository $organizationRepository;
-    private OrganizationUserRepository $organizationUserRepository;
+    private OrganizationManager $organizationManager;
 
-    public function __construct(OrganizationRepository $organizationRepository, OrganizationUserRepository $organizationUserRepository)
+    public function __construct(OrganizationManager $organizationManager)
     {
-        $this->organizationRepository = $organizationRepository;
-        $this->organizationUserRepository = $organizationUserRepository;
+        $this->organizationManager = $organizationManager;
     }
 
     /**
@@ -45,8 +42,7 @@ class CreateOrganization extends Api
         }
 
         try {
-            $this->organizationRepository->save($organization);
-            $this->organizationUserRepository->makeAdmin($user, $organization);
+            $this->organizationManager->createOrganization($organization, $user);
 
             return $this->buildSerializedResponse($organization, 'READ_ORGANIZATION');
         } catch (ORMException | OptimisticLockException $e) {

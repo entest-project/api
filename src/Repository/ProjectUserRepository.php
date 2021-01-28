@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Project;
 use App\Entity\ProjectUser;
+use App\Entity\User;
+use App\Security\ProjectPermission;
 use Doctrine\ORM\EntityRepository;
 
 class ProjectUserRepository extends EntityRepository
@@ -15,6 +18,20 @@ class ProjectUserRepository extends EntityRepository
     {
         $this->_em->remove($projectUser);
         $this->_em->flush();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function makeAdmin(User $user, Project $project): void
+    {
+        $projectUser = new ProjectUser();
+        $projectUser->project = $project;
+        $projectUser->user = $user;
+        $projectUser->permissions = [ProjectPermission::ADMIN];
+
+        $this->save($projectUser);
     }
 
     /**
