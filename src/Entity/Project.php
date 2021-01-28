@@ -28,6 +28,13 @@ class Project
     public string $title;
 
     /**
+     * @ORM\Column(type="string", columnDefinition="project_visibility")
+     *
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_PATH", "READ_PROJECT"})
+     */
+    public string $visibility;
+
+    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Path", inversedBy="project", cascade={"all"})
      *
      * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT"})

@@ -34,7 +34,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B548B0F727ACA70 ON path (parent_id)');
         $this->addSql('CREATE TABLE organization (id UUID NOT NULL, name VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C1EE637C989D9B62 ON organization (slug)');
-        $this->addSql('CREATE TABLE project (id VARCHAR(255) NOT NULL, root_path_id VARCHAR(255) DEFAULT NULL, title VARCHAR(255) NOT NULL, organization_id UUID DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE project (id VARCHAR(255) NOT NULL, root_path_id VARCHAR(255) DEFAULT NULL, title VARCHAR(255) NOT NULL, visibility project_visibility, organization_id UUID DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2FB3D0EE32C8A3DE ON project (organization_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE352D1EA1 ON project (root_path_id)');
         $this->addSql('CREATE TABLE scenario (id INT NOT NULL, feature_id VARCHAR(255) DEFAULT NULL, type scenario_type, title VARCHAR(255) NOT NULL, examples JSON DEFAULT NULL, PRIMARY KEY(id))');

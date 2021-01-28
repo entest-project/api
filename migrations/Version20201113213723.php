@@ -26,6 +26,7 @@ final class Version20201113213723 extends AbstractMigration
         $this->addSql("CREATE TYPE param_type AS ENUM ('inline', 'multiline', 'table')");
         $this->addSql("CREATE TYPE step_extra_param_type AS ENUM ('none', 'multiline', 'table')");
         $this->addSql("CREATE TYPE scenario_type AS ENUM ('background', 'outline', 'regular')");
+        $this->addSql("CREATE TYPE project_visibility AS ENUM ('public', 'internal', 'private')");
     }
 
     public function down(Schema $schema) : void
