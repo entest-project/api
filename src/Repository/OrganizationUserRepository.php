@@ -14,6 +14,21 @@ class OrganizationUserRepository extends EntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
+    public function delete(OrganizationUser $organizationUser): void
+    {
+        $this->_em->remove($organizationUser);
+        $this->_em->flush();
+    }
+
+    public function findOneByUserAndOrganization(User $user, Organization $organization): ?OrganizationUser
+    {
+        return $this->findOneBy(['user' => $user, 'organization' => $organization]);
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function makeAdmin(User $user, Organization $organization): void
     {
         $organizationUser = new OrganizationUser();
@@ -22,16 +37,6 @@ class OrganizationUserRepository extends EntityRepository
         $organizationUser->permissions = [OrganizationPermission::ADMIN];
 
         $this->save($organizationUser);
-    }
-
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function delete(OrganizationUser $organizationUser): void
-    {
-        $this->_em->remove($organizationUser);
-        $this->_em->flush();
     }
 
     /**
