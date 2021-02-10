@@ -58,6 +58,11 @@ class Project
     public iterable $users = [];
 
     /**
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH", "READ_PROJECT"})
+     */
+    public array $permissions = [];
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist(): void

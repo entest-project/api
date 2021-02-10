@@ -50,6 +50,11 @@ class Organization
     public iterable $users = [];
 
     /**
+     * @Serializer\Groups({"READ_FEATURE", "READ_ORGANIZATION", "READ_PATH",})
+     */
+    public array $permissions = [];
+
+    /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */

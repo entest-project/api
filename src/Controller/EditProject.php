@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
+use App\Security\Voter\Verb;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -32,6 +33,8 @@ class EditProject extends Api
      */
     public function __invoke(Project $project): Response
     {
+        $this->denyAccessUnlessGranted(Verb::UPDATE, $project);
+
         try {
             $this->projectRepository->save($project);
 
