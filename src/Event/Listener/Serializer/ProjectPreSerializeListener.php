@@ -5,6 +5,7 @@ namespace App\Event\Listener\Serializer;
 use App\Entity\Project;
 use App\Entity\ProjectUser;
 use App\Entity\User;
+use App\Helper\ExtractSerializationGroupHelper;
 use App\Helper\UserHelper;
 use App\Repository\ProjectUserRepository;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
@@ -23,6 +24,10 @@ class ProjectPreSerializeListener
 
     public function preSerialize(PreSerializeEvent $event): void
     {
+        if (array_intersect(ExtractSerializationGroupHelper::extractGroup($event->getContext()), ['READ_FEATURE', 'READ_PATH', 'READ_PROJECT']) === []) {
+            return;
+        }
+
         $object = $event->getObject();
         $user = $this->userHelper->getUser();
 

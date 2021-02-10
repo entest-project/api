@@ -5,6 +5,7 @@ namespace App\Event\Listener\Serializer;
 use App\Entity\Organization;
 use App\Entity\OrganizationUser;
 use App\Entity\User;
+use App\Helper\ExtractSerializationGroupHelper;
 use App\Helper\UserHelper;
 use App\Repository\OrganizationUserRepository;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
@@ -23,6 +24,10 @@ class OrganizationPreSerializeListener
 
     public function preSerialize(PreSerializeEvent $event): void
     {
+        if (array_intersect(ExtractSerializationGroupHelper::extractGroup($event->getContext()), ['READ_FEATURE', 'READ_ORGANIZATION', 'READ_PATH']) === []) {
+            return;
+        }
+
         $object = $event->getObject();
         $user = $this->userHelper->getUser();
 
