@@ -32,6 +32,7 @@ class OrganizationRepository extends EntityRepository
     }
 
     /**
+     * @throws \Doctrine\DBAL\Exception\UniqueConstraintViolationException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

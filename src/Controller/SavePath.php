@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Path;
 use App\Repository\PathRepository;
+use App\Security\Voter\Verb;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -32,6 +33,8 @@ class SavePath extends Api
      */
     public function __invoke(Path $path): Response
     {
+        $this->denyAccessUnlessGranted(Verb::UPDATE, $path);
+
         try {
             $this->pathRepository->save($path);
 

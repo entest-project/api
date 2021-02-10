@@ -12,6 +12,10 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class Project
 {
+    public const VISIBILITY_PUBLIC = 'public';
+    public const VISIBILITY_INTERNAL = 'internal';
+    public const VISIBILITY_PRIVATE = 'private';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="string")

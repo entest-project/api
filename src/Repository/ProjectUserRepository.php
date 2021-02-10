@@ -20,6 +20,11 @@ class ProjectUserRepository extends EntityRepository
         $this->_em->flush();
     }
 
+    public function findOneByUserAndProject(User $user, Project $project): ?ProjectUser
+    {
+        return $this->findOneBy(['user' => $user, 'project' => $project]);
+    }
+
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

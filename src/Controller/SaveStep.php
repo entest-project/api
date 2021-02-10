@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Step;
 use App\Repository\StepRepository;
+use App\Security\Voter\Verb;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -32,6 +33,8 @@ class SaveStep extends Api
      */
     public function __invoke(Step $step): Response
     {
+        $this->denyAccessUnlessGranted(Verb::UPDATE, $step);
+
         try {
             $this->stepRepository->save($step);
 

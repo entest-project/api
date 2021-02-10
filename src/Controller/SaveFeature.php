@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Feature;
 use App\Repository\FeatureRepository;
+use App\Security\Voter\Verb;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -32,6 +33,8 @@ class SaveFeature extends Api
      */
     public function __invoke(Feature $feature): Response
     {
+        $this->denyAccessUnlessGranted(Verb::UPDATE, $feature);
+
         try {
             $this->featureRepository->save($feature);
 

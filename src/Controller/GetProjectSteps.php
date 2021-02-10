@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Repository\StepRepository;
+use App\Security\Voter\Verb;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,6 +22,8 @@ class GetProjectSteps extends Api
 
     public function __invoke(Project $project): Response
     {
+        $this->denyAccessUnlessGranted(Verb::UPDATE, $project);
+
         return $this->buildSerializedResponse($this->stepRepository->findBy(['project' => $project]), 'READ_STEP');
     }
 }

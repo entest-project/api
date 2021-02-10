@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Organization;
 use App\Repository\OrganizationRepository;
 use App\Repository\OrganizationUserRepository;
+use App\Security\Voter\Verb;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -37,6 +38,8 @@ class EditOrganization extends Api
      */
     public function __invoke(Organization $organization): Response
     {
+        $this->denyAccessUnlessGranted(Verb::UPDATE, $organization);
+
         try {
             $this->organizationRepository->save($organization);
 

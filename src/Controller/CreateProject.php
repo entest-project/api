@@ -3,15 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Project;
-use App\Entity\User;
-use App\Exception\UserNotAllowedToCreateProjectException;
 use App\Manager\ProjectManager;
+use App\Security\Voter\Verb;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -36,20 +33,14 @@ class CreateProject extends Api
      */
     public function __invoke(Project $project): Response
     {
-        $user = $this->getUser();
-
-        if (!$user instanceof User) {
-            throw new UnauthorizedHttpException('Bearer');
-        }
+        $this->denyAccessUnlessGranted(Verb::CREATE, $project);
 
         try {
-            $this->projectManager->createProject($project, $user);
+            $this->projectManager->createProject($project, $this->getUser());
 
             return $this->buildSerializedResponse($project, 'READ_PROJECT');
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
-        } catch (UserNotAllowedToCreateProjectException $e) {
-            throw new AccessDeniedHttpException();
         }
     }
 }

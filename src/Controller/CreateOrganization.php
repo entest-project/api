@@ -3,13 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Organization;
-use App\Entity\User;
 use App\Manager\OrganizationManager;
+use App\Security\Voter\Verb;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
@@ -36,13 +35,10 @@ class CreateOrganization extends Api
      */
     public function __invoke(Organization $organization): Response
     {
-        $user = $this->getUser();
-        if (!$user instanceof User) {
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted(Verb::CREATE, $organization);
 
         try {
-            $this->organizationManager->createOrganization($organization, $user);
+            $this->organizationManager->createOrganization($organization, $this->getUser());
 
             return $this->buildSerializedResponse($organization, 'READ_ORGANIZATION');
         } catch (ORMException | OptimisticLockException $e) {

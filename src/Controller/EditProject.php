@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/projects", methods={"PUT"})
  */
-class SaveProject extends Api
+class EditProject extends Api
 {
     private ProjectRepository $projectRepository;
 

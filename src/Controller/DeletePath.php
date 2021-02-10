@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Path;
 use App\Repository\PathRepository;
+use App\Security\Voter\Verb;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,8 @@ class DeletePath extends Api
 
     public function __invoke(Path $path): Response
     {
+        $this->denyAccessUnlessGranted(Verb::DELETE, $path);
+
         try {
             $this->pathRepository->delete($path);
 
