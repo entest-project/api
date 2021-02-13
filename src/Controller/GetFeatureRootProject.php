@@ -27,7 +27,7 @@ class GetFeatureRootProject extends Api
         $this->denyAccessUnlessGranted(Verb::READ, $feature);
 
         try {
-            return $this->buildSerializedResponse($this->projectRepository->findFeatureRootProjectId($feature->id));
+            return $this->buildSerializedResponse($this->projectRepository->findFeatureRootProject($feature), 'READ_PROJECT');
         } catch (ProjectNotFoundException $e) {
             throw new NotFoundHttpException();
         }

@@ -18,9 +18,9 @@ class Organization
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
-     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH"})
+     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
      */
-    public string $id;
+    public ?string $id = '';
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -32,7 +32,7 @@ class Organization
     /**
      * @ORM\Column(type="string")
      *
-     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH",})
+     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH"})
      */
     public string $name;
 
@@ -50,7 +50,7 @@ class Organization
     public iterable $users = [];
 
     /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_ORGANIZATION", "READ_PATH"})
+     * @Serializer\Groups({"READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
      */
     public array $permissions = [];
 
