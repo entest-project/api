@@ -5,6 +5,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PathRepository")
@@ -14,11 +15,14 @@ class Path
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
      * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
+     * @Serializer\Type("string")
      */
-    public string $id = '';
+    public ?Uuid $id;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project", mappedBy="rootPath")
@@ -58,16 +62,17 @@ class Path
     public iterable $features = [];
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
+     */
+    public string $slug;
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist()
     {
-        if ($this->parent !== null) {
-            $this->id = sprintf(
-                '%s-%s',
-                $this->parent->id,
-                Slugify::create()->slugify($this->path)
-            );
-        }
+        $this->slug = Slugify::create()->slugify($this->path);
     }
 }

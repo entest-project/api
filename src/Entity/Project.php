@@ -68,6 +68,5 @@ class Project
     public function prePersist(): void
     {
         $this->id = Slugify::create()->slugify($this->title);
-        $this->rootPath->id = $this->id;
     }
 }

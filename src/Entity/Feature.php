@@ -5,20 +5,25 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FeatureRepository")
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"slug", "path_id"})})
  * @ORM\HasLifecycleCallbacks
  */
 class Feature
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
+     * @Serializer\Type("string")
      */
-    public string $id = '';
+    public ?Uuid $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Path", inversedBy="features")
@@ -49,14 +54,18 @@ class Feature
     public iterable $scenarios = [];
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
+     */
+    public string $slug;
+
+    /**
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function prePersist(): void
     {
-        $this->id = sprintf(
-            '%s-%s-',
-            $this->path->id,
-            Slugify::create()->slugify($this->title)
-        );
+        $this->slug = Slugify::create()->slugify($this->title);
     }
 }

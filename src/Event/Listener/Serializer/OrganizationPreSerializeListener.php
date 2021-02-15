@@ -24,7 +24,7 @@ class OrganizationPreSerializeListener
 
     public function preSerialize(PreSerializeEvent $event): void
     {
-        if (array_intersect(ExtractSerializationGroupHelper::extractGroup($event->getContext()), ['READ_FEATURE', 'READ_ORGANIZATION', 'READ_PATH']) === []) {
+        if (array_intersect(ExtractSerializationGroupHelper::extractGroup($event->getContext()), ['READ_FEATURE', 'READ_ORGANIZATION', 'READ_PATH', 'READ_PROJECT']) === []) {
             return;
         }
 

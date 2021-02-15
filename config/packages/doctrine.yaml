@@ -7,6 +7,7 @@ doctrine:
             step_type: string
             step_adverb: string
             param_type: string
+            project_visibility: string
             scenario_type: string
     orm:
         auto_generate_proxy_classes: true
