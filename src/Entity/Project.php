@@ -5,10 +5,12 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"organization_id", "slug"})})
  */
 class Project
 {
@@ -18,11 +20,14 @@ class Project
 
     /**
      * @ORM\Id
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="uuid", unique=true)
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
      * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT", "READ_STEP"})
+     * @Serializer\Type("string")
      */
-    public string $id = '';
+    public ?Uuid $id;
 
     /**
      * @ORM\Column(type="string")
@@ -63,10 +68,17 @@ class Project
     public array $permissions = [];
 
     /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT", "READ_STEP"})
+     */
+    public string $slug;
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist(): void
     {
-        $this->id = Slugify::create()->slugify($this->title);
+        $this->slug = Slugify::create()->slugify($this->title);
     }
 }

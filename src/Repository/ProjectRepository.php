@@ -23,6 +23,23 @@ class ProjectRepository extends EntityRepository
         $this->_em->flush();
     }
 
+    public function findBySlugs(string $projectSlug, string $organizationSlug = null): ?Project
+    {
+        $queryBuilder = $this
+            ->createQueryBuilder('p')
+            ->where('p.slug = :projectSlug')
+            ->setParameter('projectSlug', $projectSlug);
+
+        if (null !== $organizationSlug) {
+            $queryBuilder
+                ->join('p.organization', 'o')
+                ->andWhere('o.slug = :organizationSlug')
+                ->setParameter('organizationSlug', $organizationSlug);
+        }
+
+        return $queryBuilder->getQuery()->getOneOrNullResult();
+    }
+
     /**
      * @throws ProjectNotFoundException
      * @throws \Doctrine\DBAL\Exception

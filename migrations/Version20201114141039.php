@@ -35,15 +35,16 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B548B0F727ACA70 ON path (parent_id)');
         $this->addSql('CREATE TABLE organization (id UUID NOT NULL DEFAULT uuid_generate_v4(), name VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C1EE637C989D9B62 ON organization (slug)');
-        $this->addSql('CREATE TABLE project (id VARCHAR(255) NOT NULL, root_path_id UUID, title VARCHAR(255) NOT NULL, visibility project_visibility NOT NULL, organization_id UUID DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE project (id UUID NOT NULL DEFAULT uuid_generate_v4(), root_path_id UUID, title VARCHAR(255) NOT NULL, visibility project_visibility NOT NULL, organization_id UUID DEFAULT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_2FB3D0EE32C8A3DE ON project (organization_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE352D1EA1 ON project (root_path_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_2FB3D0EE32C8A3DE989D9B62 ON project (organization_id, slug)');
         $this->addSql('CREATE TABLE scenario (id INT NOT NULL, feature_id UUID, type scenario_type NOT NULL, title VARCHAR(255) NOT NULL, examples JSON DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_3E45C8D860E4B879 ON scenario (feature_id)');
         $this->addSql('CREATE TABLE scenario_step (id INT NOT NULL, scenario_id INT DEFAULT NULL, step_id INT DEFAULT NULL, adverb step_adverb NOT NULL, priority INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_23742800E04E49DF ON scenario_step (scenario_id)');
         $this->addSql('CREATE INDEX IDX_2374280073B21E9C ON scenario_step (step_id)');
-        $this->addSql('CREATE TABLE step (id INT NOT NULL, type step_type NOT NULL, project_id VARCHAR(255) DEFAULT NULL, extra_param_type step_extra_param_type NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE step (id INT NOT NULL, type step_type NOT NULL, project_id UUID NOT NULL, extra_param_type step_extra_param_type NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE step_param (id INT NOT NULL, step_id INT DEFAULT NULL, type param_type NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_B8D88B7673B21E9C ON step_param (step_id)');
         $this->addSql('CREATE TABLE step_part (id INT NOT NULL, step_id INT DEFAULT NULL, type step_part_type NOT NULL, content VARCHAR(255) NOT NULL, priority INT NOT NULL, PRIMARY KEY(id))');
@@ -51,7 +52,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE TABLE table_step_param (id INT NOT NULL, content JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE app_user (id UUID NOT NULL, username VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(100) NOT NULL, roles JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN app_user.id IS \'(DC2Type:ulid)\'');
-        $this->addSql('CREATE TABLE project_user (project_id VARCHAR(255) NOT NULL, user_id UUID NOT NULL, permissions JSON NOT NULL, PRIMARY KEY(project_id, user_id))');
+        $this->addSql('CREATE TABLE project_user (project_id UUID NOT NULL, user_id UUID NOT NULL, permissions JSON NOT NULL, PRIMARY KEY(project_id, user_id))');
         $this->addSql('CREATE INDEX IDX_B4021E51166D1F9C ON project_user (project_id)');
         $this->addSql('CREATE INDEX IDX_B4021E51A76ED395 ON project_user (user_id)');
         $this->addSql('COMMENT ON COLUMN project_user.user_id IS \'(DC2Type:ulid)\'');

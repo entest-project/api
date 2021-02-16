@@ -13,6 +13,8 @@ use Symfony\Component\Uid\Uuid;
  */
 class Path
 {
+    private const DEFAULT_PATH_SLUG = 'root';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -73,6 +75,6 @@ class Path
      */
     public function prePersist()
     {
-        $this->slug = Slugify::create()->slugify($this->path);
+        $this->slug = Slugify::create()->slugify($this->path) ? : self::DEFAULT_PATH_SLUG;
     }
 }
