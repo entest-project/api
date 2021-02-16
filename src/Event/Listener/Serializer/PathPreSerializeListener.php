@@ -18,7 +18,7 @@ class PathPreSerializeListener
 
     public function preSerialize(PreSerializeEvent $event): void
     {
-        if (array_intersect(ExtractSerializationGroupHelper::extractGroup($event->getContext()), ['LIST_PROJECTS', 'READ_PATH']) === []) {
+        if (array_intersect(ExtractSerializationGroupHelper::extractGroup($event->getContext()), ['LIST_PROJECTS', 'READ_FEATURE', 'READ_PATH']) === []) {
             return;
         }
 
