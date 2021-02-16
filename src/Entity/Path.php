@@ -5,7 +5,6 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PathRepository")
@@ -24,7 +23,7 @@ class Path
      * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      * @Serializer\Type("string")
      */
-    public ?Uuid $id;
+    public $id;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project", mappedBy="rootPath")
@@ -69,6 +68,11 @@ class Path
      * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      */
     public string $slug;
+
+    /**
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
+     */
+    public ?Project $rootProject = null;
 
     /**
      * @ORM\PrePersist

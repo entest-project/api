@@ -2,12 +2,12 @@
 
 namespace App\Event\Listener\Serializer;
 
-use App\Entity\Feature;
+use App\Entity\Path;
 use App\Helper\ExtractSerializationGroupHelper;
 use App\Repository\ProjectRepository;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 
-class FeaturePreSerializeListener
+class PathPreSerializeListener
 {
     private ProjectRepository $projectRepository;
 
@@ -18,16 +18,16 @@ class FeaturePreSerializeListener
 
     public function preSerialize(PreSerializeEvent $event): void
     {
-        if (array_intersect(ExtractSerializationGroupHelper::extractGroup($event->getContext()), ['READ_FEATURE', 'READ_PATH']) === []) {
+        if (array_intersect(ExtractSerializationGroupHelper::extractGroup($event->getContext()), ['LIST_PROJECTS', 'READ_PATH']) === []) {
             return;
         }
 
         $object = $event->getObject();
 
-        if (!$object instanceof Feature) {
+        if (!$object instanceof Path) {
             return;
         }
 
-        $object->rootProject = $this->projectRepository->findFeatureRootProject($object);
+        $object->rootProject = $this->projectRepository->findPathRootProject($object);
     }
 }

@@ -37,7 +37,7 @@ class SaveFeatureVoter extends Voter
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
         try {
-            return $this->isAllowedToWriteProject($token, $this->projectRepository->findFeatureRootProject($subject));
+            return $this->isAllowedToWriteProject($token, $this->projectRepository->findPathRootProject($subject->path));
         } catch (ProjectNotFoundException $e) {
             return false;
         }

@@ -41,7 +41,7 @@ class SavePathVoter extends Voter
                 return false;
             }
 
-            return $this->isAllowedToWriteProject($token, $this->projectRepository->findPathRootProject($subject));
+            return $this->isAllowedToWriteProject($token, $this->projectRepository->findPathRootProject($subject->parent));
         } catch (ProjectNotFoundException $e) {
             return false;
         }

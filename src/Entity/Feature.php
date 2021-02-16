@@ -5,7 +5,6 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FeatureRepository")
@@ -23,7 +22,7 @@ class Feature
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      * @Serializer\Type("string")
      */
-    public ?Uuid $id;
+    public $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Path", inversedBy="features")
@@ -60,6 +59,9 @@ class Feature
      */
     public string $slug;
 
+    /**
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
+     */
     public ?Project $rootProject = null;
 
     /**

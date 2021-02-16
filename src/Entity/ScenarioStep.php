@@ -42,7 +42,7 @@ class ScenarioStep
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
-    public Step $step;
+    public ?Step $step = null;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\StepParam", mappedBy="step", cascade={"all"}, orphanRemoval=true)
