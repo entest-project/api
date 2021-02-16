@@ -60,6 +60,8 @@ class Feature
      */
     public string $slug;
 
+    public ?Project $rootProject = null;
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
