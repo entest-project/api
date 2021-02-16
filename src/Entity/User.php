@@ -18,12 +18,15 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
+     * @Serializer\Groups({"LIST_PROJECT_USERS"})
      * @Serializer\Type("string")
      */
     public $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Serializer\Groups({"LIST_PROJECT_USERS"})
      */
     public string $username;
 

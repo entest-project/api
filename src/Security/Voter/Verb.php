@@ -8,4 +8,5 @@ interface Verb
     const DELETE = 'delete';
     const READ = 'read';
     const UPDATE = 'update';
+    const LIST_USERS = 'list_users';
 }
