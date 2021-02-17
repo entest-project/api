@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Organization;
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
@@ -30,5 +31,28 @@ class UserRepository extends EntityRepository
     {
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function search(string $q): iterable
+    {
+        return $this
+            ->createQueryBuilder('u')
+            ->where('u.username LIKE :q')
+            ->setParameter('q', sprintf('%%%s%%', $q))
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchByOrganization(Organization $organization, string $q): iterable
+    {
+        return $this
+            ->createQueryBuilder('u')
+            ->join('u.organizations', 'o')
+            ->where('o.organization = :organization')
+            ->andWhere('u.username LIKE :q')
+            ->setParameter('organization', $organization)
+            ->setParameter('q', sprintf('%%%s%%', $q))
+            ->getQuery()
+            ->getResult();
     }
 }
