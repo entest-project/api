@@ -20,14 +20,14 @@ class ProjectUser
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="projects")
      *
-     * @Serializer\Groups({"LIST_PROJECT_USERS"})
+     * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
      */
     public User $user;
 
     /**
      * @ORM\Column(type="json")
      *
-     * @Serializer\Groups({"LIST_PROJECT_USERS"})
+     * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
      */
     public array $permissions = [];
 }

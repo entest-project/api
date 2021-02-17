@@ -18,7 +18,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
-     * @Serializer\Groups({"LIST_PROJECT_USERS"})
+     * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
      * @Serializer\Type("string")
      */
     public $id;
@@ -26,7 +26,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Serializer\Groups({"LIST_PROJECT_USERS"})
+     * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
      */
     public string $username;
 
