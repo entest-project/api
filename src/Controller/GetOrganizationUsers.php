@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/organizations/{slug}/users", methods={"GET"}, requirements={"organizationSlug": "[0-9a-z-]+")
+ * @Route("/organizations/{slug}/users", methods={"GET"}, requirements={"organizationSlug": "[0-9a-z-]+"})
  */
 class GetOrganizationUsers extends Api
 {
