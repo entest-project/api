@@ -7,9 +7,11 @@ use App\Exception\UserNotFoundException;
 use App\Manager\ProjectUserManager;
 use App\Repository\ProjectUserRepository;
 use App\Security\Voter\Verb;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -42,6 +44,8 @@ class CreateProjectUser extends Api
             throw new UnprocessableEntityHttpException($e->getMessage());
         } catch (ProjectNotFoundException | UserNotFoundException $e) {
             throw new NotFoundHttpException();
+        } catch (UniqueConstraintViolationException $e) {
+            throw new ConflictHttpException();
         }
     }
 }
