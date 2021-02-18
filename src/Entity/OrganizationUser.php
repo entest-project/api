@@ -19,13 +19,15 @@ class OrganizationUser
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="organizations")
+     *
+     * @Serializer\Groups({"LIST_ORGANIZATION_USERS", "READ_ORGANIZATION_USER"})
      */
     public User $user;
 
     /**
      * @ORM\Column(type="json")
      *
-     * @Serializer\Groups({})
+     * @Serializer\Groups({"LIST_ORGANIZATION_USERS", "READ_ORGANIZATION_USER"})
      */
     public array $permissions = [];
 }
