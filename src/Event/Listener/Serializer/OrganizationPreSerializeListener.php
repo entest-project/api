@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Helper\ExtractSerializationGroupHelper;
 use App\Helper\UserHelper;
 use App\Repository\OrganizationUserRepository;
+use App\Security\OrganizationPermission;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 
 class OrganizationPreSerializeListener
@@ -41,6 +42,6 @@ class OrganizationPreSerializeListener
             return;
         }
 
-        $object->permissions = $organizationUser->permissions;
+        $object->permissions = count($organizationUser->permissions) > 0 ? $organizationUser->permissions : [OrganizationPermission::READ];
     }
 }

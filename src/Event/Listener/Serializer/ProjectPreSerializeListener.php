@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Helper\ExtractSerializationGroupHelper;
 use App\Helper\UserHelper;
 use App\Repository\ProjectUserRepository;
+use App\Security\ProjectPermission;
 use JMS\Serializer\EventDispatcher\PreSerializeEvent;
 
 class ProjectPreSerializeListener
@@ -41,6 +42,6 @@ class ProjectPreSerializeListener
             return;
         }
 
-        $object->permissions = $projectUser->permissions;
+        $object->permissions = count($projectUser->permissions) > 0 ? $projectUser->permissions : [ProjectPermission::READ];
     }
 }
