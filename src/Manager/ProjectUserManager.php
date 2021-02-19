@@ -56,10 +56,6 @@ class ProjectUserManager
      */
     public function buildToken(ProjectUser $projectUser): void
     {
-        if ($projectUser->token) {
-            return;
-        }
-
         $projectUser->token = Uuid::v6()->toRfc4122();
 
         $this->projectUserRepository->save($projectUser);
