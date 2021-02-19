@@ -30,4 +30,11 @@ class ProjectUser
      * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
      */
     public array $permissions = [];
+
+    /**
+     * @@ORM\Column(type="text")
+     *
+     * @Serializer\Groups({"READ_PROJECT_USER_TOKEN"})
+     */
+    public string $token = '';
 }

@@ -8,6 +8,7 @@ use App\Exception\UserNotFoundException;
 use App\Repository\ProjectRepository;
 use App\Repository\ProjectUserRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\Uid\Uuid;
 
 class ProjectUserManager
 {
@@ -47,6 +48,21 @@ class ProjectUserManager
         $projectUser->user = $user;
 
         return $projectUser;
+    }
+
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function buildToken(ProjectUser $projectUser): void
+    {
+        if ($projectUser->token) {
+            return;
+        }
+
+        $projectUser->token = Uuid::v6()->toRfc4122();
+
+        $this->projectUserRepository->save($projectUser);
     }
 
     /**

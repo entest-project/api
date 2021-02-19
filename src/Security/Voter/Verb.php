@@ -9,4 +9,6 @@ interface Verb
     const READ = 'read';
     const UPDATE = 'update';
     const LIST_USERS = 'list_users';
+    const CREATE_TOKEN = 'create_token';
+    const READ_TOKEN = 'read_token';
 }
