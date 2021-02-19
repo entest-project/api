@@ -8,6 +8,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrganizationRepository")
+ * @ORM\Table(indexes={@ORM\Index(columns="slug")})
  * @ORM\HasLifecycleCallbacks
  */
 class Organization

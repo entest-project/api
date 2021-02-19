@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"organization_id", "slug"})})
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"organization_id", "slug"})}, indexes={@ORM\Index(columns="slug")})
  */
 class Project
 {

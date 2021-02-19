@@ -52,7 +52,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE TABLE table_step_param (id INT NOT NULL, content JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE app_user (id UUID NOT NULL, username VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(100) NOT NULL, roles JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN app_user.id IS \'(DC2Type:ulid)\'');
-        $this->addSql('CREATE TABLE project_user (project_id UUID NOT NULL, user_id UUID NOT NULL, permissions JSON NOT NULL, PRIMARY KEY(project_id, user_id))');
+        $this->addSql("CREATE TABLE project_user (project_id UUID NOT NULL, user_id UUID NOT NULL, permissions JSON NOT NULL, token TEXT NOT NULL DEFAULT '', PRIMARY KEY(project_id, user_id))");
         $this->addSql('CREATE INDEX IDX_B4021E51166D1F9C ON project_user (project_id)');
         $this->addSql('CREATE INDEX IDX_B4021E51A76ED395 ON project_user (user_id)');
         $this->addSql('COMMENT ON COLUMN project_user.user_id IS \'(DC2Type:ulid)\'');
@@ -60,6 +60,11 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_B49AE8D432C8A3DE ON organization_user (organization_id)');
         $this->addSql('CREATE INDEX IDX_B49AE8D4A76ED395 ON organization_user (user_id)');
         $this->addSql('COMMENT ON COLUMN organization_user.user_id IS \'(DC2Type:ulid)\'');
+        $this->addSql('CREATE INDEX IDX_88BDF3E9F85E0677 ON app_user (username)');
+        $this->addSql('CREATE INDEX IDX_88BDF3E9E7927C74 ON app_user (email)');
+        $this->addSql('CREATE INDEX IDX_C1EE637C989D9B62 ON organization (slug)');
+        $this->addSql('CREATE INDEX IDX_2FB3D0EE989D9B62 ON project (slug)');
+        $this->addSql('CREATE INDEX IDX_B4021E515F37A13B ON project_user (token)');
         $this->addSql('ALTER TABLE feature ADD CONSTRAINT FK_1FD77566D96C566B FOREIGN KEY (path_id) REFERENCES path (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inline_step_param ADD CONSTRAINT FK_13CFC238FC1ECD03 FOREIGN KEY (step_part_id) REFERENCES step_part (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE inline_step_param ADD CONSTRAINT FK_13CFC238BF396750 FOREIGN KEY (id) REFERENCES step_param (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');

@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/projects/{project}/users/{user}/token", methods={"POST"}, requirements={"project": "[0-9a-f-]+", "user": "[0-9a-f-]+"})
+ * @Route("/projects/{project}/users/{user}/token", methods={"PUT"}, requirements={"project": "[0-9a-f-]+", "user": "[0-9a-f-]+"})
  */
 class CreateProjectUserToken extends Api
 {
