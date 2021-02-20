@@ -38,7 +38,7 @@ class Project
     /**
      * @ORM\Column(type="string", columnDefinition="project_visibility")
      *
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_PATH", "READ_PROJECT"})
+     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      */
     public string $visibility;
 
