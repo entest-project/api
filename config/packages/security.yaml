@@ -32,6 +32,8 @@ security:
             guard:
                 authenticators:
                     - lexik_jwt_authentication.jwt_token_authenticator
+                    - App\Security\Guard\PullTokenAuthenticator
+                entry_point: lexik_jwt_authentication.jwt_token_authenticator
 
     access_control:
         - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
