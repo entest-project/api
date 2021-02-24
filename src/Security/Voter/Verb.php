@@ -11,4 +11,5 @@ interface Verb
     const LIST_USERS = 'list_users';
     const CREATE_TOKEN = 'create_token';
     const READ_TOKEN = 'read_token';
+    const PULL = 'pull';
 }
