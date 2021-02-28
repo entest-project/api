@@ -56,4 +56,11 @@ class Scenario
      * @Serializer\Groups({"READ_FEATURE"})
      */
     public ?array $examples = null;
+
+    /**
+     * @ORM\Column(type="integer")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
+     */
+    public int $priority;
 }

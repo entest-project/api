@@ -47,6 +47,7 @@ class Feature
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Scenario", mappedBy="feature", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OrderBy({"priority": "ASC"})
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
