@@ -13,6 +13,9 @@ class Step
     const TYPE_GIVEN = 'given';
     const TYPE_WHEN = 'when';
     const TYPE_THEN = 'then';
+    const EXTRA_PARAM_TYPE_NONE = 'none';
+    const EXTRA_PARAM_TYPE_MULTILINE = 'multiline';
+    const EXTRA_PARAM_TYPE_TABLE = 'table';
 
     /**
      * @ORM\Id

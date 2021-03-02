@@ -65,6 +65,19 @@ class Feature
      */
     public ?Project $rootProject = null;
 
+    public function getRootPath(): string
+    {
+        $rootPath = sprintf('/%s', $this->slug);
+
+        $path = $this->path;
+        while ($path->project === null) {
+            $rootPath = sprintf('/%s%s', $path->path, $rootPath);
+            $path = $path->parent;
+        }
+
+        return $rootPath;
+    }
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
