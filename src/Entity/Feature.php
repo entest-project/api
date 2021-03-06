@@ -71,7 +71,7 @@ class Feature
 
         $path = $this->path;
         while ($path->project === null) {
-            $rootPath = sprintf('/%s%s', $path->path, $rootPath);
+            $rootPath = sprintf('/%s%s', $path->slug, $rootPath);
             $path = $path->parent;
         }
 
