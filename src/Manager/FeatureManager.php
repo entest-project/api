@@ -33,7 +33,7 @@ class FeatureManager
     private function featureToPulledElement(Feature $feature): array
     {
         return [
-            'path' => $feature->getRootPath(),
+            'path' => $feature->getRootPath() . '.feature',
             'feature' => $this->featureToStringTransformer->transform($feature)
         ];
     }
