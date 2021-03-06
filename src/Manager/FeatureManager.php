@@ -25,8 +25,16 @@ class FeatureManager
         $features = $this->featureRepository->findByRootProject($project);
 
         return array_map(
-            fn (Feature $feature): array => ['path' => $feature->getRootPath(), 'feature' => $this->featureToStringTransformer->transform($feature)],
+            fn (Feature $feature): array => $this->featureToPulledElement($feature),
             $features instanceof Collection ? $features->toArray() : $features
         );
+    }
+
+    private function featureToPulledElement(Feature $feature): array
+    {
+        return [
+            'path' => $feature->getRootPath(),
+            'feature' => $this->featureToStringTransformer->transform($feature)
+        ];
     }
 }
