@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Path;
 use App\Entity\Project;
+use App\Exception\PathNotFoundException;
 use Doctrine\ORM\EntityRepository;
 
 class PathRepository extends EntityRepository
@@ -32,6 +33,36 @@ SQL;
         $result = $this->_em->getConnection()->fetchAllAssociative($query, ['project_id' => $project->id]);
 
         return array_map(fn (array $item): string => $item['path'], $result);
+    }
+
+    /**
+     * @throws PathNotFoundException
+     */
+    public function findRootPath(Path $path): ?Path
+    {
+        $query = <<<SQL
+WITH RECURSIVE path_rec(id, parent_id, root_id) AS (
+  SELECT p.id, p.parent_id, p.id AS root_id
+  FROM path p
+  WHERE p.parent_id IS NULL
+UNION ALL
+  SELECT p.id, p.parent_id, pr.root_id
+  FROM path_rec pr, path p
+  WHERE p.parent_id = pr.id
+)
+SELECT pr.root_id 
+FROM path_rec pr
+WHERE pr.id = :pathId;
+SQL;
+        $result = $this->getEntityManager()->getConnection()->fetchAllAssociative($query, [
+            'pathId' => $path->id
+        ]);
+
+        if (count($result) === 0) {
+            throw new PathNotFoundException();
+        }
+
+        return $this->find($result[0]['root_id']);
     }
 
     /**
