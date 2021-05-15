@@ -13,9 +13,9 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/paths", methods={"POST", "PUT"})
+ * @Route("/paths", methods={"POST"})
  */
-class SavePath extends Api
+class CreatePath extends Api
 {
     private PathRepository $pathRepository;
 
@@ -33,7 +33,7 @@ class SavePath extends Api
      */
     public function __invoke(Path $path): Response
     {
-        $this->denyAccessUnlessGranted(Verb::UPDATE, $path);
+        $this->denyAccessUnlessGranted(Verb::CREATE, $path);
 
         try {
             $this->pathRepository->save($path);

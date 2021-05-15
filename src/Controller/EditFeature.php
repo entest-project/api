@@ -13,9 +13,9 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/features", methods={"POST", "PUT"})
+ * @Route("/features", methods={"PUT"})
  */
-class SaveFeature extends Api
+class EditFeature extends Api
 {
     private FeatureRepository $featureRepository;
 
