@@ -25,7 +25,7 @@ final class Version20201114141039 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE step_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE step_param_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE step_part_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE feature (id UUID NOT NULL DEFAULT uuid_generate_v4(), path_id UUID, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql("CREATE TABLE feature (id UUID NOT NULL DEFAULT uuid_generate_v4(), path_id UUID, title VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, status feature_status NOT NULL DEFAULT 'draft', PRIMARY KEY(id))");
         $this->addSql('CREATE INDEX IDX_1FD77566D96C566B ON feature (path_id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_1FD77566989D9B62D96C566B ON feature (slug, path_id)');
         $this->addSql('CREATE TABLE inline_step_param (id INT NOT NULL, step_part_id INT DEFAULT NULL, content VARCHAR(255) NOT NULL, PRIMARY KEY(id))');

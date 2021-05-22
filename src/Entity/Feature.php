@@ -61,6 +61,13 @@ class Feature
     public string $slug;
 
     /**
+     * @ORM\Column(type="string", columnDefinition="scenario_type")
+     *
+     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
+     */
+    public string $status;
+
+    /**
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
     public ?Project $rootProject = null;
