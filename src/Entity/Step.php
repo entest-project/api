@@ -54,4 +54,11 @@ class Step
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
     public iterable $parts = [];
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="step", cascade="all", orphanRemoval=true)
+     *
+     * @Serializer\Exclude
+     */
+    public iterable $scenarioSteps = [];
 }

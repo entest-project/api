@@ -24,7 +24,7 @@ class StepPart
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
-    public int $id;
+    public ?int $id = null;
 
     /**
      * @ORM\Column(type="string", columnDefinition="step_part_type")

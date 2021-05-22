@@ -38,7 +38,7 @@ class ScenarioStep
     public string $adverb;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Step")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Step", inversedBy="scenarioSteps")
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
