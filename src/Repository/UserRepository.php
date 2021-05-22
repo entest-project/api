@@ -38,6 +38,7 @@ class UserRepository extends EntityRepository
         return $this
             ->createQueryBuilder('u')
             ->where('u.username LIKE :q')
+            ->orderBy('u.username', 'ASC')
             ->setParameter('q', sprintf('%%%s%%', $q))
             ->getQuery()
             ->getResult();
@@ -50,6 +51,7 @@ class UserRepository extends EntityRepository
             ->join('u.organizations', 'o')
             ->where('o.organization = :organization')
             ->andWhere('u.username LIKE :q')
+            ->orderBy('u.username', 'ASC')
             ->setParameter('organization', $organization)
             ->setParameter('q', sprintf('%%%s%%', $q))
             ->getQuery()
