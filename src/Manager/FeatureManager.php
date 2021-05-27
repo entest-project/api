@@ -22,7 +22,7 @@ class FeatureManager
 
     public function pull(Project $project)
     {
-        $features = $this->featureRepository->findByRootProject($project);
+        $features = $this->featureRepository->findPullableByRootProject($project);
 
         return array_map(
             fn (Feature $feature): array => $this->featureToPulledElement($feature),

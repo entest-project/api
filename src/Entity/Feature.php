@@ -13,6 +13,8 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class Feature
 {
+    public const FEATURE_STATUS_DRAFT = 'draft';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
@@ -61,7 +63,7 @@ class Feature
     public string $slug;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="scenario_type")
+     * @ORM\Column(type="string", columnDefinition="feature_status")
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */

@@ -23,7 +23,7 @@ class FeatureRepository extends EntityRepository
      *
      * @throws \Doctrine\DBAL\Exception
      */
-    public function findByRootProject(Project $project): iterable
+    public function findPullableByRootProject(Project $project): iterable
     {
         $query = <<<SQL
 WITH RECURSIVE path_rec(id, parent_id, root_id) AS (
@@ -39,10 +39,11 @@ SELECT f.id
 FROM project p
 JOIN path_rec pr ON pr.root_id = p.root_path_id
 JOIN feature f ON f.path_id = pr.id
-WHERE p.id = :projectId;
+WHERE p.id = :projectId AND f.status <> :draftStatus;
 SQL;
         $result = $this->getEntityManager()->getConnection()->fetchAllAssociative($query, [
-            'projectId' => $project->id
+            'projectId' => $project->id,
+            'draftStatus' => Feature::FEATURE_STATUS_DRAFT
         ]);
 
         return $this->findBy(['id' => array_map(fn (array $id): string => $id['id'], $result)]);
