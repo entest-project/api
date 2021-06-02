@@ -27,7 +27,7 @@ class Step
     public ?int $id = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="steps")
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */

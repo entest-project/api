@@ -74,6 +74,13 @@ class Project
     public string $slug;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Step", mappedBy="project", cascade="all", orphanRemoval=true)
+     *
+     * @Serializer\Exclude
+     */
+    public iterable $steps = [];
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist(): void
