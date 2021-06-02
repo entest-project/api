@@ -67,7 +67,7 @@ class Feature
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
-    public string $status;
+    public string $status = self::FEATURE_STATUS_DRAFT;
 
     /**
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
