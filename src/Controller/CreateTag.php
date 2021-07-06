@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/projects/{project}/tags", methods={"POST"})
+ * @Route("/projects/{tagProject}/tags", methods={"POST"})
  */
 class CreateTag extends Api
 {
@@ -32,9 +32,9 @@ class CreateTag extends Api
      *     converter="rollandrock_entity_converter"
      * )
      */
-    public function __invoke(Project $project, Tag $tag): Response
+    public function __invoke(Project $tagProject, Tag $tag): Response
     {
-        $tag->project = $project;
+        $tag->project = $tagProject;
 
         $this->denyAccessUnlessGranted(Verb::CREATE, $tag);
 
