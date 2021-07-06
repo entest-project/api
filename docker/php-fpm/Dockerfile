@@ -1,7 +1,6 @@
 FROM php:7.4-fpm
 
 COPY wait-for-it.sh /usr/bin/wait-for-it
-COPY jwt /var/www/config
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libssl-dev zlib1g-dev curl git unzip netcat libxml2-dev libpq-dev libzip-dev && \
