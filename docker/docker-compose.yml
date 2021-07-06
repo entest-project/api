@@ -20,6 +20,7 @@ services:
       ALLOWED_ORIGIN: http://localhost:3000
     volumes:
       - ../:/var/www
+      - ./php-fpm/jwt:/var/www/config/jwt
   nginx:
     container_name: dentest_api_nginx
     build:
