@@ -70,6 +70,13 @@ class Feature
     public string $status = self::FEATURE_STATUS_DRAFT;
 
     /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", orphanRemoval=true)
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
+     */
+    public iterable $tags = [];
+
+    /**
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
     public ?Project $rootProject = null;
