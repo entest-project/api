@@ -8,6 +8,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PathRepository")
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"slug", "parent_id"})})
  * @ORM\HasLifecycleCallbacks
  */
 class Path
@@ -76,6 +77,7 @@ class Path
 
     /**
      * @ORM\PrePersist
+     * @ORM\PreUpdate
      */
     public function prePersist()
     {
