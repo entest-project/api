@@ -63,4 +63,11 @@ class Scenario
      * @Serializer\Groups({"READ_FEATURE"})
      */
     public int $priority;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
+     */
+    public iterable $tags = [];
 }
