@@ -16,7 +16,7 @@ class Tag
      * @ORM\GeneratedValue(strategy="CUSTOM")
      * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
-     * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_TAG"})
+     * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_STEP", "READ_TAG"})
      * @Serializer\Type("string")
      */
     public $id;
@@ -31,14 +31,14 @@ class Tag
     /**
      * @ORM\Column(type="string", length=50)
      *
-     * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_TAG"})
+     * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_STEP", "READ_TAG"})
      */
     public string $name;
 
     /**
      * @ORM\Column(type="string", length=7)
      *
-     * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_TAG"})
+     * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_STEP", "READ_TAG"})
      */
     public string $color;
 }
