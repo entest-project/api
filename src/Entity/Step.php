@@ -61,4 +61,11 @@ class Step
      * @Serializer\Exclude
      */
     public iterable $scenarioSteps = [];
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
+     *
+     * @Serializer\Groups({"READ_STEP"})
+     */
+    public iterable $tags = [];
 }
