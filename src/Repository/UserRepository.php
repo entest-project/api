@@ -11,6 +11,21 @@ class UserRepository extends EntityRepository
     /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
+    public function findOneByEmailForResetPassword(string $email): ?User
+    {
+        return $this
+            ->createQueryBuilder('u')
+            ->where('u.email = :email')
+            ->andWhere('u.lastResetPasswordRequest < :timestamp OR u.lastResetPasswordRequest IS NULL')
+            ->setParameter('email', $email)
+            ->setParameter('timestamp', new \DateTime('2 hours ago'))
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findOneByEmailOrUsername(User $user): ?User
     {
         return $this

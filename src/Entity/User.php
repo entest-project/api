@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="app_user", indexes={@ORM\Index(columns="username"), @ORM\Index(columns="email")})
+ * @ORM\Table(name="app_user", indexes={@ORM\Index(columns="username"), @ORM\Index(columns="email"), @ORM\Index(columns="reset_password_code")})
  */
 class User implements UserInterface
 {
@@ -71,6 +71,20 @@ class User implements UserInterface
      * @Serializer\Exclude
      */
     public iterable $organizations = [];
+
+    /**
+     * @ORM\Column(type="datetimetz", nullable=true)
+     *
+     * @Serializer\Exclude
+     */
+    public ?\DateTime $lastResetPasswordRequest = null;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     *
+     * @Serializer\Exclude
+     */
+    public ?string $resetPasswordCode = null;
 
     public function getUsername(): ?string
     {
