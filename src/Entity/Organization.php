@@ -5,6 +5,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrganizationRepository")
@@ -35,6 +36,9 @@ class Organization
      * @ORM\Column(type="string")
      *
      * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
+     *
+     * @Assert\Length(min=1, max=255)
+     * @Assert\NotBlank
      */
     public string $name;
 

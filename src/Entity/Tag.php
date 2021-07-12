@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TagRepository")
@@ -32,6 +33,9 @@ class Tag
      * @ORM\Column(type="string", length=50)
      *
      * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_STEP", "READ_TAG"})
+     *
+     * @Assert\Length(min=1, max=50)
+     * @Assert\NotBlank
      */
     public string $name;
 

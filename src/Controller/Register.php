@@ -31,6 +31,8 @@ class Register extends Api
      */
     public function __invoke(User $user): Response
     {
+        $this->validate($user);
+
         try {
             $this->userManager->register($user);
 

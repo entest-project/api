@@ -37,6 +37,8 @@ class CreateOrganization extends Api
     {
         $this->denyAccessUnlessGranted(Verb::CREATE, $organization);
 
+        $this->validate($organization);
+
         try {
             $this->organizationManager->createOrganization($organization, $this->getUser());
 

@@ -37,6 +37,8 @@ class CreateProject extends Api
     {
         $this->denyAccessUnlessGranted(Verb::CREATE, $project);
 
+        $this->validate($project);
+
         try {
             $this->projectManager->createProject($project, $this->getUser());
 

@@ -37,6 +37,8 @@ class EditPath extends Api
     {
         $this->denyAccessUnlessGranted(Verb::UPDATE, $path);
 
+        $this->validate($path);
+
         try {
             $this->pathRepository->save($path);
 

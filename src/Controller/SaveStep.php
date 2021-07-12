@@ -35,6 +35,8 @@ class SaveStep extends Api
     {
         $this->denyAccessUnlessGranted(Verb::UPDATE, $step);
 
+        $this->validate($step);
+
         try {
             $this->stepRepository->save($step);
 

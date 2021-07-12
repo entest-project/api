@@ -37,6 +37,8 @@ class CreateFeature extends Api
     {
         $this->denyAccessUnlessGranted(Verb::CREATE, $feature);
 
+        $this->validate($feature);
+
         try {
             $this->featureRepository->save($feature);
 

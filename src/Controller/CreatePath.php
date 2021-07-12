@@ -37,6 +37,8 @@ class CreatePath extends Api
     {
         $this->denyAccessUnlessGranted(Verb::CREATE, $path);
 
+        $this->validate($path);
+
         try {
             $this->pathRepository->save($path);
 

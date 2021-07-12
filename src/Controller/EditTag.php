@@ -41,6 +41,8 @@ class EditTag extends Api
 
         $this->denyAccessUnlessGranted(Verb::UPDATE, $tag);
 
+        $this->validate($tag);
+
         try {
             $this->tagRepository->save($tag);
 

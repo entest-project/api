@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Organization;
 use App\Repository\OrganizationRepository;
-use App\Repository\OrganizationUserRepository;
 use App\Security\Voter\Verb;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\OptimisticLockException;
@@ -21,12 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class EditOrganization extends Api
 {
     private OrganizationRepository $organizationRepository;
-    private OrganizationUserRepository $organizationUserRepository;
 
-    public function __construct(OrganizationRepository $organizationRepository, OrganizationUserRepository $organizationUserRepository)
+    public function __construct(OrganizationRepository $organizationRepository)
     {
         $this->organizationRepository = $organizationRepository;
-        $this->organizationUserRepository = $organizationUserRepository;
     }
 
     /**
@@ -39,6 +36,8 @@ class EditOrganization extends Api
     public function __invoke(Organization $organization): Response
     {
         $this->denyAccessUnlessGranted(Verb::UPDATE, $organization);
+
+        $this->validate($organization);
 
         try {
             $this->organizationRepository->save($organization);

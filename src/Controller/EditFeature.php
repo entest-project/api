@@ -37,6 +37,8 @@ class EditFeature extends Api
     {
         $this->denyAccessUnlessGranted(Verb::UPDATE, $feature);
 
+        $this->validate($feature);
+
         try {
             $this->featureRepository->save($feature);
 

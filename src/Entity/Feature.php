@@ -5,6 +5,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FeatureRepository")
@@ -37,6 +38,9 @@ class Feature
      * @ORM\Column(type="string")
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
+     *
+     * @Assert\Length(min=1, max=255)
+     * @Assert\NotBlank
      */
     public string $title;
 
@@ -44,6 +48,8 @@ class Feature
      * @ORM\Column(type="string")
      *
      * @Serializer\Groups({"READ_FEATURE"})
+     *
+     * @Assert\Length(max=1024)
      */
     public string $description = '';
 

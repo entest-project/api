@@ -4,8 +4,8 @@
     "require": {
         "php": ">=7.4",
         "ext-ctype": "*",
-        "ext-json": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "cocur/slugify": "^4.0",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/doctrine-bundle": "^2.2",
@@ -21,9 +21,8 @@
         "symfony/monolog-bundle": "^3.6",
         "symfony/security-bundle": "5.2.*",
         "symfony/serializer": "5.2.*",
+        "symfony/validator": "5.2.*",
         "symfony/yaml": "5.2.*"
-    },
-    "require-dev": {
     },
     "config": {
         "optimize-autoloader": true,

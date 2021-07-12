@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -27,11 +28,18 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      *
      * @Serializer\Groups({"LIST_ORGANIZATION_USERS", "LIST_PROJECT_USERS", "LIST_USERS", "READ_ORGANIZATION_USER", "READ_PROJECT_USER"})
+     *
+     * @Assert\Length(min=1, max=50)
+     * @Assert\NotBlank
      */
     public string $username;
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Assert\Email
+     * @Assert\Length(min=1, max=255)
+     * @Assert\NotBlank
      */
     public string $email;
 
@@ -39,6 +47,9 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=100)
      *
      * @Serializer\Exclude
+     *
+     * @Assert\Length(min=1, max=255)
+     * @Assert\NotBlank
      */
     public string $password;
 

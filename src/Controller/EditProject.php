@@ -37,6 +37,8 @@ class EditProject extends Api
     {
         $this->denyAccessUnlessGranted(Verb::UPDATE, $project);
 
+        $this->validate($project);
+
         try {
             $this->projectRepository->save($project);
 

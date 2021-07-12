@@ -38,6 +38,8 @@ class CreateTag extends Api
 
         $this->denyAccessUnlessGranted(Verb::CREATE, $tag);
 
+        $this->validate($tag);
+
         try {
             $this->tagRepository->save($tag);
 

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -37,6 +38,9 @@ class StepPart
      * @ORM\Column(type="string")
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
+     *
+     * @Assert\Length(min=1, max=255)
+     * @Assert\NotBlank
      */
     public string $content;
 
