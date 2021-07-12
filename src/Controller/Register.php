@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Exception\UserAlreadyExistsException;
+use App\Mail\RegisterMail;
 use App\Manager\UserManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +36,8 @@ class Register extends Api
 
         try {
             $this->userManager->register($user);
+
+            $this->sendMail($user->email, new RegisterMail(['username' => $user->username]));
 
             return $this->buildSerializedResponse($user);
         } catch (UserAlreadyExistsException $e) {

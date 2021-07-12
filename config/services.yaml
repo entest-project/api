@@ -14,6 +14,9 @@ services:
     _instanceof:
         App\Controller\Api:
             calls:
+                - method: setEventDispatcher
+                  arguments:
+                      - "@event_dispatcher"
                 - method: setSerializer
                   arguments:
                       - "@jms_serializer"
@@ -74,6 +77,9 @@ services:
     #############
     # LISTENERS #
     #############
+    App\Event\Listener\MailListener:
+        tags:
+            - { name: kernel.event_listener, event: app.mail, method: sendMail }
     App\Event\Listener\Serializer\FeaturePreSerializeListener:
         tags:
             - { name: jms_serializer.event_listener, event: serializer.pre_serialize, method: preSerialize, priority: 10 }
