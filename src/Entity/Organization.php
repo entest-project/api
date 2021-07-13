@@ -38,7 +38,7 @@ class Organization
      * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
      *
      * @Assert\Length(min=1, max=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(normalizer="trim")
      */
     public string $name;
 
