@@ -21,7 +21,7 @@ class MailListener
     public function sendMail(MailEvent $event): void
     {
         $email = (new Email())
-            ->from('noreply@dentest.tech')
+            ->from('Dentest <noreply@dentest.tech>')
             ->to($event->to)
             ->subject($event->mail->getSubject())
             ->text($event->mail->getPlain());

@@ -48,7 +48,7 @@ class User implements UserInterface
      *
      * @Serializer\Exclude
      *
-     * @Assert\Length(min=1, max=255)
+     * @Assert\Length(min=1, max=100)
      * @Assert\NotBlank
      */
     public string $password;

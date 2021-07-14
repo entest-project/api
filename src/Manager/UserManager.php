@@ -7,6 +7,7 @@ use App\Exception\UserAlreadyExistsException;
 use App\Exception\UserNotFoundException;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Uid\Uuid;
 
 class UserManager
 {
@@ -38,6 +39,33 @@ class UserManager
         return $user;
     }
 
+    /**
+     * @throws UserNotFoundException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function resetPassword(string $code, string $newPassword): User
+    {
+        /** @var User $user */
+        $user = $this->userRepository->findOneBy(['resetPasswordCode' => $code]);
+
+        if (null === $user) {
+            throw new UserNotFoundException();
+        }
+
+        $user->resetPasswordCode = null;
+        $user->password = $this->encoderFactory->getEncoder(User::class)->encodePassword($newPassword, '');
+        $this->userRepository->save($user);
+
+        return $user;
+    }
+
+    /**
+     * @throws UserNotFoundException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function resetPasswordRequest(string $email): User
     {
         $user = $this->userRepository->findOneByEmailForResetPassword($email);
@@ -46,7 +74,7 @@ class UserManager
             throw new UserNotFoundException();
         }
 
-        $user->resetPasswordCode = uniqid();
+        $user->resetPasswordCode = str_replace('-', '', Uuid::v4()->toRfc4122());
         $user->lastResetPasswordRequest = new \DateTime();
 
         $this->userRepository->save($user);
