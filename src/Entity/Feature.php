@@ -40,7 +40,7 @@ class Feature
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      *
      * @Assert\Length(min=1, max=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(normalizer="trim")
      */
     public string $title;
 

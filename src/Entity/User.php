@@ -30,7 +30,7 @@ class User implements UserInterface
      * @Serializer\Groups({"LIST_ORGANIZATION_USERS", "LIST_PROJECT_USERS", "LIST_USERS", "READ_ORGANIZATION_USER", "READ_PROJECT_USER"})
      *
      * @Assert\Length(min=1, max=50)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(normalizer="trim")
      */
     public string $username;
 
@@ -39,7 +39,7 @@ class User implements UserInterface
      *
      * @Assert\Email
      * @Assert\Length(min=1, max=255)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(normalizer="trim")
      */
     public string $email;
 
@@ -49,7 +49,7 @@ class User implements UserInterface
      * @Serializer\Exclude
      *
      * @Assert\Length(min=1, max=100)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(normalizer="trim")
      */
     public string $password;
 
