@@ -39,7 +39,7 @@ class StepPart
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      *
-     * @Assert\Length(min=1, max=255)
+     * @Assert\Length(min=1, max=255, normalizer="trim")
      * @Assert\NotBlank(normalizer="trim")
      */
     public string $content;

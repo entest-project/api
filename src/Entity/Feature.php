@@ -39,7 +39,7 @@ class Feature
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      *
-     * @Assert\Length(min=1, max=255)
+     * @Assert\Length(min=1, max=255, normalizer="trim")
      * @Assert\NotBlank(normalizer="trim")
      */
     public string $title;
@@ -49,7 +49,7 @@ class Feature
      *
      * @Serializer\Groups({"READ_FEATURE"})
      *
-     * @Assert\Length(max=1024)
+     * @Assert\Length(max=1024, normalizer="trim")
      */
     public string $description = '';
 

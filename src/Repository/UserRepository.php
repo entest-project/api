@@ -39,6 +39,22 @@ class UserRepository extends EntityRepository
     }
 
     /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOtherByEmailOrUsername(User $user, string $email, string $username): ?User
+    {
+        return $this
+            ->createQueryBuilder('u')
+            ->where('u.email = :email OR u.username = :username')
+            ->andWhere('u.id <> :id')
+            ->setParameter('email', $email)
+            ->setParameter('username', $username)
+            ->setParameter('id', $user->id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

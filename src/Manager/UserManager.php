@@ -5,6 +5,7 @@ namespace App\Manager;
 use App\Entity\User;
 use App\Exception\UserAlreadyExistsException;
 use App\Exception\UserNotFoundException;
+use App\Model\Request\UpdateMeRequestModel;
 use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Uid\Uuid;
@@ -37,6 +38,28 @@ class UserManager
         $this->userRepository->save($user);
 
         return $user;
+    }
+
+    /**
+     * @throws UserAlreadyExistsException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(User $user, UpdateMeRequestModel $model): void
+    {
+        if (null !== $this->userRepository->findOtherByEmailOrUsername($user, $model->email, $model->username)) {
+            throw new UserAlreadyExistsException();
+        }
+
+        $user->username = $model->username;
+        $user->email = $model->email;
+
+        if ('' !== trim($model->password)) {
+            $user->password = $this->encoderFactory->getEncoder(User::class)->encodePassword($model->password, '');
+        }
+
+        $this->userRepository->save($user);
     }
 
     /**

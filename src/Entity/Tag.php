@@ -34,7 +34,7 @@ class Tag
      *
      * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_STEP", "READ_TAG"})
      *
-     * @Assert\Length(min=1, max=50)
+     * @Assert\Length(min=1, max=50, normalizer="trim")
      * @Assert\NotBlank(normalizer="trim")
      */
     public string $name;
