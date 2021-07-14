@@ -10,6 +10,7 @@ use App\Entity\ScenarioStep;
 use App\Entity\Step;
 use App\Entity\StepPart;
 use App\Entity\TableStepParam;
+use App\Entity\Tag;
 use Doctrine\Common\Collections\Collection;
 
 class FeatureToStringTransformer
@@ -17,11 +18,24 @@ class FeatureToStringTransformer
     public function transform(Feature $feature): string
     {
         return sprintf(
-            "%s\n%s\n%s",
+            "%s%s\n%s\n%s",
+            $this->getTags($feature->tags),
             $this->getTitle($feature),
             $this->getDescription($feature),
             $this->getScenarios($feature)
         );
+    }
+
+    private function getTags(iterable $tags): string
+    {
+        if ($tags instanceof Collection) {
+            $tags = $tags->toArray();
+        }
+        if (count($tags) > 0) {
+            return implode(' ', array_map(fn (Tag $tag) => sprintf('@%s', $tag->name), $tags)) . "\n";
+        }
+
+        return '';
     }
 
     private function getTitle(Feature $feature): string
@@ -43,8 +57,11 @@ class FeatureToStringTransformer
 
     private function getScenario(Scenario $scenario): string
     {
+        $tags = $this->getTags($scenario->tags);
+
         return sprintf(
-            "%s\n%s%s",
+            "%s%s\n%s%s",
+            $tags ? '  ' . $tags : '',
             $this->getScenarioHeadline($scenario),
             $this->getSteps($scenario),
             $this->getExamples($scenario)
