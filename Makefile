@@ -1,4 +1,5 @@
 config/jwt/private.pem:
+	mkdir -p config/jwt
 	openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096 -pass "pass:${JWT_PASSPHRASE}"
 
 config/jwt/public.pem: config/jwt/private.pem
