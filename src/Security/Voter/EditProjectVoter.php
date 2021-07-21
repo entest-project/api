@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class EditProjectVoter extends Voter
 {
-    use WriteProjectVoterTrait;
+    use AdminProjectVoterTrait;
 
     public function __construct(ProjectUserRepository $projectUserRepository, OrganizationUserRepository $organizationUserRepository)
     {
@@ -25,6 +25,6 @@ class EditProjectVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
     {
-        return $this->isAllowedToWriteProject($token, $subject);
+        return $this->isAllowedToAdministrateProject($token, $subject);
     }
 }
