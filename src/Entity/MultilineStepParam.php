@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
 class MultilineStepParam extends StepParam
 {
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="text")
      *
      * @Serializer\Groups({"READ_FEATURE"})
      */
