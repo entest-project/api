@@ -51,7 +51,7 @@ class Feature
      *
      * @Assert\Length(max=1024, normalizer="trim")
      */
-    public string $description = '';
+    public string $description = "As an <actor>\nI want to <action>\nSo that <consequence>";
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Scenario", mappedBy="feature", cascade={"all"}, orphanRemoval=true)
