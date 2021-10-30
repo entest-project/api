@@ -45,7 +45,7 @@ class FeatureToStringTransformer
 
     private function getDescription(Feature $feature): string
     {
-        return implode("\n", array_map(fn (string $row): string => sprintf('  %s', $row), explode("\n", $feature->description)));
+        return implode("\n", array_map(fn (string $row): string => sprintf('  %s', $row), explode("\n", $feature->description))) . "\n";
     }
 
     private function getScenarios(Feature $feature): string
@@ -153,8 +153,8 @@ class FeatureToStringTransformer
         }
 
         return sprintf(
-            "\n    \"\"\"\n%s\n    \"\"\"",
-            implode("\n", array_map(fn (string $row) => sprintf('    %s', $row), explode("\n", $str)))
+            "\n      \"\"\"\n%s\n      \"\"\"",
+            implode("\n", array_map(fn (string $row) => sprintf('      %s', $row), explode("\n", $str)))
         );
     }
 
@@ -184,7 +184,7 @@ class FeatureToStringTransformer
             $out[] = $this->getTableColumn($columnsLengths, $column, $columnId);
         }
 
-        return sprintf("    |%s|", implode('|', $out));
+        return sprintf("      |%s|", implode('|', $out));
     }
 
     private function getTableColumn(array $columnsLengths, string $column, int $columnId): string
