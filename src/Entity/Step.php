@@ -28,6 +28,7 @@ class Step
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="steps")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
