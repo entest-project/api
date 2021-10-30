@@ -24,6 +24,7 @@ class Tag
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      *
      * @Serializer\Exclude
      */
