@@ -42,6 +42,8 @@ class PullFeatures extends Api
 
         $this->denyAccessUnlessGranted(Verb::PULL, $projectUser);
 
-        return new JsonResponse($this->featureManager->pull($projectUser->project));
+        return new JsonResponse(
+            $this->featureManager->pull($projectUser->project, $request->get('inlineParameterWrapper', ''))
+        );
     }
 }

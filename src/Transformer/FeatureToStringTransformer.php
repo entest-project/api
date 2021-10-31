@@ -15,6 +15,8 @@ use Doctrine\Common\Collections\Collection;
 
 class FeatureToStringTransformer
 {
+    private string $inlineParameterWrapper;
+
     public function transform(Feature $feature): string
     {
         return sprintf(
@@ -24,6 +26,11 @@ class FeatureToStringTransformer
             $this->getDescription($feature),
             $this->getScenarios($feature)
         );
+    }
+
+    public function setInlineParameterWrapper(string $inlineParameterWrapper): void
+    {
+        $this->inlineParameterWrapper = $inlineParameterWrapper;
     }
 
     private function getTags(iterable $tags): string
@@ -127,7 +134,7 @@ class FeatureToStringTransformer
             }
 
             if ($param->stepPart->id === $part->id) {
-                return $param->content;
+                return sprintf('%s%s%s', $this->inlineParameterWrapper, $param->content, $this->inlineParameterWrapper);
             }
         }
 
