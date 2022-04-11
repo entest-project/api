@@ -5,6 +5,7 @@ doctrine:
             feature_status: string
             step_extra_param_type: string
             step_part_type: string
+            step_part_strategy: string
             step_type: string
             step_adverb: string
             param_type: string

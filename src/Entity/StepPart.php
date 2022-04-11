@@ -55,4 +55,18 @@ class StepPart
      * @ORM\ManyToOne(targetEntity="App\Entity\Step", inversedBy="parts")
      */
     public Step $step;
+
+    /**
+     * @ORM\Column(type="string", columnDefinition="step_part_strategy", nullable=true)
+     *
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
+     */
+    public ?string $strategy = null;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     *
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
+     */
+    public ?array $choices = null;
 }
