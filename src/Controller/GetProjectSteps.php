@@ -22,7 +22,7 @@ class GetProjectSteps extends Api
 
     public function __invoke(Project $project): Response
     {
-        $this->denyAccessUnlessGranted(Verb::UPDATE, $project);
+        $this->denyAccessUnlessGranted(Verb::WRITE_IN, $project);
 
         return $this->buildSerializedResponse($this->stepRepository->findBy(['project' => $project]), 'READ_STEP');
     }
