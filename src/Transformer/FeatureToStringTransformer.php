@@ -39,7 +39,7 @@ class FeatureToStringTransformer
             $tags = $tags->toArray();
         }
         if (count($tags) > 0) {
-            return implode(' ', array_map(fn (Tag $tag) => sprintf('@%s', $tag->name), $tags)) . "\n";
+            return implode(' ', array_map(fn (Tag $tag) => sprintf('@%s', str_replace(' ', '', $tag->name)), $tags)) . "\n";
         }
 
         return '';
