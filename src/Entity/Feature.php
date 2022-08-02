@@ -102,11 +102,11 @@ class Feature
 
     public function getDisplayRootPath(): string
     {
-        $rootPath = sprintf('/ %s', $this->title);
+        $rootPath = sprintf('%s', $this->title);
 
         $path = $this->path;
         while ($path->project === null) {
-            $rootPath = sprintf('/ %s %s', $path->path, $rootPath);
+            $rootPath = sprintf('%s / %s', $path->path, $rootPath);
             $path = $path->parent;
         }
 
