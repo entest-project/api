@@ -25,10 +25,7 @@ class FeatureManager
         $features = $this->featureRepository->findPullableByRootProject($project);
         $this->featureToStringTransformer->setInlineParameterWrapper($inlineParameterWrapper);
 
-        return array_map(
-            fn (Feature $feature): array => $this->featureToPulledElement($feature, $inlineParameterWrapper),
-            $features instanceof Collection ? $features->toArray() : $features
-        );
+        return array_map(fn (Feature $feature): array => $this->featureToPulledElement($feature, $inlineParameterWrapper), $features);
     }
 
     private function featureToPulledElement(Feature $feature): array
