@@ -100,6 +100,19 @@ class Feature
         return $rootPath;
     }
 
+    public function getDisplayRootPath(): string
+    {
+        $rootPath = sprintf('/ %s', $this->title);
+
+        $path = $this->path;
+        while ($path->project === null) {
+            $rootPath = sprintf('/ %s %s', $path->path, $rootPath);
+            $path = $path->parent;
+        }
+
+        return $rootPath;
+    }
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
