@@ -16,4 +16,18 @@ class TableStepParam extends StepParam
      * @Serializer\Groups({"READ_FEATURE"})
      */
     public array $content;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
+     */
+    public bool $headerColumn = false;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": false})
+     *
+     * @Serializer\Groups({"READ_FEATURE"})
+     */
+    public bool $headerRow = false;
 }
