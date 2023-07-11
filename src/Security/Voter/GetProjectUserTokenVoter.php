@@ -10,12 +10,12 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class GetProjectUserTokenVoter extends Voter
 {
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::READ_TOKEN && $subject instanceof ProjectUser;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 

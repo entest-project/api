@@ -5,6 +5,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -19,13 +20,11 @@ class Path
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
      * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      * @Serializer\Type("string")
      */
-    public $id;
+    public ?string $id = null;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project", mappedBy="rootPath")
@@ -81,9 +80,17 @@ class Path
 
     /**
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
     public function prePersist()
+    {
+        $this->slug = Slugify::create()->slugify($this->path) ? : self::DEFAULT_PATH_SLUG;
+        $this->id = Uuid::v4()->toRfc4122();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(): void
     {
         $this->slug = Slugify::create()->slugify($this->path) ? : self::DEFAULT_PATH_SLUG;
     }

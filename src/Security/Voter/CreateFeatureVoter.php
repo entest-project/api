@@ -15,23 +15,17 @@ class CreateFeatureVoter extends Voter
 {
     use WriteProjectVoterTrait;
 
-    private FeatureRepository $featureRepository;
-
-    private ProjectRepository $projectRepository;
-
     public function __construct(
-        FeatureRepository $featureRepository,
-        ProjectRepository $projectRepository,
+        private readonly FeatureRepository $featureRepository,
+        private readonly ProjectRepository $projectRepository,
         ProjectUserRepository $projectUserRepository,
         OrganizationUserRepository $organizationUserRepository
     ) {
-        $this->featureRepository = $featureRepository;
-        $this->projectRepository = $projectRepository;
         $this->projectUserRepository = $projectUserRepository;
         $this->organizationUserRepository = $organizationUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::CREATE && $subject instanceof Feature;
     }
@@ -39,7 +33,7 @@ class CreateFeatureVoter extends Voter
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         try {
             if (null !== $subject->id && null !== $this->featureRepository->find($subject->id)) {

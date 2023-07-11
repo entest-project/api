@@ -16,12 +16,12 @@ class DeleteProjectVoter extends Voter
         $this->projectUserRepository = $projectUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::DELETE && $subject instanceof Project;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         return $this->isAllowedToAdministrateProject($token, $subject);
     }

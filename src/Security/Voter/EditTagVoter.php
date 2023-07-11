@@ -20,7 +20,7 @@ class EditTagVoter extends Voter
         $this->organizationUserRepository = $organizationUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::UPDATE && $subject instanceof Tag;
     }
@@ -28,7 +28,7 @@ class EditTagVoter extends Voter
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         if (null === $subject->id) {
             return false;

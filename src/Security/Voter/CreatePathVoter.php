@@ -15,23 +15,17 @@ class CreatePathVoter extends Voter
 {
     use WriteProjectVoterTrait;
 
-    private PathRepository $pathRepository;
-
-    private ProjectRepository $projectRepository;
-
     public function __construct(
-        PathRepository $pathRepository,
-        ProjectRepository $projectRepository,
+        private readonly PathRepository $pathRepository,
+        private readonly ProjectRepository $projectRepository,
         ProjectUserRepository $projectUserRepository,
         OrganizationUserRepository $organizationUserRepository
     ) {
-        $this->pathRepository = $pathRepository;
-        $this->projectRepository = $projectRepository;
         $this->projectUserRepository = $projectUserRepository;
         $this->organizationUserRepository = $organizationUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::CREATE && $subject instanceof Path;
     }
@@ -39,7 +33,7 @@ class CreatePathVoter extends Voter
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         try {
             if (null === $subject->parent) {

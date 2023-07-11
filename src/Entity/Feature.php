@@ -5,6 +5,7 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -19,13 +20,11 @@ class Feature
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      * @Serializer\Type("string")
      */
-    public $id;
+    public ?string $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Path", inversedBy="features")
@@ -115,9 +114,17 @@ class Feature
 
     /**
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
     public function prePersist(): void
+    {
+        $this->id = Uuid::v4()->toRfc4122();
+        $this->slug = Slugify::create()->slugify($this->title);
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(): void
     {
         $this->slug = Slugify::create()->slugify($this->title);
     }

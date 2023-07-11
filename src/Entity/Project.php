@@ -5,12 +5,13 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProjectRepository")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"organization_id", "slug"})}, indexes={@ORM\Index(columns="slug")})
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"organization_id", "slug"})}, indexes={@ORM\Index(columns={"slug"})})
  */
 class Project
 {
@@ -21,13 +22,11 @@ class Project
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
      * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT", "READ_STEP"})
      * @Serializer\Type("string")
      */
-    public $id;
+    public string $id;
 
     /**
      * @ORM\Column(type="string")
@@ -78,7 +77,7 @@ class Project
     public string $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Step", mappedBy="project", cascade="all", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Step", mappedBy="project", cascade={"all"}, orphanRemoval=true)
      *
      * @Serializer\Exclude
      */
@@ -86,9 +85,17 @@ class Project
 
     /**
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
     public function prePersist(): void
+    {
+        $this->slug = Slugify::create()->slugify($this->title);
+        $this->id = Uuid::v4()->toRfc4122();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(): void
     {
         $this->slug = Slugify::create()->slugify($this->title);
     }

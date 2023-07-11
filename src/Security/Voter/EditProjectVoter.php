@@ -12,18 +12,17 @@ class EditProjectVoter extends Voter
 {
     use AdminProjectVoterTrait;
 
-    public function __construct(ProjectUserRepository $projectUserRepository, OrganizationUserRepository $organizationUserRepository)
+    public function __construct(ProjectUserRepository $projectUserRepository, private  readonly OrganizationUserRepository $organizationUserRepository)
     {
         $this->projectUserRepository = $projectUserRepository;
-        $this->organizationUserRepository = $organizationUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::UPDATE && $subject instanceof Project;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         return $this->isAllowedToAdministrateProject($token, $subject);
     }

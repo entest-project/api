@@ -57,7 +57,7 @@ class Step
     public iterable $parts = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="step", cascade="all", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="step", cascade={"all"}, orphanRemoval=true)
      *
      * @Serializer\Exclude
      */

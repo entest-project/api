@@ -14,19 +14,16 @@ class DeleteFeatureVoter extends Voter
 {
     use WriteProjectVoterTrait;
 
-    private ProjectRepository $projectRepository;
-
     public function __construct(
-        ProjectRepository $projectRepository,
+        private readonly ProjectRepository $projectRepository,
         ProjectUserRepository $projectUserRepository,
         OrganizationUserRepository $organizationUserRepository
     ) {
-        $this->projectRepository = $projectRepository;
         $this->projectUserRepository = $projectUserRepository;
         $this->organizationUserRepository = $organizationUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::DELETE && $subject instanceof Feature;
     }
@@ -34,7 +31,7 @@ class DeleteFeatureVoter extends Voter
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         try {
             return $this->isAllowedToWriteProject($token, $this->projectRepository->findFeatureRootProject($subject));

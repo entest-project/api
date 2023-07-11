@@ -14,19 +14,16 @@ class GetFeatureVoter extends Voter
 {
     use ReadProjectVoterTrait;
 
-    private ProjectRepository $projectRepository;
-
     public function __construct(
-        ProjectRepository $projectRepository,
+        private readonly ProjectRepository $projectRepository,
         OrganizationUserRepository $organizationUserRepository,
         ProjectUserRepository $projectUserRepository
     ) {
-        $this->projectRepository = $projectRepository;
         $this->organizationUserRepository = $organizationUserRepository;
         $this->projectUserRepository = $projectUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::READ && $subject instanceof Feature;
     }
@@ -34,7 +31,7 @@ class GetFeatureVoter extends Voter
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         try {
             return $this->isAllowedToReadProject($token, $this->projectRepository->findFeatureRootProject($subject));

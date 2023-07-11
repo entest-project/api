@@ -110,15 +110,6 @@
             "config/packages/prod/jms_serializer.yaml"
         ]
     },
-    "laminas/laminas-code": {
-        "version": "3.5.0"
-    },
-    "laminas/laminas-eventmanager": {
-        "version": "3.3.0"
-    },
-    "laminas/laminas-zendframework-bridge": {
-        "version": "1.1.1"
-    },
     "lcobucci/clock": {
         "version": "2.0.0"
     },
@@ -142,9 +133,6 @@
     },
     "namshi/jose": {
         "version": "7.2.3"
-    },
-    "ocramius/proxy-manager": {
-        "version": "2.8.0"
     },
     "php": {
         "version": "7.4"
@@ -417,8 +405,5 @@
     },
     "symfony/yaml": {
         "version": "v5.1.8"
-    },
-    "webimpress/safe-writer": {
-        "version": "2.1.0"
     }
 }

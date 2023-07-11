@@ -5,11 +5,12 @@ namespace App\Entity;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\OrganizationRepository")
- * @ORM\Table(indexes={@ORM\Index(columns="slug")})
+ * @ORM\Table(indexes={@ORM\Index(columns={"slug"})})
  * @ORM\HasLifecycleCallbacks
  */
 class Organization
@@ -17,13 +18,11 @@ class Organization
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid", unique=true)
-     * @ORM\GeneratedValue(strategy="CUSTOM")
-     * @ORM\CustomIdGenerator(class="\Doctrine\ORM\Id\UuidGenerator")
      *
      * @Serializer\Groups({"LIST_ORGANIZATIONS", "LIST_PROJECTS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
      * @Serializer\Type("string")
      */
-    public $id;
+    public string $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -62,9 +61,17 @@ class Organization
 
     /**
      * @ORM\PrePersist
-     * @ORM\PreUpdate
      */
     public function prePersist(): void
+    {
+        $this->slug = Slugify::create()->slugify($this->name);
+        $this->id = Uuid::v4()->toRfc4122();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(): void
     {
         $this->slug = Slugify::create()->slugify($this->name);
     }

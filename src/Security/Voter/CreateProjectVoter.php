@@ -11,19 +11,16 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class CreateProjectVoter extends Voter
 {
-    private OrganizationUserRepository $organizationUserRepository;
-
-    public function __construct(OrganizationUserRepository $organizationUserRepository)
+    public function __construct(private readonly OrganizationUserRepository $organizationUserRepository)
     {
-        $this->organizationUserRepository = $organizationUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::CREATE && $subject instanceof Project;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
 

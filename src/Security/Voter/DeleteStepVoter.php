@@ -18,12 +18,12 @@ class DeleteStepVoter extends Voter
         $this->organizationUserRepository = $organizationUserRepository;
     }
 
-    protected function supports(string $attribute, $subject)
+    protected function supports(string $attribute, $subject): bool
     {
         return $attribute === Verb::DELETE && $subject instanceof Step;
     }
 
-    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         return $this->isAllowedToWriteProject($token, $subject->project);
     }

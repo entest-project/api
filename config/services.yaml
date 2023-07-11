@@ -49,31 +49,31 @@ services:
     ################
     App\Repository\FeatureRepository:
         factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App:Feature' ]
+        arguments: [ 'App\Entity\Feature' ]
     App\Repository\OrganizationRepository:
         factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App:Organization' ]
+        arguments: [ 'App\Entity\Organization' ]
     App\Repository\OrganizationUserRepository:
         factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App:OrganizationUser' ]
+        arguments: [ 'App\Entity\OrganizationUser' ]
     App\Repository\PathRepository:
         factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App:Path' ]
+        arguments: [ 'App\Entity\Path' ]
     App\Repository\ProjectRepository:
         factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments: ['App:Project']
+        arguments: ['App\Entity\Project']
     App\Repository\ProjectUserRepository:
         factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App:ProjectUser' ]
+        arguments: [ 'App\Entity\ProjectUser' ]
     App\Repository\StepRepository:
         factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments: ['App:Step']
+        arguments: ['App\Entity\Step']
     App\Repository\TagRepository:
         factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments: ['App:Tag']
+        arguments: ['App\Entity\Tag']
     App\Repository\UserRepository:
         factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments: ['App:User']
+        arguments: ['App\Entity\User']
 
     #############
     # LISTENERS #
