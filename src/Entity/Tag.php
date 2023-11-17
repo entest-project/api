@@ -20,7 +20,7 @@ class Tag
      * @Serializer\Groups({"LIST_TAGS", "READ_FEATURE", "READ_PATH", "READ_STEP", "READ_TAG"})
      * @Serializer\Type("string")
      */
-    public string $id;
+    public ?string $id = null;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project")
