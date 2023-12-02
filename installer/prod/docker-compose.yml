@@ -1,0 +1,58 @@
+version: "3.4"
+
+services:
+  main:
+    build:
+      context: ../..
+      target: app_main
+      dockerfile: ./installer/prod/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - php_socket:/var/run/php
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-dentest}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-dentest}?serverVersion=${POSTGRES_VERSION:-15}
+      ALLOWED_ORIGIN: ${ALLOWED_ORIGIN:-https://dentest.tech}
+      JWT_PASSPHRASE: ${JWT_PASSPHRASE:-passphrase}
+      MAILER_DSN: ${MAILER_DSN:-}
+    networks:
+      - db
+  caddy:
+    build:
+      context: ../..
+      target: app_caddy
+      dockerfile: ./installer/prod/Dockerfile
+    depends_on:
+      - main
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-api.dentest.tech, caddy:80}
+    restart: unless-stopped
+    volumes:
+      - php_socket:/var/run/php
+      - caddy_data:/data
+      - caddy_config:/config
+      - ${IMAGES_VOLUME:-./public/images}:/srv/app/public/images
+    ports:
+      - target: 80
+        published: ${HTTP_PORT:-80}
+        protocol: tcp
+  database:
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dentest}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-dentest}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+      - ${POSTGRES_DATA:-./docker/db/data}:/var/lib/postgresql/data:rw
+    user: root
+    networks:
+      - db
+volumes:
+  php_socket:
+  caddy_data:
+  caddy_config:
+  db-data:
+
+networks:
+  db:
+    driver: bridge
