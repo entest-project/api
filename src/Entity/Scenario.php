@@ -5,9 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class Scenario
 {
     const TYPE_BACKGROUND = 'background';
@@ -15,59 +13,50 @@ class Scenario
     const TYPE_REGULAR = 'regular';
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     public ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Feature", inversedBy="scenarios")
-     */
+    #[ORM\ManyToOne(targetEntity: Feature::class, inversedBy: 'scenarios')]
     public Feature $feature;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="scenario_type")
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Column(type: 'string', columnDefinition: 'scenario_type')]
     public string $type;
 
     /**
-     * @ORM\Column(type="string")
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Column(type: 'string')]
     public string $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ScenarioStep", mappedBy="scenario", cascade={"all"}, orphanRemoval=true)
-     * @ORM\OrderBy({"priority": "ASC"})
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\OneToMany(mappedBy: 'scenario', targetEntity: ScenarioStep::class, cascade: ['all'], orphanRemoval: true)]
+    #[ORM\OrderBy(['priority' => 'ASC'])]
     public iterable $steps = [];
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Column(type: 'json', nullable: true)]
     public ?array $examples = null;
 
     /**
-     * @ORM\Column(type="integer")
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Column(type: 'integer')]
     public int $priority;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\ManyToMany(targetEntity: Tag::class)]
     public iterable $tags = [];
 }

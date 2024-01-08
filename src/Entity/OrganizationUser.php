@@ -2,32 +2,27 @@
 
 namespace App\Entity;
 
+use App\Repository\OrganizationUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\OrganizationUserRepository")
- */
+#[ORM\Entity(repositoryClass: OrganizationUserRepository::class)]
 class OrganizationUser
 {
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="users")
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Organization::class, inversedBy: 'users')]
     public Organization $organization;
 
     /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="organizations")
-     *
      * @Serializer\Groups({"LIST_ORGANIZATION_USERS", "READ_ORGANIZATION_USER"})
      */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'organizations')]
     public User $user;
 
     /**
-     * @ORM\Column(type="json")
-     *
      * @Serializer\Groups({"LIST_ORGANIZATION_USERS", "READ_ORGANIZATION_USER"})
      */
+    #[ORM\Column(type: 'json')]
     public array $permissions = [];
 }

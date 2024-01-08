@@ -2,40 +2,34 @@
 
 namespace App\Entity;
 
+use App\Repository\ProjectUserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\ProjectUserRepository")
- * @ORM\Table(indexes={@ORM\Index(columns={"token"})})
- */
+#[ORM\Entity(repositoryClass: ProjectUserRepository::class)]
+#[ORM\Index(columns: ['token'])]
 class ProjectUser
 {
-    /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="users")
-     */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'users')]
     public Project $project;
 
     /**
-     * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="projects")
-     *
      * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
      */
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'projects')]
     public User $user;
 
     /**
-     * @ORM\Column(type="json")
-     *
      * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
      */
+    #[ORM\Column(type: 'json')]
     public array $permissions = [];
 
     /**
-     * @ORM\Column(type="text")
-     *
      * @Serializer\Groups({"READ_PROJECT_USER_TOKEN"})
      */
+    #[ORM\Column(type: 'text')]
     public string $token = '';
 }

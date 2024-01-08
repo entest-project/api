@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\PathRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -13,64 +14,59 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(columns={"slug", "parent_id"})})
  * @ORM\HasLifecycleCallbacks
  */
+#[ORM\Entity(repositoryClass: PathRepository::class)]
+#[ORM\UniqueConstraint(columns: ['slug', 'parent_id'])]
+#[ORM\HasLifecycleCallbacks]
 class Path
 {
     private const DEFAULT_PATH_SLUG = 'root';
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     *
      * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      * @Serializer\Type("string")
      */
+    #[ORM\Id]
+    #[ORM\Column(type: 'uuid', unique: true)]
     public ?string $id = null;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Project", mappedBy="rootPath")
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
+    #[ORM\OneToOne(mappedBy: 'rootPath', targetEntity: Project::class)]
     public ?Project $project = null;
 
     /**
-     * @ORM\Column(type="string")
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH", "READ_PROJECT"})
-     *
-     * @Assert\Length(min=1, max=255, normalizer="trim")
-     * @Assert\NotBlank(normalizer="trim")
      */
+    #[ORM\Column(type: 'string')]
+    #[Assert\Length(min: 1, max: 255, normalizer: 'trim')]
+    #[Assert\NotBlank(normalizer: 'trim')]
     public string $path;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Path", inversedBy="children")
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
+    #[ORM\ManyToOne(targetEntity: Path::class, inversedBy: 'children')]
     public ?Path $parent = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Path", mappedBy="parent", cascade={"all"}, orphanRemoval=true)
-     * @ORM\OrderBy({"path": "ASC"})
-     *
      * @Serializer\Groups({"READ_PATH"})
      */
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Path::class, cascade: ['all'], orphanRemoval: true)]
+    #[ORM\OrderBy(['path' => 'ASC'])]
     public iterable $children = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Feature", mappedBy="path", cascade={"all"}, orphanRemoval=true)
-     * @ORM\OrderBy({"title": "ASC"})
-     *
      * @Serializer\Groups({"READ_PATH"})
      */
+    #[ORM\OneToMany(mappedBy: 'path', targetEntity: Feature::class, cascade: ['all'], orphanRemoval: true)]
+    #[ORM\OrderBy(['title' => 'ASC'])]
     public iterable $features = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
-     *
      * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
      */
+    #[ORM\Column(type: 'string', length: 255)]
     public string $slug;
 
     /**
@@ -78,18 +74,14 @@ class Path
      */
     public ?Project $rootProject = null;
 
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist()
+    #[ORM\PrePersist]
+    public function prePersist(): void
     {
         $this->slug = Slugify::create()->slugify($this->path) ? : self::DEFAULT_PATH_SLUG;
         $this->id = Uuid::v4()->toRfc4122();
     }
 
-    /**
-     * @ORM\PreUpdate
-     */
+    #[ORM\PreUpdate]
     public function preUpdate(): void
     {
         $this->slug = Slugify::create()->slugify($this->path) ? : self::DEFAULT_PATH_SLUG;

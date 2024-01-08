@@ -5,22 +5,18 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class InlineStepParam extends StepParam
 {
     /**
-     * @ORM\Column(type="string")
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Column(type: 'string')]
     public string $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\StepPart")
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\ManyToOne(targetEntity: StepPart::class)]
     public StepPart $stepPart;
 }

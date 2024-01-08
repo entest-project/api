@@ -6,9 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class StepPart
 {
     const TYPE_SENTENCE = 'sentence';
@@ -19,54 +17,45 @@ class StepPart
     ];
 
     /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     public ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="step_part_type")
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
+    #[ORM\Column(type: 'string', columnDefinition: 'step_part_type')]
     public string $type;
 
     /**
-     * @ORM\Column(type="string")
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
-     *
-     * @Assert\Length(min=1, max=255, normalizer="trim")
-     * @Assert\NotBlank(normalizer="trim")
      */
+    #[ORM\Column(type: 'string')]
+    #[Assert\Length(min: 1, max: 255, normalizer: 'trim')]
+    #[Assert\NotBlank(normalizer: 'trim')]
     public string $content;
 
     /**
-     * @ORM\Column(type="integer")
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
+    #[ORM\Column(type: 'integer')]
     public int $priority;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Step", inversedBy="parts")
-     */
+    #[ORM\ManyToOne(targetEntity: Step::class, inversedBy: 'parts')]
     public Step $step;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="step_part_strategy", nullable=true)
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
+    #[ORM\Column(type: 'string', nullable: true, columnDefinition: 'step_part_strategy')]
     public ?string $strategy = null;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
-     *
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
+    #[ORM\Column(type: 'json', nullable: true)]
     public ?array $choices = null;
 }

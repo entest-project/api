@@ -5,29 +5,24 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
-/**
- * @ORM\Entity
- */
+#[ORM\Entity]
 class TableStepParam extends StepParam
 {
     /**
-     * @ORM\Column(type="json")
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Column(type: 'json')]
     public array $content;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     public bool $headerColumn = false;
 
     /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     *
      * @Serializer\Groups({"READ_FEATURE"})
      */
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
     public bool $headerRow = false;
 }
