@@ -6,10 +6,16 @@ use App\Entity\Organization;
 use App\Entity\OrganizationUser;
 use App\Entity\User;
 use App\Security\OrganizationPermission;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-class OrganizationUserRepository extends EntityRepository
+class OrganizationUserRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        return parent::__construct($registry, OrganizationUser::class);
+    }
+
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

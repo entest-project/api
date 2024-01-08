@@ -8,11 +8,17 @@ use App\Entity\Path;
 use App\Entity\Project;
 use App\Entity\User;
 use App\Exception\ProjectNotFoundException;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\Persistence\ManagerRegistry;
 
-class ProjectRepository extends EntityRepository
+class ProjectRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        return parent::__construct($registry, Project::class);
+    }
+
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

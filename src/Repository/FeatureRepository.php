@@ -4,10 +4,16 @@ namespace App\Repository;
 
 use App\Entity\Feature;
 use App\Entity\Project;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-class FeatureRepository extends EntityRepository
+class FeatureRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        return parent::__construct($registry, Feature::class);
+    }
+
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

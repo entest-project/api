@@ -56,6 +56,13 @@ class Organization
 
     /**
      * @Serializer\Groups({"READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OrganizationIssueTrackerConfiguration", mappedBy="organization", cascade={"all"}, orphanRemoval=true)
+     */
+    public iterable $issueTrackerConfigurations = [];
+
+    /**
+     * @Serializer\Groups({"READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
      */
     public array $permissions = [];
 

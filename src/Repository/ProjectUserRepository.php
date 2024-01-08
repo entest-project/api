@@ -6,10 +6,16 @@ use App\Entity\Project;
 use App\Entity\ProjectUser;
 use App\Entity\User;
 use App\Security\ProjectPermission;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
-class ProjectUserRepository extends EntityRepository
+class ProjectUserRepository extends ServiceEntityRepository
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        return parent::__construct($registry, ProjectUser::class);
+    }
+
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

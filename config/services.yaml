@@ -44,37 +44,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    ################
-    # REPOSITORIES #
-    ################
-    App\Repository\FeatureRepository:
-        factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App\Entity\Feature' ]
-    App\Repository\OrganizationRepository:
-        factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App\Entity\Organization' ]
-    App\Repository\OrganizationUserRepository:
-        factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App\Entity\OrganizationUser' ]
-    App\Repository\PathRepository:
-        factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App\Entity\Path' ]
-    App\Repository\ProjectRepository:
-        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments: ['App\Entity\Project']
-    App\Repository\ProjectUserRepository:
-        factory: [ '@doctrine.orm.default_entity_manager', 'getRepository' ]
-        arguments: [ 'App\Entity\ProjectUser' ]
-    App\Repository\StepRepository:
-        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments: ['App\Entity\Step']
-    App\Repository\TagRepository:
-        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments: ['App\Entity\Tag']
-    App\Repository\UserRepository:
-        factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
-        arguments: ['App\Entity\User']
-
     #############
     # LISTENERS #
     #############
