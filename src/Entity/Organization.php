@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Organization
 {
     /**
-     * @Serializer\Groups({"LIST_ORGANIZATIONS", "LIST_PROJECTS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
+     * @Serializer\Groups({"LIST_ORGANIZATIONS", "LIST_PROJECTS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT", "READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION"})
      * @Serializer\Type("string")
      */
     #[ORM\Id]

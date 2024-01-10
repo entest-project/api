@@ -12,17 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/reset-password", methods={"POST"})
- */
+#[Route('/reset-password', methods: ['POST'])]
 class ResetPassword extends Api
 {
-    private UserManager $userManager;
-
-    public function __construct(UserManager $userManager)
-    {
-        $this->userManager = $userManager;
-    }
+    public function __construct(
+        private readonly UserManager $userManager
+    ) {}
 
     public function __invoke(Request $request): Response
     {

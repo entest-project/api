@@ -16,20 +16,14 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/pull/features", methods={"GET"}, requirements={"id": "[0-9a-z-]+"})
  */
+#[Route('/pull/features', methods: ['GET'])]
 class PullFeatures extends Api
 {
-    private AuthorizationHeaderTokenExtractor $tokenExtractor;
-
-    private FeatureManager $featureManager;
-
-    private ProjectUserRepository $projectUserRepository;
-
-    public function __construct(AuthorizationHeaderTokenExtractor $tokenExtractor, FeatureManager $featureManager, ProjectUserRepository $projectUserRepository)
-    {
-        $this->tokenExtractor = $tokenExtractor;
-        $this->featureManager = $featureManager;
-        $this->projectUserRepository = $projectUserRepository;
-    }
+    public function __construct(
+        private readonly AuthorizationHeaderTokenExtractor $tokenExtractor,
+        private readonly FeatureManager $featureManager,
+        private readonly ProjectUserRepository $projectUserRepository
+    ) {}
 
     public function __invoke(Request $request): Response
     {

@@ -8,24 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route(
- *     "/paths/{pathId}/features/{featureSlug}",
- *     methods={"GET"},
- *     requirements={
- *         "pathId": "[0-9a-f-]+",
- *         "featureSlug": "[0-9a-z-]+"
- *     }
- * )
- */
+#[Route('/paths/{pathId}/features/{featureSlug}', requirements: ['pathId' => '[0-9a-f-]+', 'featureSlug' => '[0-9a-z-]+'], methods: ['GET'])]
 class GetFeature extends Api
 {
-    private FeatureRepository $featureRepository;
-
-    public function __construct(FeatureRepository $featureRepository)
-    {
-        $this->featureRepository = $featureRepository;
-    }
+    public function __construct(
+        private readonly FeatureRepository $featureRepository
+    ) {}
 
     public function __invoke(string $pathId, string $featureSlug): Response
     {

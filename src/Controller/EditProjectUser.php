@@ -6,24 +6,19 @@ use App\Entity\ProjectUser;
 use App\Helper\RequestHelper;
 use App\Manager\ProjectUserManager;
 use App\Security\Voter\Verb;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/projects/{project}/users/{user}", methods={"PUT"}, requirements={"project": "[a-f0-9-]+", "user": "[a-f0-9-]+"})
- */
+#[Route('/projects/{project}/users/{user}', requirements: ['project' => '[a-f0-9-]+', 'user' => '[a-f0-9-]+'], methods: ['PUT'])]
 class EditProjectUser extends Api
 {
-    private ProjectUserManager $projectUserManager;
-
-    public function __construct(ProjectUserManager $projectUserManager)
-    {
-        $this->projectUserManager = $projectUserManager;
-    }
+    public function __construct(
+        private readonly ProjectUserManager $projectUserManager
+    ) {}
 
     public function __invoke(ProjectUser $projectUser, Request $request): Response
     {

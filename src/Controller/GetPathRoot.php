@@ -10,23 +10,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route(
- *     "/paths/{id}/root",
- *     methods={"GET"},
- *     requirements={
- *         "pathId": "[0-9a-f-]+"
- *     }
- * )
- */
+#[Route('/paths/{id}/root', requirements: ['id' => '[0-9a-f-]+'], methods: ['GET'])]
 class GetPathRoot extends Api
 {
-    private PathRepository $pathRepository;
-
-    public function __construct(PathRepository $pathRepository)
-    {
-        $this->pathRepository = $pathRepository;
-    }
+    public function __construct(
+        private readonly PathRepository $pathRepository
+    ) {}
 
     public function __invoke(Path $path): Response
     {

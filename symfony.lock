@@ -152,18 +152,6 @@
     "rollandrock/param-converter-bundle": {
         "version": "v1.2.0"
     },
-    "sensio/framework-extra-bundle": {
-        "version": "5.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.2",
-            "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
-        },
-        "files": [
-            "config/packages/sensio_framework_extra.yaml"
-        ]
-    },
     "symfony/amazon-mailer": {
         "version": "4.4",
         "recipe": {
@@ -313,9 +301,6 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.20.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.20.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.20.0"
     },
@@ -358,9 +343,6 @@
         "version": "v5.2.0"
     },
     "symfony/security-csrf": {
-        "version": "v5.2.0"
-    },
-    "symfony/security-guard": {
         "version": "v5.2.0"
     },
     "symfony/security-http": {

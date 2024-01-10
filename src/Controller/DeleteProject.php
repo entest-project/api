@@ -5,23 +5,18 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use App\Security\Voter\Verb;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/projects/{id}", methods={"DELETE"}, requirements={"id": "[0-9a-z-]+"})
- */
+#[Route('/projects/{id}', requirements: ['id' => '[0-9a-z-]+'], methods: ['DELETE'])]
 class DeleteProject extends Api
 {
-    private ProjectRepository $projectRepository;
-
-    public function __construct(ProjectRepository $projectRepository)
-    {
-        $this->projectRepository = $projectRepository;
-    }
+    public function __construct(
+        private readonly ProjectRepository $projectRepository
+    ) {}
 
     public function __invoke(Project $project): Response
     {

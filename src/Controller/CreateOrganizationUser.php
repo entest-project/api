@@ -8,28 +8,21 @@ use App\Manager\OrganizationUserManager;
 use App\Repository\OrganizationUserRepository;
 use App\Security\Voter\Verb;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/organizations/{organizationId}/users/{userId}", methods={"POST"}, requirements={"organizationId": "[a-f0-9-]+", "userId": "[a-f0-9-]+"})
- */
+#[Route('/organizations/{organizationId}/users/{userId}', requirements: ['organizationId' => '[a-f0-9-]+', 'userId' => '[a-f0-9-]+'], methods: ['POST'])]
 class CreateOrganizationUser extends Api
 {
-    private OrganizationUserManager $organizationUserManager;
-
-    private OrganizationUserRepository $organizationUserRepository;
-
-    public function __construct(OrganizationUserManager $organizationUserManager, OrganizationUserRepository $organizationUserRepository)
-    {
-        $this->organizationUserManager = $organizationUserManager;
-        $this->organizationUserRepository = $organizationUserRepository;
-    }
+    public function __construct(
+        private readonly OrganizationUserManager $organizationUserManager,
+        private readonly OrganizationUserRepository $organizationUserRepository
+    ) {}
 
     public function __invoke(string $organizationId, string $userId): Response
     {

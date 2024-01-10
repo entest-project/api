@@ -5,23 +5,18 @@ namespace App\Controller;
 use App\Entity\Path;
 use App\Repository\PathRepository;
 use App\Security\Voter\Verb;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/paths/{id}", methods={"DELETE"}, requirements={"id": "[0-9a-z-]+"})
- */
+#[Route('/paths/{id}', requirements: ['id' => '[0-9a-z-]+'], methods: ['DELETE'])]
 class DeletePath extends Api
 {
-    private PathRepository $pathRepository;
-
-    public function __construct(PathRepository $pathRepository)
-    {
-        $this->pathRepository = $pathRepository;
-    }
+    public function __construct(
+        private readonly PathRepository $pathRepository
+    ) {}
 
     public function __invoke(Path $path): Response
     {

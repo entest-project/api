@@ -6,34 +6,22 @@ use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use App\Security\Voter\Verb;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use RollandRock\ParamConverterBundle\Attribute\EntityArgument;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/projects", methods={"PUT"})
- */
+#[Route('/projects', methods: ['PUT'])]
 class EditProject extends Api
 {
-    private ProjectRepository $projectRepository;
+    public function __construct(
+        private readonly ProjectRepository $projectRepository
+    ) {}
 
-    public function __construct(ProjectRepository $projectRepository)
-    {
-        $this->projectRepository = $projectRepository;
-    }
-
-    /**
-     * @ParamConverter(
-     *     name="project",
-     *     class="App\Entity\Project",
-     *     converter="rollandrock_entity_converter"
-     * )
-     */
-    public function __invoke(Project $project): Response
+    public function __invoke(#[EntityArgument] Project $project): Response
     {
         $this->denyAccessUnlessGranted(Verb::UPDATE, $project);
 

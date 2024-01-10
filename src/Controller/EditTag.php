@@ -6,34 +6,22 @@ use App\Entity\Project;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
 use App\Security\Voter\Verb;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use RollandRock\ParamConverterBundle\Attribute\EntityArgument;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/projects/{project}/tags", methods={"PUT"})
- */
+#[Route('/projects/{project}/tags', methods: ['PUT'])]
 class EditTag extends Api
 {
-    private TagRepository $tagRepository;
+    public function __construct(
+        private readonly TagRepository $tagRepository
+    ) {}
 
-    public function __construct(TagRepository $tagRepository)
-    {
-        $this->tagRepository = $tagRepository;
-    }
-
-    /**
-     * @ParamConverter(
-     *     name="tag",
-     *     class="App\Entity\Tag",
-     *     converter="rollandrock_entity_converter"
-     * )
-     */
-    public function __invoke(Project $project, Tag $tag): Response
+    public function __invoke(Project $project, #[EntityArgument] Tag $tag): Response
     {
         if ($tag->project->id !== $project->id) {
             throw new AccessDeniedException();

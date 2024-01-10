@@ -8,18 +8,16 @@ use App\Repository\FeatureRepository;
 use App\Transformer\FeatureToStringTransformer;
 use Doctrine\Common\Collections\Collection;
 
-class FeatureManager
+readonly class FeatureManager
 {
-    private FeatureRepository $featureRepository;
+    public function __construct(
+        private FeatureRepository $featureRepository,
+        private FeatureToStringTransformer $featureToStringTransformer
+    ) {}
 
-    private FeatureToStringTransformer $featureToStringTransformer;
-
-    public function __construct(FeatureRepository $featureRepository, FeatureToStringTransformer $featureToStringTransformer)
-    {
-        $this->featureRepository = $featureRepository;
-        $this->featureToStringTransformer = $featureToStringTransformer;
-    }
-
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
     public function pull(Project $project, string $inlineParameterWrapper)
     {
         $features = $this->featureRepository->findPullableByRootProject($project);

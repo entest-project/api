@@ -5,33 +5,21 @@ namespace App\Controller;
 use App\Entity\Step;
 use App\Repository\StepRepository;
 use App\Security\Voter\Verb;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use RollandRock\ParamConverterBundle\Attribute\EntityArgument;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/steps", methods={"POST", "PUT"})
- */
+#[Route('/steps', methods: ['POST', 'PUT'])]
 class SaveStep extends Api
 {
-    private StepRepository $stepRepository;
+    public function __construct(
+        private readonly StepRepository $stepRepository
+    ) {}
 
-    public function __construct(StepRepository $stepRepository)
-    {
-        $this->stepRepository = $stepRepository;
-    }
-
-    /**
-     * @ParamConverter(
-     *     name="step",
-     *     class="App\Entity\Step",
-     *     converter="rollandrock_entity_converter"
-     * )
-     */
-    public function __invoke(Step $step): Response
+    public function __invoke(#[EntityArgument] Step $step): Response
     {
         $this->denyAccessUnlessGranted(Verb::UPDATE, $step);
 

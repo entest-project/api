@@ -14,20 +14,13 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-/**
- * @Route("/me", methods={"PUT"})
- */
+#[Route('/me', methods: ['PUT'])]
 class EditMe extends Api
 {
-    private TokenStorageInterface $tokenStorage;
-
-    private UserManager $userManager;
-
-    public function __construct(TokenStorageInterface $tokenStorage, UserManager $userManager)
-    {
-        $this->tokenStorage = $tokenStorage;
-        $this->userManager = $userManager;
-    }
+    public function __construct(
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly UserManager $userManager
+    ) {}
 
     public function __invoke(Request $request): Response
     {

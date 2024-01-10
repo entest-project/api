@@ -5,23 +5,18 @@ namespace App\Controller;
 use App\Entity\Feature;
 use App\Repository\FeatureRepository;
 use App\Security\Voter\Verb;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/features/{id}", methods={"DELETE"}, requirements={"id": "[0-9a-z-]+"})
- */
+#[Route('/features/{id}', requirements: ['id' => '[0-9a-z-]+'], methods: ['DELETE'])]
 class DeleteFeature extends Api
 {
-    private FeatureRepository $featureRepository;
-
-    public function __construct(FeatureRepository $featureRepository)
-    {
-        $this->featureRepository = $featureRepository;
-    }
+    public function __construct(
+        private readonly FeatureRepository $featureRepository
+    ) {}
 
     public function __invoke(Feature $feature): Response
     {

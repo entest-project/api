@@ -13,23 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/pull/paths", methods={"GET"}, requirements={"id": "[0-9a-z-]+"})
- */
+#[Route('/pull/paths', methods: ['GET'])]
 class PullPaths extends Api
 {
-    private AuthorizationHeaderTokenExtractor $tokenExtractor;
-
-    private PathRepository $pathRepository;
-
-    private ProjectUserRepository $projectUserRepository;
-
-    public function __construct(AuthorizationHeaderTokenExtractor $tokenExtractor, PathRepository $pathRepository, ProjectUserRepository $projectUserRepository)
-    {
-        $this->tokenExtractor = $tokenExtractor;
-        $this->pathRepository = $pathRepository;
-        $this->projectUserRepository = $projectUserRepository;
-    }
+    public function __construct(
+        private readonly AuthorizationHeaderTokenExtractor $tokenExtractor,
+        private readonly PathRepository $pathRepository,
+        private readonly ProjectUserRepository $projectUserRepository
+    ) {}
 
     public function __invoke(Request $request): Response
     {

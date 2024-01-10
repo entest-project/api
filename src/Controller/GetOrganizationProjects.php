@@ -7,17 +7,12 @@ use App\Manager\OrganizationManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/organizations/{slug}/projects", methods={"GET"}, requirements={"id": "[0-9a-z-]+"})
- */
+#[Route('/organizations/{slug}/projects', requirements: ['id' => '[0-9a-z-]+'], methods: ['GET'])]
 class GetOrganizationProjects extends Api
 {
-    private OrganizationManager $organizationManager;
-
-    public function __construct(OrganizationManager $organizationManager)
-    {
-        $this->organizationManager = $organizationManager;
-    }
+    public function __construct(
+        private readonly OrganizationManager $organizationManager
+    ) {}
 
     public function __invoke(Organization $organization): Response
     {

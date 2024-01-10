@@ -6,24 +6,19 @@ use App\Entity\OrganizationUser;
 use App\Helper\RequestHelper;
 use App\Manager\OrganizationUserManager;
 use App\Security\Voter\Verb;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/organizations/{organization}/users/{user}", methods={"PUT"}, requirements={"project": "[a-f0-9-]+", "user": "[a-f0-9-]+"})
- */
+#[Route('/organizations/{organization}/users/{user}', requirements: ['project' => '[a-f0-9-]+', 'user' => '[a-f0-9-]+'], methods: ['PUT'])]
 class EditOrganizationUser extends Api
 {
-    private OrganizationUserManager $organizationUserManager;
-
-    public function __construct(OrganizationUserManager $organizationUserManager)
-    {
-        $this->organizationUserManager = $organizationUserManager;
-    }
+    public function __construct(
+        private readonly OrganizationUserManager $organizationUserManager
+    ) {}
 
     public function __invoke(OrganizationUser $organizationUser, Request $request): Response
     {

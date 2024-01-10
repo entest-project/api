@@ -8,18 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/organizations/{organizationSlug}/projects/{projectSlug}", methods={"GET"}, requirements={"organizationSlug": "[0-9a-z-]+", "projectSlug": "[0-9a-z-]+"})
- * @Route("/projects/{projectSlug}", methods={"GET"}, requirements={"projectSlug": "[0-9a-z-]+"})
- */
+#[Route('/organizations/{organizationSlug}/projects/{projectSlug}', requirements: ['organizationSlug' => '[0-9a-z-]+', 'projectSlug' => '[0-9a-z-]+'], methods: ['GET'])]
+#[Route('/projects/{projectSlug}', requirements: ['projectSlug' => '[0-9a-z-]+'], methods: ['GET'])]
 class GetProject extends Api
 {
-    private ProjectRepository $projectRepository;
-
-    public function __construct(ProjectRepository $projectRepository)
-    {
-        $this->projectRepository = $projectRepository;
-    }
+    public function __construct(
+        private readonly ProjectRepository $projectRepository
+    ) {}
 
     public function __invoke(string $projectSlug, string $organizationSlug = null): Response
     {

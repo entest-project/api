@@ -8,17 +8,12 @@ use App\Security\Voter\Verb;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/organizations/{slug}/users", methods={"GET"}, requirements={"organizationSlug": "[0-9a-z-]+"})
- */
+#[Route('/organizations/{slug}/users', requirements: ['slug' => '[0-9a-z-]+'], methods: ['GET'])]
 class GetOrganizationUsers extends Api
 {
-    private OrganizationUserRepository $organizationUserRepository;
-
-    public function __construct(OrganizationUserRepository $organizationUserRepository)
-    {
-        $this->organizationUserRepository = $organizationUserRepository;
-    }
+    public function __construct(
+        private readonly OrganizationUserRepository $organizationUserRepository
+    ) {}
 
     public function __invoke(Organization $organization): Response
     {

@@ -5,25 +5,20 @@ namespace App\Controller;
 use App\Entity\OrganizationUser;
 use App\Repository\OrganizationUserRepository;
 use App\Security\Voter\Verb;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/organizations/{organization}/users/{user}", methods={"DELETE"}, requirements={"organization": "[a-f0-9-]+", "user": "[a-f0-9-]+"})
- */
+#[Route('/organizations/{organization}/users/{user}', requirements: ['organization' => '[a-f0-9-]+', 'user' => '[a-f0-9-]+'], methods: ['DELETE'])]
 class DeleteOrganizationUser extends Api
 {
-    private OrganizationUserRepository $organizationUserRepository;
-
-    public function __construct(OrganizationUserRepository $organizationUserRepository)
-    {
-        $this->organizationUserRepository = $organizationUserRepository;
-    }
+    public function __construct(
+        private readonly OrganizationUserRepository $organizationUserRepository
+    ) {}
 
     public function __invoke(OrganizationUser $organizationUser, Request $request): Response
     {

@@ -11,20 +11,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/users", methods={"GET"})
- */
+#[Route('/users', methods: ['GET'])]
 class GetUsers extends Api
 {
-    private OrganizationRepository $organizationRepository;
-
-    private UserRepository $userRepository;
-
-    public function __construct(OrganizationRepository $organizationRepository, UserRepository $userRepository)
-    {
-        $this->organizationRepository = $organizationRepository;
-        $this->userRepository = $userRepository;
-    }
+    public function __construct(
+        private readonly OrganizationRepository $organizationRepository,
+        private readonly UserRepository $userRepository
+    ) {}
 
     public function __invoke(Request $request): Response
     {

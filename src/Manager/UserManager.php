@@ -7,20 +7,15 @@ use App\Exception\UserAlreadyExistsException;
 use App\Exception\UserNotFoundException;
 use App\Model\Request\UpdateMeRequestModel;
 use App\Repository\UserRepository;
-use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Uid\Uuid;
 
-class UserManager
+readonly class UserManager
 {
-    private UserRepository $userRepository;
-
-    private EncoderFactoryInterface $encoderFactory;
-
-    public function __construct(UserRepository $userRepository, EncoderFactoryInterface $encoderFactory)
-    {
-        $this->userRepository = $userRepository;
-        $this->encoderFactory = $encoderFactory;
-    }
+    public function __construct(
+        private UserRepository $userRepository,
+        private PasswordHasherFactoryInterface $passwordHasherFactory
+    ) {}
 
     /**
      * @throws UserAlreadyExistsException
@@ -34,7 +29,7 @@ class UserManager
             throw new UserAlreadyExistsException();
         }
 
-        $user->password = $this->encoderFactory->getEncoder(User::class)->encodePassword($user->password, '');
+        $user->password = $this->passwordHasherFactory->getPasswordHasher(User::class)->hash($user->password, '');
         $this->userRepository->save($user);
 
         return $user;
@@ -56,7 +51,7 @@ class UserManager
         $user->email = $model->email;
 
         if ('' !== trim($model->password)) {
-            $user->password = $this->encoderFactory->getEncoder(User::class)->encodePassword($model->password, '');
+            $user->password = $this->passwordHasherFactory->getPasswordHasher(User::class)->hash($model->password, '');
         }
 
         $this->userRepository->save($user);
@@ -77,7 +72,7 @@ class UserManager
         }
 
         $user->resetPasswordCode = null;
-        $user->password = $this->encoderFactory->getEncoder(User::class)->encodePassword($newPassword, '');
+        $user->password = $this->passwordHasherFactory->getPasswordHasher(User::class)->hash($newPassword, '');
         $this->userRepository->save($user);
 
         return $user;

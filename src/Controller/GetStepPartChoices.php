@@ -10,17 +10,12 @@ use App\Security\Voter\Verb;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/step-parts/{id}/choices", methods={"GET"})
- */
+#[Route('/step-parts/{id}/choices', methods: ['GET'])]
 class GetStepPartChoices extends Api
 {
-    private InlineStepParamRepository $stepParamRepository;
-
-    public function __construct(InlineStepParamRepository $stepParamRepository)
-    {
-        $this->stepParamRepository = $stepParamRepository;
-    }
+    public function __construct(
+        private readonly InlineStepParamRepository $stepParamRepository
+    ) {}
 
     public function __invoke(StepPart $stepPart): Response
     {

@@ -10,17 +10,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/reset-password-request", methods={"POST"})
- */
+#[Route('/reset-password-request', methods: ['POST'])]
 class ResetPasswordRequest extends Api
 {
-    private UserManager $userManager;
-
-    public function __construct(UserManager $userManager)
-    {
-        $this->userManager = $userManager;
-    }
+    public function __construct(
+        private readonly UserManager $userManager
+    ) {}
 
     public function __invoke(Request $request): Response
     {
