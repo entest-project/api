@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class OrganizationIssueTrackerConfiguration
 {
     /**
-     * @Serializer\Groups({"LIST_ORGANIZATION_ISSUE_TRACKER_CONFIGURATIONS", "READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
+     * @Serializer\Groups({"LIST_ORGANIZATION_ISSUE_TRACKER_CONFIGURATIONS", "READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT", "READ_FEATURE_ISSUE_TRACKER_CONFIGURATION"})
      * @Serializer\Type("string")
      */
     #[ORM\Id]
@@ -45,13 +45,24 @@ class OrganizationIssueTrackerConfiguration
     #[Assert\NotBlank]
     public string $apiUrl;
 
+    /**
+     * @Serializer\Groups({"READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION", "LIST_ORGANIZATION_ISSUE_TRACKER_CONFIGURATIONS"})
+     * @Serializer\Type("string")
+     */
+    #[ORM\Column(type: 'string', length: 255)]
+    public string $userIdentifier = '';
+
+    /**
+     * @Serializer\Groups({"READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION", "LIST_ORGANIZATION_ISSUE_TRACKER_CONFIGURATIONS"})
+     * @Serializer\Type("string")
+     */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     public string $accessToken;
 
     /**
      * @Serializer\VirtualProperty(name="issueTracker")
-     * @Serializer\Groups({"LIST_ORGANIZATION_ISSUE_TRACKER_CONFIGURATIONS", "READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
+     * @Serializer\Groups({"LIST_ORGANIZATION_ISSUE_TRACKER_CONFIGURATIONS", "READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT", "READ_FEATURE_ISSUE_TRACKER_CONFIGURATION"})
      */
     public function issueTracker(): string
     {

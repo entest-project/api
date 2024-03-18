@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Transformer;
 
 use App\Entity\Feature;
@@ -10,49 +12,31 @@ use App\Entity\ScenarioStep;
 use App\Entity\Step;
 use App\Entity\StepPart;
 use App\Entity\TableStepParam;
-use App\Entity\Tag;
 use Doctrine\Common\Collections\Collection;
 
-class FeatureToStringTransformer
+class FeatureToJiraCommentTransformer
 {
-    private string $inlineParameterWrapper;
-
     public function transform(Feature $feature): string
     {
         return sprintf(
-            "%s%s\n%s\n%s",
-            $this->getTags($feature->tags),
-            $this->getTitle($feature),
+            "%s\n%s",
             $this->getDescription($feature),
             $this->getScenarios($feature)
         );
     }
 
-    public function setInlineParameterWrapper(string $inlineParameterWrapper): void
-    {
-        $this->inlineParameterWrapper = $inlineParameterWrapper;
-    }
-
-    private function getTags(iterable $tags): string
-    {
-        if ($tags instanceof Collection) {
-            $tags = $tags->toArray();
-        }
-        if (count($tags) > 0) {
-            return implode(' ', array_map(fn (Tag $tag) => sprintf('@%s', str_replace(' ', '', $tag->name)), $tags)) . "\n";
-        }
-
-        return '';
-    }
-
-    private function getTitle(Feature $feature): string
-    {
-        return sprintf('Feature: %s', $feature->title);
-    }
-
     private function getDescription(Feature $feature): string
     {
-        return implode("\n", array_map(fn (string $row): string => sprintf('  %s', $row), explode("\n", $feature->description))) . "\n";
+        return sprintf(
+            "{panel:bgColor=#e3fcef}\n%s\n{panel}",
+            implode(
+                "\n",
+                array_map(
+                    static fn (string $line) => "*$line*",
+                    explode("\n", $feature->description)
+                )
+            )
+        );
     }
 
     private function getScenarios(Feature $feature): string
@@ -64,11 +48,8 @@ class FeatureToStringTransformer
 
     private function getScenario(Scenario $scenario): string
     {
-        $tags = $this->getTags($scenario->tags);
-
         return sprintf(
-            "%s%s\n%s%s",
-            $tags ? '  ' . $tags : '',
+            "%s\n%s%s\n{panel}",
             $this->getScenarioHeadline($scenario),
             $this->getSteps($scenario),
             $this->getExamples($scenario)
@@ -78,10 +59,10 @@ class FeatureToStringTransformer
     private function getScenarioHeadline(Scenario $scenario): string
     {
         if ($scenario->type === Scenario::TYPE_BACKGROUND) {
-            return '  Background:';
+            return "{panel:bgColor=#eae6ff}\n*Background:*\n\n";
         }
 
-        return sprintf('  %s: %s', $scenario->type === Scenario::TYPE_REGULAR ? 'Scenario' : 'Scenario outline', $scenario->title);
+        return sprintf("{panel:bgColor=#deebff}\n*%s: %s*\n\n", $scenario->type === Scenario::TYPE_REGULAR ? 'Scenario' : 'Scenario outline', $scenario->title);
     }
 
     private function getSteps(Scenario $scenario): string
@@ -98,20 +79,14 @@ class FeatureToStringTransformer
 
     private function getStepAdverb(ScenarioStep $step): string
     {
-        switch ($step->adverb) {
-            case ScenarioStep::ADVERB_GIVEN:
-                return '    Given';
-            case ScenarioStep::ADVERB_WHEN:
-                return '    When';
-            case ScenarioStep::ADVERB_THEN:
-                return '    Then';
-            case ScenarioStep::ADVERB_AND:
-                return '    And';
-            case ScenarioStep::ADVERB_BUT:
-                return '    But';
-            default:
-                return '    ';
-        }
+        return match ($step->adverb) {
+            ScenarioStep::ADVERB_GIVEN => '*Given*',
+            ScenarioStep::ADVERB_WHEN => '*When*',
+            ScenarioStep::ADVERB_THEN => '*Then*',
+            ScenarioStep::ADVERB_AND => '*And*',
+            ScenarioStep::ADVERB_BUT => '*But*',
+            default => '',
+        };
     }
 
     private function getStepSentence(ScenarioStep $step): string
@@ -130,11 +105,11 @@ class FeatureToStringTransformer
     {
         foreach ($step->params as $param) {
             if (!$param instanceof InlineStepParam) {
-                continue 1;
+                continue;
             }
 
             if ($param->stepPart->id === $part->id) {
-                return sprintf('%s%s%s', $this->inlineParameterWrapper, $param->content, $this->inlineParameterWrapper);
+                return sprintf('_%s_', $param->content);
             }
         }
 
@@ -160,8 +135,14 @@ class FeatureToStringTransformer
         }
 
         return sprintf(
-            "\n      \"\"\"\n%s\n      \"\"\"",
-            implode("\n", array_map(fn (string $row) => sprintf('      %s', $row), explode("\n", $str)))
+            "\n%s",
+            implode(
+                "\n",
+                array_map(
+                    static fn (string $line) => sprintf('{{%s}}', $line),
+                    explode("\n", $str)
+                )
+            )
         );
     }
 
@@ -191,7 +172,7 @@ class FeatureToStringTransformer
             $out[] = $this->getTableColumn($columnsLengths, $column, $columnId);
         }
 
-        return sprintf("      |%s|", implode('|', $out));
+        return sprintf("{{|%s|}}", implode('|', $out));
     }
 
     private function getTableColumn(array $columnsLengths, string $column, int $columnId): string
@@ -211,6 +192,14 @@ class FeatureToStringTransformer
         foreach ($table as $row) {
             foreach ($row as $columnId => $column) {
                 $length = mb_strlen($column);
+
+                if (!array_key_exists($columnId, $lengths)) {
+                    var_dump($table);
+                    var_dump($lengths);
+                    var_dump($columnId);
+                    die;
+                }
+
                 if ($length > $lengths[$columnId]) {
                     $lengths[$columnId] = $length;
                 }
@@ -226,7 +215,18 @@ class FeatureToStringTransformer
             return '';
         }
 
-        return sprintf("\n    Examples:\n%s", $this->getTable(array_merge([array_keys($scenario->examples)], $this->turnExamplesValuesIntoRows(count(array_keys($scenario->examples)), array_values($scenario->examples)))));
+        return sprintf(
+            "\n+Examples:+\n\n%s",
+            $this->getTable(
+                array_merge(
+                    [array_keys($scenario->examples)],
+                    $this->turnExamplesValuesIntoRows(
+                        count(array_keys($scenario->examples)),
+                        array_values($scenario->examples)
+                    )
+                )
+            )
+        );
     }
 
     private function turnExamplesValuesIntoRows(int $length, array $values): array

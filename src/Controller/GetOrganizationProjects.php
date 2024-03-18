@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Organization;
 use App\Manager\OrganizationManager;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/organizations/{slug}/projects', requirements: ['id' => '[0-9a-z-]+'], methods: ['GET'])]
 class GetOrganizationProjects extends Api

@@ -71,6 +71,12 @@ class Feature
     public iterable $tags = [];
 
     /**
+     * @Serializer\Groups({"READ_FEATURE"})
+     */
+    #[ORM\OneToMany(mappedBy: 'feature', targetEntity: Issue::class, cascade: ['all'], orphanRemoval: true)]
+    public iterable $issues = [];
+
+    /**
      * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
      */
     public ?Project $rootProject = null;

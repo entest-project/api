@@ -9,7 +9,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/projects/{project}/users/{user}/token', requirements: ['project' => '[0-9a-f-]+', 'user' => '[0-9a-f-]+'], methods: ['PUT'])]
 class CreateProjectUserToken extends Api

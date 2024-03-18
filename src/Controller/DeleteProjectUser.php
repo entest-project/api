@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/projects/{project}/users/{user}', requirements: ['project' => '[a-f0-9-]+', 'user' => '[a-f0-9-]+'], methods: ['DELETE'])]
 class DeleteProjectUser extends Api

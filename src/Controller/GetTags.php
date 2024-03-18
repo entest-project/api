@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Repository\TagRepository;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/projects/{project}/tags', methods: ['GET'])]
 class GetTags extends Api

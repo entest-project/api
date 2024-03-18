@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/organizations/{organizationId}/users/{userId}', requirements: ['organizationId' => '[a-f0-9-]+', 'userId' => '[a-f0-9-]+'], methods: ['POST'])]
 class CreateOrganizationUser extends Api

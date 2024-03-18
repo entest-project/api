@@ -12,7 +12,7 @@ use RollandRock\ParamConverterBundle\Attribute\EntityArgument;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/features', methods: ['POST'])]
 class CreateFeature extends Api

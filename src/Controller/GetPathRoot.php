@@ -8,7 +8,7 @@ use App\Repository\PathRepository;
 use App\Security\Voter\Verb;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/paths/{id}/root', requirements: ['id' => '[0-9a-f-]+'], methods: ['GET'])]
 class GetPathRoot extends Api

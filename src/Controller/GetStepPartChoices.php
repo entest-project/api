@@ -8,7 +8,7 @@ use App\Entity\StepPart;
 use App\Repository\InlineStepParamRepository;
 use App\Security\Voter\Verb;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/step-parts/{id}/choices', methods: ['GET'])]
 class GetStepPartChoices extends Api
