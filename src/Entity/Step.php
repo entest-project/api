@@ -46,6 +46,12 @@ class Step
     /**
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
      */
+    #[ORM\Column(type: 'json', nullable: true)]
+    public ?array $extraParamTemplate;
+
+    /**
+     * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
+     */
     #[ORM\OneToMany(mappedBy: 'step', targetEntity: StepPart::class, cascade: ['all'], orphanRemoval: true)]
     #[ORM\OrderBy(['priority' => 'ASC'])]
     public iterable $parts = [];
