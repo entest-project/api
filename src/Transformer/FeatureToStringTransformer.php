@@ -20,7 +20,7 @@ class FeatureToStringTransformer
     public function transform(Feature $feature): string
     {
         return sprintf(
-            "%s%s\n%s\n%s",
+            "%s%s\n%s\n%s\n",
             $this->getTags($feature->tags),
             $this->getTitle($feature),
             $this->getDescription($feature),
