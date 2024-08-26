@@ -28,6 +28,7 @@ readonly class FeatureManager
     private function featureToPulledElement(Feature $feature): array
     {
         return [
+            'id' => $feature->id,
             'displayPath' => $feature->getDisplayRootPath(),
             'path' => $feature->getRootPath() . '.feature',
             'feature' => $this->featureToStringTransformer->transform($feature)
