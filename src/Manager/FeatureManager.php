@@ -17,21 +17,26 @@ readonly class FeatureManager
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function pull(Project $project, string $inlineParameterWrapper): array
+    public function pull(Project $project, string $inlineParameterWrapper, bool $withId): array
     {
         $features = $this->featureRepository->findPullableByRootProject($project);
         $this->featureToStringTransformer->setInlineParameterWrapper($inlineParameterWrapper);
 
-        return array_map(fn (Feature $feature): array => $this->featureToPulledElement($feature), $features);
+        return array_map(fn (Feature $feature): array => $this->featureToPulledElement($feature, $withId), $features);
     }
 
-    private function featureToPulledElement(Feature $feature): array
+    private function featureToPulledElement(Feature $feature, bool $withId): array
     {
-        return [
-            'id' => $feature->id,
+        $element = [
             'displayPath' => $feature->getDisplayRootPath(),
             'path' => $feature->getRootPath() . '.feature',
             'feature' => $this->featureToStringTransformer->transform($feature)
         ];
+
+        if ($withId) {
+            $element['id'] = $feature->id;
+        }
+
+        return $element;
     }
 }
