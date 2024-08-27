@@ -28,4 +28,4 @@ jobs:
           echo "Logging Docker in Github package registry" &&
           ssh -o StrictHostKeyChecking=no deployer-agent@$DEPLOY_TO "echo $CR_PAT | docker login ghcr.io -u $ACTOR --password-stdin" &&
           echo "Running container" &&
-          ssh -o StrictHostKeyChecking=no deployer-agent@$DEPLOY_TO "cd $DEPLOY_DIR && ALLOWED_ORIGIN=https://dentest.tech COMPOSE_PROJECT_NAME=dentest_api HTTP_PORT=8002 POSTGRES_DATA=/var/www/dockerized-dentest-api/data MAILER_DSN=$MAILER_DSN SERVER_NAME=http://127.0.0.1 docker compose -f ./installer/prod/docker-compose.yml up -d --remove-orphans --build"
+          ssh -o StrictHostKeyChecking=no deployer-agent@$DEPLOY_TO "cd $DEPLOY_DIR && ALLOWED_ORIGIN=https://dentest.tech COMPOSE_PROJECT_NAME=dentest_api HTTP_PORT=8002 JWT_CERTS=/var/www/dockerized-dentest-api/jwt POSTGRES_DATA=/var/www/dockerized-dentest-api/data MAILER_DSN=$MAILER_DSN SERVER_NAME=http://127.0.0.1 docker compose -f ./installer/prod/docker-compose.yml up -d --remove-orphans --build"

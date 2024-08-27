@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
     volumes:
       - php_socket:/var/run/php
-      - ./jwt:/srv/app/config/jwt
+      - ${JWT_CERTS:-./docker/jwt}:/srv/app/config/jwt
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-dentest}:${POSTGRES_PASSWORD:-ChangeMe}@database:5432/${POSTGRES_DB:-dentest}?serverVersion=${POSTGRES_VERSION:-15}
       ALLOWED_ORIGIN: ${ALLOWED_ORIGIN:-https://dentest.tech}
