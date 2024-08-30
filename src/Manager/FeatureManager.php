@@ -4,13 +4,16 @@ namespace App\Manager;
 
 use App\Entity\Feature;
 use App\Entity\Project;
+use App\Entity\Scenario;
 use App\Repository\FeatureRepository;
+use App\Repository\ScenarioRepository;
 use App\Transformer\FeatureToStringTransformer;
 
 readonly class FeatureManager
 {
     public function __construct(
         private FeatureRepository $featureRepository,
+        private ScenarioRepository $scenarioRepository,
         private FeatureToStringTransformer $featureToStringTransformer
     ) {}
 
@@ -23,6 +26,13 @@ readonly class FeatureManager
         $this->featureToStringTransformer->setInlineParameterWrapper($inlineParameterWrapper);
 
         return array_map(fn (Feature $feature): array => $this->featureToPulledElement($feature, $withId), $features);
+    }
+
+    public function findFeaturesWithBackgrounds(Project $project): iterable
+    {
+        $backgrounds = $this->scenarioRepository->findBackgroundScenariosInProject($project);
+
+        return array_map(fn (Scenario $scenario): array => $scenario->feature, $backgrounds);
     }
 
     private function featureToPulledElement(Feature $feature, bool $withId): array

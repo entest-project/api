@@ -18,11 +18,11 @@ class Step
 
     /**
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})
+     * @Serializer\Type("string")
      */
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    public ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    public string $id;
 
     /**
      * @Serializer\Groups({"READ_FEATURE", "READ_STEP"})

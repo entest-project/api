@@ -28,11 +28,11 @@ abstract class StepParam
 {
     /**
      * @Serializer\Groups({"READ_FEATURE"})
+     * @Serializer\Type("string")
      */
     #[ORM\Id]
-    #[ORM\Column(type: 'integer')]
-    #[ORM\GeneratedValue(strategy: 'AUTO')]
-    public ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    public string $id;
 
     #[ORM\ManyToOne(targetEntity: ScenarioStep::class, inversedBy: 'params')]
     public ScenarioStep $step;
