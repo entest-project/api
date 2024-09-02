@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use App\Serializer\Groups;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,56 +20,70 @@ class Project
     public const VISIBILITY_INTERNAL = 'internal';
     public const VISIBILITY_PRIVATE = 'private';
 
-    /**
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT", "READ_STEP"})
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Groups([
+        Groups::ListProjects->value,
+        Groups::ReadFeature->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value,
+        Groups::ReadStep->value
+    ])]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     public string $id;
 
-    /**
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([
+        Groups::ListProjects->value,
+        Groups::ReadFeature->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     #[ORM\Column(type: 'string')]
     #[Assert\Length(min: 1, max: 255, normalizer: 'trim')]
     public string $title;
 
-    /**
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([
+        Groups::ListProjects->value,
+        Groups::ReadFeature->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     #[ORM\Column(type: 'string', columnDefinition: 'project_visibility')]
     public string $visibility;
 
-    /**
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([Groups::ListProjects->value, Groups::ReadProject->value])]
     #[ORM\OneToOne(inversedBy: 'project', targetEntity: Path::class, cascade: ['all'])]
     public Path $rootPath;
 
-    /**
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([
+        Groups::ListProjects->value,
+        Groups::ReadFeature->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     #[ORM\ManyToOne(targetEntity: Organization::class, inversedBy: 'projects')]
     public ?Organization $organization = null;
 
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: ProjectUser::class, cascade: ['all'], orphanRemoval: true)]
     public iterable $users = [];
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_PATH", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([
+        Groups::ReadFeature->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     public array $permissions = [];
 
-    /**
-     * @Serializer\Groups({"LIST_PROJECTS", "READ_FEATURE", "READ_PATH", "READ_PROJECT", "READ_STEP"})
-     */
+    #[Serializer\Groups([
+        Groups::ListProjects->value,
+        Groups::ReadFeature->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value,
+        Groups::ReadStep->value
+    ])]
     #[ORM\Column(type: 'string', length: 255)]
     public string $slug;
 
-    /**
-     * @Serializer\Exclude
-     */
+    #[Serializer\Ignore]
     #[ORM\OneToMany(mappedBy: 'project', targetEntity: Step::class, cascade: ['all'], orphanRemoval: true)]
     public iterable $steps = [];
 

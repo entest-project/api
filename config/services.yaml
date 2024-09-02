@@ -12,19 +12,6 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    _instanceof:
-        App\Controller\Api:
-            calls:
-                - method: setEventDispatcher
-                  arguments:
-                      - "@event_dispatcher"
-                - method: setSerializer
-                  arguments:
-                      - "@jms_serializer"
-                - method: setValidator
-                  arguments:
-                      - "@validator"
-
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -50,18 +37,6 @@ services:
     App\Event\Listener\MailListener:
         tags:
             - { name: kernel.event_listener, event: app.mail, method: sendMail }
-    App\Event\Listener\Serializer\FeaturePreSerializeListener:
-        tags:
-            - { name: jms_serializer.event_listener, event: serializer.pre_serialize, method: preSerialize, priority: 10 }
-    App\Event\Listener\Serializer\OrganizationPreSerializeListener:
-        tags:
-            - { name: jms_serializer.event_listener, event: serializer.pre_serialize, method: preSerialize }
-    App\Event\Listener\Serializer\PathPreSerializeListener:
-        tags:
-            - { name: jms_serializer.event_listener, event: serializer.pre_serialize, method: preSerialize, priority: 10 }
-    App\Event\Listener\Serializer\ProjectPreSerializeListener:
-        tags:
-            - { name: jms_serializer.event_listener, event: serializer.pre_serialize, method: preSerialize }
 
     ###############
     # SUBSCRIBERS #

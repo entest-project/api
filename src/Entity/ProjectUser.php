@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ProjectUserRepository;
+use App\Serializer\Groups;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 
 #[ORM\Entity(repositoryClass: ProjectUserRepository::class)]
 #[ORM\Index(columns: ['token'])]
@@ -14,22 +15,16 @@ class ProjectUser
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'users')]
     public Project $project;
 
-    /**
-     * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
-     */
+    #[Serializer\Groups([Groups::ListProjectUsers->value, Groups::ReadProjectUser->value])]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'projects')]
     public User $user;
 
-    /**
-     * @Serializer\Groups({"LIST_PROJECT_USERS", "READ_PROJECT_USER"})
-     */
+    #[Serializer\Groups([Groups::ListProjectUsers->value, Groups::ReadProjectUser->value])]
     #[ORM\Column(type: 'json')]
     public array $permissions = [];
 
-    /**
-     * @Serializer\Groups({"READ_PROJECT_USER_TOKEN"})
-     */
+    #[Serializer\Groups([Groups::ReadProjectUser->value])]
     #[ORM\Column(type: 'text')]
     public string $token = '';
 }

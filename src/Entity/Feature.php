@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\FeatureRepository;
+use App\Serializer\Groups;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,69 +17,48 @@ class Feature
 {
     public const FEATURE_STATUS_DRAFT = 'draft';
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value, Groups::ReadPath->value])]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     public ?string $id = null;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\ManyToOne(targetEntity: Path::class, inversedBy: 'features')]
     public Path $path;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value, Groups::ReadPath->value])]
     #[ORM\Column(type: 'string')]
     #[Assert\Length(min: 1, max: 255, normalizer: 'trim')]
     #[Assert\NotBlank(normalizer: 'trim')]
     public string $title;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\Column(type: 'string')]
     #[Assert\Length(max: 1024, normalizer: 'trim')]
     public string $description = "As an <actor>\nI want to <action>\nSo that <consequence>";
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\OneToMany(mappedBy: 'feature', targetEntity: Scenario::class, cascade: ['all'], orphanRemoval: true)]
     #[ORM\OrderBy(['priority' => 'ASC'])]
     public iterable $scenarios = [];
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value, Groups::ReadPath->value])]
     #[ORM\Column(type: 'string', length: 255)]
     public string $slug;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value, Groups::ReadPath->value])]
     #[ORM\Column(type: 'string', columnDefinition: 'feature_status')]
     public string $status = self::FEATURE_STATUS_DRAFT;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\ManyToMany(targetEntity: Tag::class)]
     public iterable $tags = [];
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\OneToMany(mappedBy: 'feature', targetEntity: Issue::class, cascade: ['all'], orphanRemoval: true)]
     public iterable $issues = [];
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_PATH"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value, Groups::ReadPath->value])]
     public ?Project $rootProject = null;
 
     public function getRootPath(): string

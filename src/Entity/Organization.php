@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\OrganizationRepository;
+use App\Serializer\Groups;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -14,31 +15,43 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Organization
 {
-    /**
-     * @Serializer\Groups({"LIST_ORGANIZATIONS", "LIST_PROJECTS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT", "READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION"})
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Groups([
+        Groups::ListOrganizations->value,
+        Groups::ListProjects->value,
+        Groups::ReadFeature->value,
+        Groups::ReadOrganization->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value,
+        Groups::ReadOrganizationIssueTrackerConfiguration->value
+    ])]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     public string $id;
 
-    /**
-     * @Serializer\Groups({"LIST_ORGANIZATIONS", "LIST_PROJECTS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([
+        Groups::ListOrganizations->value,
+        Groups::ListProjects->value,
+        Groups::ReadFeature->value,
+        Groups::ReadOrganization->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     public string $slug;
 
-    /**
-     * @Serializer\Groups({"LIST_ORGANIZATIONS", "READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([
+        Groups::ListOrganizations->value,
+        Groups::ReadFeature->value,
+        Groups::ReadOrganization->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     #[ORM\Column(type: 'string')]
     #[Assert\Length(min: 1, max: 255, normalizer: 'trim')]
     #[Assert\NotBlank(normalizer: 'trim')]
     public string $name;
 
-    /**
-     * @Serializer\Groups({"READ_ORGANIZATION"})
-     */
+    #[Serializer\Groups([Groups::ReadOrganization->value])]
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: Project::class, cascade: ['all'], orphanRemoval: true)]
     #[ORM\OrderBy(['title' => 'ASC'])]
     public iterable $projects = [];
@@ -46,15 +59,21 @@ class Organization
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: OrganizationUser::class, cascade: ['all'], orphanRemoval: true)]
     public iterable $users = [];
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([
+        Groups::ReadFeature->value,
+        Groups::ReadOrganization->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     #[ORM\OneToMany(mappedBy: 'organization', targetEntity: OrganizationIssueTrackerConfiguration::class, cascade: ['all'], orphanRemoval: true)]
     public iterable $issueTrackerConfigurations = [];
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE", "READ_ORGANIZATION", "READ_PATH", "READ_PROJECT"})
-     */
+    #[Serializer\Groups([
+        Groups::ReadFeature->value,
+        Groups::ReadOrganization->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     public array $permissions = [];
 
     #[ORM\PrePersist]

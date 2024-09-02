@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Serializer\Groups;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -13,16 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class Issue
 {
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     public string $id;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\Column(type: 'string', length: 256)]
     #[Assert\NotBlank]
     public string $link;
@@ -31,21 +28,10 @@ class Issue
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     public Feature $feature;
 
-    /**
-     * @Serializer\Exclude()
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\Column(type: 'string', enumType: IssueTracker::class)]
     #[Assert\NotBlank]
     public IssueTracker $issueTracker;
-
-    /**
-     * @Serializer\VirtualProperty(name="issueTracker")
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
-    public function issueTracker(): string
-    {
-        return $this->issueTracker->value;
-    }
 
     #[ORM\PrePersist]
     public function prePersist(): void

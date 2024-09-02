@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
+use App\Serializer\Groups;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 
 #[ORM\Entity]
 class ScenarioStep
@@ -14,10 +15,7 @@ class ScenarioStep
     const ADVERB_AND = 'and';
     const ADVERB_BUT = 'but';
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     public string $id;
@@ -25,27 +23,19 @@ class ScenarioStep
     #[ORM\ManyToOne(targetEntity: Scenario::class, inversedBy: 'steps')]
     public Scenario $scenario;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\Column(type: 'string', columnDefinition: 'step_adverb')]
     public string $adverb;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\ManyToOne(targetEntity: Step::class, inversedBy: 'scenarioSteps')]
     public ?Step $step = null;
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\OneToMany(mappedBy: 'step', targetEntity: StepParam::class, cascade: ['all'], orphanRemoval: true)]
     public iterable $params = [];
 
-    /**
-     * @Serializer\Groups({"READ_FEATURE"})
-     */
+    #[Serializer\Groups([Groups::ReadFeature->value])]
     #[ORM\Column(type: 'integer')]
     public int $priority;
 }

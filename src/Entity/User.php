@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Serializer\Groups;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,20 +20,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 class User implements PasswordAuthenticatedUserInterface, UserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid", unique=true)
-     *
-     * @Serializer\Groups({"LIST_ORGANIZATION_USERS", "LIST_PROJECT_USERS", "LIST_USERS", "READ_ORGANIZATION_USER", "READ_PROJECT_USER"})
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Groups([
+        Groups::ListOrganizationUsers->value,
+        Groups::ListProjectUsers->value,
+        Groups::ListUsers->value,
+        Groups::ReadOrganizationUser->value,
+        Groups::ReadProjectUser->value
+    ])]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     public string $id;
 
-    /**
-     * @Serializer\Groups({"LIST_ORGANIZATION_USERS", "LIST_PROJECT_USERS", "LIST_USERS", "READ_ORGANIZATION_USER", "READ_PROJECT_USER"})
-     */
+    #[Serializer\Groups([
+        Groups::ListOrganizationUsers->value,
+        Groups::ListProjectUsers->value,
+        Groups::ListUsers->value,
+        Groups::ReadOrganizationUser->value,
+        Groups::ReadProjectUser->value
+    ])]
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 1, max: 50, normalizer: 'trim')]
     #[Assert\NotBlank(normalizer: 'trim')]
@@ -43,9 +49,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[Assert\NotBlank(normalizer: 'trim')]
     public string $email;
 
-    /**
-     * @Serializer\Exclude
-     */
+    #[Serializer\Ignore]
     #[ORM\Column(type: 'string', length: 100)]
     #[Assert\Length(min: 8, max: 100, normalizer: 'trim')]
     #[Assert\NotBlank(normalizer: 'trim')]
@@ -54,27 +58,19 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: 'json')]
     public array $roles = ['ROLE_USER'];
 
-    /**
-     * @Serializer\Exclude
-     */
+    #[Serializer\Ignore]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ProjectUser::class, cascade: ['all'], orphanRemoval: true)]
     public iterable $projects = [];
 
-    /**
-     * @Serializer\Exclude
-     */
+    #[Serializer\Ignore]
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: OrganizationUser::class, cascade: ['all'], orphanRemoval: true)]
     public iterable $organizations = [];
 
-    /**
-     * @Serializer\Exclude
-     */
+    #[Serializer\Ignore]
     #[ORM\Column(type: 'datetimetz', nullable: true)]
-    public ?\DateTime $lastResetPasswordRequest = null;
+    public ?DateTime $lastResetPasswordRequest = null;
 
-    /**
-     * @Serializer\Exclude
-     */
+    #[Serializer\Ignore]
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     public ?string $resetPasswordCode = null;
 
@@ -98,6 +94,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
         return $this->roles;
     }
 
+    #[Serializer\Ignore]
     public function getSalt(): string
     {
         return '';

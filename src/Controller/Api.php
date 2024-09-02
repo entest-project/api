@@ -4,15 +4,27 @@ namespace App\Controller;
 
 use App\Event\MailEvent;
 use App\Mail\MailInterface;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
+use App\Serializer\Normalizer\FeatureNormalizer;
+use App\Serializer\Normalizer\OrganizationNormalizer;
+use App\Serializer\Normalizer\PathNormalizer;
+use App\Serializer\Normalizer\ProjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AttributeLoader;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\BackedEnumNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Normalizer\UidNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Contracts\Service\Attribute\Required;
 
 abstract class Api extends AbstractController
 {
@@ -31,11 +43,16 @@ abstract class Api extends AbstractController
 
     protected function buildSerializedResponse($data, string $group = null, int $statusCode = Response::HTTP_OK): Response
     {
+        $context = [AbstractObjectNormalizer::ENABLE_MAX_DEPTH => true];
+
         return new Response(
             $this->serializer->serialize(
                 $data,
                 'json',
-                $group ? SerializationContext::create()->setGroups([$group]) : null
+                [
+                    ...$context,
+                    ...($group ? ['groups' => [$group]] : [])
+                ]
             ),
             $statusCode,
             [
@@ -66,16 +83,33 @@ abstract class Api extends AbstractController
             );
     }
 
+    #[Required]
     public function setEventDispatcher(EventDispatcherInterface $dispatcher): void
     {
         $this->dispatcher = $dispatcher;
     }
 
-    public function setSerializer(SerializerInterface $serializer): void
-    {
-        $this->serializer = $serializer;
+    #[Required]
+    public function setSerializer(
+        FeatureNormalizer $featureNormalizer,
+        OrganizationNormalizer $organizationNormalizer,
+        PathNormalizer $pathNormalizer,
+        ProjectNormalizer $projectNormalizer
+    ): void {
+        $this->serializer = new Serializer([
+            new BackedEnumNormalizer(),
+            new UidNormalizer(),
+            $featureNormalizer,
+            $organizationNormalizer,
+            $pathNormalizer,
+            $projectNormalizer,
+            new ObjectNormalizer(new ClassMetadataFactory(new AttributeLoader())),
+        ], [
+            new JsonEncoder()
+        ]);
     }
 
+    #[Required]
     public function setValidator(ValidatorInterface $validator): void
     {
         $this->validator = $validator;

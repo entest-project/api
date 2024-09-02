@@ -7,6 +7,7 @@ use App\Exception\UserAlreadyExistsException;
 use App\Exception\UserNotFoundException;
 use App\Model\Request\UpdateMeRequestModel;
 use App\Repository\UserRepository;
+use DateTime;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -50,7 +51,7 @@ readonly class UserManager
         $user->username = $model->username;
         $user->email = $model->email;
 
-        if ('' !== trim($model->password)) {
+        if ('' !== trim($model->password ?? '')) {
             $user->password = $this->passwordHasherFactory->getPasswordHasher(User::class)->hash($model->password, '');
         }
 
@@ -93,7 +94,7 @@ readonly class UserManager
         }
 
         $user->resetPasswordCode = str_replace('-', '', Uuid::v4()->toRfc4122());
-        $user->lastResetPasswordRequest = new \DateTime();
+        $user->lastResetPasswordRequest = new DateTime();
 
         $this->userRepository->save($user);
 

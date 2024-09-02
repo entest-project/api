@@ -2,12 +2,10 @@
 
 namespace App\Helper;
 
-use JMS\Serializer\Context;
-
 class ExtractSerializationGroupHelper
 {
-    public static function extractGroup(Context $context): array
+    public static function extractGroup(array $context): array
     {
-        return $context->hasAttribute('groups') ? $context->getAttribute('groups') : [];
+        return $context['groups'] ?? [];
     }
 }
