@@ -11,7 +11,6 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
-#[ORM\UniqueConstraint(columns: ['organization_id', 'slug'])]
 #[ORM\Index(columns: ['slug'])]
 #[ORM\HasLifecycleCallbacks]
 class Project
