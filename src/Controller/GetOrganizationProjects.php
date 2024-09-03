@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Organization;
 use App\Manager\OrganizationManager;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -18,7 +19,7 @@ class GetOrganizationProjects extends Api
     {
         return $this->buildSerializedResponse(
             $this->organizationManager->getOrganizationProjects($organization, $this->getUser()),
-            'LIST_PROJECTS'
+            Groups::ListProjects
         );
     }
 }

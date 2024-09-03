@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\OrganizationRepository;
 use App\Repository\UserRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +40,6 @@ class GetUsers extends Api
             $users = $this->userRepository->search($request->query->get('q'));
         }
 
-        return $this->buildSerializedResponse($users, 'LIST_USERS');
+        return $this->buildSerializedResponse($users, Groups::ListUsers);
     }
 }

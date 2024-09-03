@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\ProjectRepository;
 use App\Repository\ProjectUserRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -30,6 +31,6 @@ class GetProjectUsers extends Api
 
         $users = $this->projectUserRepository->findBy(['project' => $project]);
 
-        return $this->buildSerializedResponse($users, 'LIST_PROJECT_USERS');
+        return $this->buildSerializedResponse($users, Groups::ListProjectUsers);
     }
 }

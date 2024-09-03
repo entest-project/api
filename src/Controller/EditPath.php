@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Path;
 use App\Repository\PathRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -30,7 +31,7 @@ class EditPath extends Api
         try {
             $this->pathRepository->save($path);
 
-            return $this->buildSerializedResponse($path, 'READ_PATH');
+            return $this->buildSerializedResponse($path, Groups::ReadPath);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         } catch (UniqueConstraintViolationException $e) {

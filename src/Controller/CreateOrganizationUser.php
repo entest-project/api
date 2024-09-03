@@ -7,6 +7,7 @@ use App\Exception\UserNotFoundException;
 use App\Manager\OrganizationUserManager;
 use App\Repository\OrganizationUserRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -32,7 +33,7 @@ class CreateOrganizationUser extends Api
 
             $this->organizationUserRepository->save($organizationUser);
 
-            return $this->buildSerializedResponse($organizationUser, 'READ_ORGANIZATION_USER');
+            return $this->buildSerializedResponse($organizationUser, Groups::ReadOrganizationUser);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         } catch (OrganizationNotFoundException | UserNotFoundException $e) {

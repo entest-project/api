@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Feature;
 use App\Repository\FeatureRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -30,7 +31,7 @@ class EditFeature extends Api
         try {
             $this->featureRepository->save($feature);
 
-            return $this->buildSerializedResponse($feature, 'READ_FEATURE');
+            return $this->buildSerializedResponse($feature, Groups::ReadFeature);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         } catch (UniqueConstraintViolationException $e) {

@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Organization;
 use App\Repository\OrganizationIssueTrackerConfigurationRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -23,6 +24,6 @@ class GetOrganizationIssueTrackerConfigurations extends Api
 
         $users = $this->organizationIssueTrackerConfigurationRepository->findBy(['organization' => $organization]);
 
-        return $this->buildSerializedResponse($users, 'LIST_ORGANIZATION_ISSUE_TRACKER_CONFIGURATIONS');
+        return $this->buildSerializedResponse($users, Groups::ListOrganizationIssueTrackerConfigurations);
     }
 }

@@ -26,7 +26,11 @@ class Path
     #[ORM\OneToOne(mappedBy: 'rootPath', targetEntity: Project::class)]
     public ?Project $project = null;
 
-    #[Serializer\Groups([Groups::ReadFeature->value, Groups::ReadPath->value, Groups::ReadProject->value])]
+    #[Serializer\Groups([
+        Groups::ReadFeature->value,
+        Groups::ReadPath->value,
+        Groups::ReadProject->value
+    ])]
     #[ORM\Column(type: 'string')]
     #[Assert\Length(min: 1, max: 255, normalizer: 'trim')]
     #[Assert\NotBlank(normalizer: 'trim')]

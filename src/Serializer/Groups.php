@@ -6,6 +6,8 @@ namespace App\Serializer;
 
 enum Groups: string
 {
+    case ListFeatures = 'LIST_FEATURES';
+
     case ListOrganizations = 'LIST_ORGANIZATIONS';
 
     case ListOrganizationIssueTrackerConfigurations = 'LIST_ORGANIZATION_ISSUE_TRACKER_CONFIGURATIONS';
@@ -35,6 +37,8 @@ enum Groups: string
     case ReadProject = 'READ_PROJECT';
 
     case ReadProjectUser = 'READ_PROJECT_USER';
+
+    case ReadProjectUserToken = 'READ_PROJECT_USER_TOKEN';
 
     case ReadStep = 'READ_STEP';
 

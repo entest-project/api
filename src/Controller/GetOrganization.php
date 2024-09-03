@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Organization;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -11,6 +12,6 @@ class GetOrganization extends Api
 {
     public function __invoke(Organization $organization): Response
     {
-        return $this->buildSerializedResponse($organization, 'READ_ORGANIZATION');
+        return $this->buildSerializedResponse($organization, Groups::ReadOrganization);
     }
 }

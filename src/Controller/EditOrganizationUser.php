@@ -6,6 +6,7 @@ use App\Entity\OrganizationUser;
 use App\Helper\RequestHelper;
 use App\Manager\OrganizationUserManager;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class EditOrganizationUser extends Api
         try {
             $this->organizationUserManager->changePermissions($organizationUser, RequestHelper::extractFromContent($request, 'permissions'));
 
-            return $this->buildSerializedResponse($organizationUser, 'READ_ORGANIZATION_USER');
+            return $this->buildSerializedResponse($organizationUser, Groups::ReadOrganizationUser);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\FeatureRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -28,6 +29,6 @@ class GetFeature extends Api
 
         $this->denyAccessUnlessGranted(Verb::READ, $feature);
 
-        return $this->buildSerializedResponse($feature, 'READ_FEATURE');
+        return $this->buildSerializedResponse($feature, Groups::ReadFeature);
     }
 }

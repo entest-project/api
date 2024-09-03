@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Organization;
 use App\Repository\OrganizationRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -30,7 +31,7 @@ class EditOrganization extends Api
         try {
             $this->organizationRepository->save($organization);
 
-            return $this->buildSerializedResponse($organization, 'READ_ORGANIZATION');
+            return $this->buildSerializedResponse($organization, Groups::ReadOrganization);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         } catch (UniqueConstraintViolationException $e) {

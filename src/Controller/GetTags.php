@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Project;
 use App\Repository\TagRepository;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -16,6 +17,9 @@ class GetTags extends Api
 
     public function __invoke(Project $project): Response
     {
-        return $this->buildSerializedResponse($this->tagRepository->findBy(['project' => $project]), 'LIST_TAGS');
+        return $this->buildSerializedResponse(
+            $this->tagRepository->findBy(['project' => $project]),
+            Groups::ListTags
+        );
     }
 }

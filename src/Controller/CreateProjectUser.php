@@ -7,6 +7,7 @@ use App\Exception\UserNotFoundException;
 use App\Manager\ProjectUserManager;
 use App\Repository\ProjectUserRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -32,7 +33,7 @@ class CreateProjectUser extends Api
 
             $this->projectUserRepository->save($projectUser);
 
-            return $this->buildSerializedResponse($projectUser, 'READ_PROJECT_USER');
+            return $this->buildSerializedResponse($projectUser, Groups::ReadProjectUser);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         } catch (ProjectNotFoundException | UserNotFoundException $e) {

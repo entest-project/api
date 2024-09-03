@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Manager\ProjectManager;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -30,7 +31,7 @@ class CreateProject extends Api
         try {
             $this->projectManager->createProject($project, $this->getUser());
 
-            return $this->buildSerializedResponse($project, 'READ_PROJECT');
+            return $this->buildSerializedResponse($project, Groups::ReadProject);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         } catch (UniqueConstraintViolationException $e) {

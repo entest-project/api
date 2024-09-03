@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Path;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -14,6 +15,6 @@ class GetPath extends Api
     {
         $this->denyAccessUnlessGranted(Verb::READ, $path);
 
-        return $this->buildSerializedResponse($path, 'READ_PATH');
+        return $this->buildSerializedResponse($path, Groups::ReadPath);
     }
 }

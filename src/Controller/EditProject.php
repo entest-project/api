@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -30,7 +31,7 @@ class EditProject extends Api
         try {
             $this->projectRepository->save($project);
 
-            return $this->buildSerializedResponse($project, 'READ_PROJECT');
+            return $this->buildSerializedResponse($project, Groups::ReadProject);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         } catch (UniqueConstraintViolationException $e) {

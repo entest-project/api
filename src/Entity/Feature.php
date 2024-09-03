@@ -17,7 +17,11 @@ class Feature
 {
     public const FEATURE_STATUS_DRAFT = 'draft';
 
-    #[Serializer\Groups([Groups::ReadFeature->value, Groups::ReadPath->value])]
+    #[Serializer\Groups([
+        Groups::ListFeatures->value,
+        Groups::ReadFeature->value,
+        Groups::ReadPath->value
+    ])]
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
     public ?string $id = null;
@@ -26,7 +30,7 @@ class Feature
     #[ORM\ManyToOne(targetEntity: Path::class, inversedBy: 'features')]
     public Path $path;
 
-    #[Serializer\Groups([Groups::ReadFeature->value, Groups::ReadPath->value])]
+    #[Serializer\Groups([Groups::ListFeatures->value, Groups::ReadFeature->value, Groups::ReadPath->value])]
     #[ORM\Column(type: 'string')]
     #[Assert\Length(min: 1, max: 255, normalizer: 'trim')]
     #[Assert\NotBlank(normalizer: 'trim')]

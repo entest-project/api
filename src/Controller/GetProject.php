@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ProjectRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -26,6 +27,6 @@ class GetProject extends Api
 
         $this->denyAccessUnlessGranted(Verb::READ, $project);
 
-        return $this->buildSerializedResponse($project, 'READ_PROJECT');
+        return $this->buildSerializedResponse($project, Groups::ReadProject);
     }
 }

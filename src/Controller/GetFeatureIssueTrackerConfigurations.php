@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Repository\FeatureRepository;
 use App\Repository\ProjectRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -37,7 +38,7 @@ class GetFeatureIssueTrackerConfigurations extends Api
 
         return $this->buildSerializedResponse(
             $rootProject->organization->issueTrackerConfigurations ?? [],
-            'READ_FEATURE_ISSUE_TRACKER_CONFIGURATION'
+            Groups::ReadFeatureIssueTrackerConfiguration
         );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProjectRepository;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -17,7 +18,7 @@ class GetProjects extends Api
     {
         return $this->buildSerializedResponse(
             $this->projectRepository->findProjectsForUser($this->getUser()),
-            'LIST_PROJECTS'
+            Groups::ListProjects
         );
     }
 }

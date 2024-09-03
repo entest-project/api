@@ -28,11 +28,14 @@ readonly class FeatureManager
         return array_map(fn (Feature $feature): array => $this->featureToPulledElement($feature, $withId), $features);
     }
 
+    /**
+     * @return Feature[]
+     */
     public function findFeaturesWithBackgrounds(Project $project): iterable
     {
         $backgrounds = $this->scenarioRepository->findBackgroundScenariosInProject($project);
 
-        return array_map(fn (Scenario $scenario): array => $scenario->feature, $backgrounds);
+        return array_map(fn (Scenario $scenario): Feature => $scenario->feature, $backgrounds);
     }
 
     private function featureToPulledElement(Feature $feature, bool $withId): array

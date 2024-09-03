@@ -6,6 +6,7 @@ use App\Entity\ProjectUser;
 use App\Helper\RequestHelper;
 use App\Manager\ProjectUserManager;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class EditProjectUser extends Api
         try {
             $this->projectUserManager->changePermissions($projectUser, RequestHelper::extractFromContent($request, 'permissions'));
 
-            return $this->buildSerializedResponse($projectUser, 'READ_PROJECT_USER');
+            return $this->buildSerializedResponse($projectUser, Groups::ReadProjectUser);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }

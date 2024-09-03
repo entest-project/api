@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\OrganizationIssueTrackerConfiguration;
 use App\Repository\OrganizationIssueTrackerConfigurationRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\Exception\ORMException;
 use RollandRock\ParamConverterBundle\Attribute\EntityArgument;
@@ -36,6 +37,9 @@ class SaveOrganizationIssueTrackerConfiguration extends Api
             throw new UnprocessableEntityHttpException();
         }
 
-        return $this->buildSerializedResponse($configuration, 'READ_ORGANIZATION_ISSUE_TRACKER_CONFIGURATION');
+        return $this->buildSerializedResponse(
+            $configuration,
+            Groups::ReadOrganizationIssueTrackerConfiguration
+        );
     }
 }

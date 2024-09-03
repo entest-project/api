@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Step;
 use App\Repository\StepRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use RollandRock\ParamConverterBundle\Attribute\EntityArgument;
@@ -28,7 +29,7 @@ class SaveStep extends Api
         try {
             $this->stepRepository->save($step);
 
-            return $this->buildSerializedResponse($step, 'READ_STEP');
+            return $this->buildSerializedResponse($step, Groups::ReadStep);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }

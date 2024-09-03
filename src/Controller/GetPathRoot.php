@@ -6,6 +6,7 @@ use App\Entity\Path;
 use App\Exception\PathNotFoundException;
 use App\Repository\PathRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,7 +25,7 @@ class GetPathRoot extends Api
         try {
             return $this->buildSerializedResponse(
                 $this->pathRepository->findRootPath($path),
-                'READ_PATH'
+                Groups::ReadPath
             );
         } catch (PathNotFoundException $e) {
             throw new NotFoundHttpException();

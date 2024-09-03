@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Event\MailEvent;
 use App\Mail\MailInterface;
+use App\Serializer\Groups;
 use App\Serializer\Normalizer\FeatureNormalizer;
 use App\Serializer\Normalizer\OrganizationNormalizer;
 use App\Serializer\Normalizer\PathNormalizer;
@@ -41,7 +42,7 @@ abstract class Api extends AbstractController
         return $content[$property] ?? null;
     }
 
-    protected function buildSerializedResponse($data, string $group = null, int $statusCode = Response::HTTP_OK): Response
+    protected function buildSerializedResponse($data, Groups $group = null, int $statusCode = Response::HTTP_OK): Response
     {
         $context = [AbstractObjectNormalizer::ENABLE_MAX_DEPTH => true];
 
@@ -51,7 +52,7 @@ abstract class Api extends AbstractController
                 'json',
                 [
                     ...$context,
-                    ...($group ? ['groups' => [$group]] : [])
+                    ...($group ? ['groups' => [$group->value]] : [])
                 ]
             ),
             $statusCode,

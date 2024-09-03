@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
 use App\Security\Voter\Verb;
+use App\Serializer\Groups;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use RollandRock\ParamConverterBundle\Attribute\EntityArgument;
@@ -34,7 +35,7 @@ class EditTag extends Api
         try {
             $this->tagRepository->save($tag);
 
-            return $this->buildSerializedResponse($tag, 'READ_TAG');
+            return $this->buildSerializedResponse($tag, Groups::ReadTag);
         } catch (ORMException | OptimisticLockException $e) {
             throw new UnprocessableEntityHttpException($e->getMessage());
         }
