@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-class ResetPasswordMail implements MailInterface
+readonly class ResetPasswordMail implements MailInterface
 {
     public function getSubject(): string
     {

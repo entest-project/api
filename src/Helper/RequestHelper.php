@@ -4,7 +4,7 @@ namespace App\Helper;
 
 use Symfony\Component\HttpFoundation\Request;
 
-class RequestHelper
+readonly class RequestHelper
 {
     public static function extractFromContent(Request $request, string $attribute)
     {

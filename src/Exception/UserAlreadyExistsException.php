@@ -2,6 +2,8 @@
 
 namespace App\Exception;
 
-class UserAlreadyExistsException extends \Exception
+use Exception;
+
+final class UserAlreadyExistsException extends Exception
 {
 }

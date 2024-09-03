@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-class IssueTrackerConfigurationNotFoundException extends \Exception
+use Exception;
+
+final class IssueTrackerConfigurationNotFoundException extends Exception
 {
 }

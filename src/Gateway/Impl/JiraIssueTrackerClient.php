@@ -12,12 +12,12 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class JiraIssueTrackerClient implements IssueTrackerGateway
+readonly class JiraIssueTrackerClient implements IssueTrackerGateway
 {
     private HttpClientInterface $client;
 
     public function __construct(
-        private readonly FeatureToJiraCommentTransformer $featureToJiraCommentTransformer,
+        private FeatureToJiraCommentTransformer $featureToJiraCommentTransformer,
         string $apiUrl,
         string $accessToken,
         string $userIdentifier
@@ -25,7 +25,7 @@ class JiraIssueTrackerClient implements IssueTrackerGateway
         $this->client = HttpClient::createForBaseUri($apiUrl, [
             'headers' => [
                 'Content-type' => 'application/json',
-                'Authorization' => sprintf('Basic %s', \base64_encode("$userIdentifier:$accessToken"))
+                'Authorization' => sprintf('Basic %s', base64_encode("$userIdentifier:$accessToken"))
             ]
         ]);
     }

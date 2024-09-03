@@ -4,12 +4,9 @@ namespace App\Helper;
 
 use Symfony\Component\Uid\Uuid;
 
-class UuidHelper
+readonly class UuidHelper
 {
-    /**
-     * @param string|Uuid $uuid
-     */
-    public static function canonicalUuid($uuid): string
+    public static function canonicalUuid(string|Uuid $uuid): string
     {
         if (is_string($uuid)) {
             return $uuid;

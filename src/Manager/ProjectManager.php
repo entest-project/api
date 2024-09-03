@@ -7,19 +7,12 @@ use App\Entity\User;
 use App\Repository\ProjectRepository;
 use App\Repository\ProjectUserRepository;
 
-class ProjectManager
+readonly class ProjectManager
 {
-    private ProjectRepository $projectRepository;
-
-    private ProjectUserRepository $projectUserRepository;
-
     public function __construct(
-        ProjectRepository $projectRepository,
-        ProjectUserRepository $projectUserRepository
-    ) {
-        $this->projectRepository = $projectRepository;
-        $this->projectUserRepository = $projectUserRepository;
-    }
+        private ProjectRepository $projectRepository,
+        private ProjectUserRepository $projectUserRepository
+    ) {}
 
     /**
      * @throws \Doctrine\ORM\ORMException

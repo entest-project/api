@@ -10,20 +10,13 @@ use App\Repository\ProjectUserRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\Uid\Uuid;
 
-class ProjectUserManager
+readonly class ProjectUserManager
 {
-    private ProjectRepository $projectRepository;
-
-    private ProjectUserRepository $projectUserRepository;
-
-    private UserRepository $userRepository;
-
-    public function __construct(ProjectRepository $projectRepository, ProjectUserRepository $projectUserRepository, UserRepository $userRepository)
-    {
-        $this->projectRepository = $projectRepository;
-        $this->projectUserRepository = $projectUserRepository;
-        $this->userRepository = $userRepository;
-    }
+    public function __construct(
+        private ProjectRepository $projectRepository,
+        private ProjectUserRepository $projectUserRepository,
+        private UserRepository $userRepository
+    ) {}
 
     /**
      * @throws ProjectNotFoundException

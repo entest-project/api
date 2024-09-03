@@ -2,7 +2,7 @@
 
 namespace App\Helper;
 
-class ExtractSerializationGroupHelper
+readonly class ExtractSerializationGroupHelper
 {
     public static function extractGroup(array $context): array
     {

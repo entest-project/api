@@ -4,12 +4,12 @@ namespace App\Exception;
 
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class InvalidTokenException extends AuthenticationException
+final class InvalidTokenException extends AuthenticationException
 {
     /**
      * {@inheritdoc}
      */
-    public function getMessageKey()
+    public function getMessageKey(): string
     {
         return 'Invalid Pull Token';
     }

@@ -9,14 +9,11 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class OriginHttpHeaderSubscriber implements EventSubscriberInterface
+readonly class OriginHttpHeaderSubscriber implements EventSubscriberInterface
 {
-    private string $allowedOrigins;
-
-    public function __construct(string $allowedOrigins)
-    {
-        $this->allowedOrigins = $allowedOrigins;
-    }
+    public function __construct(
+        private string $allowedOrigins
+    ) {}
 
     public function onKernelRequest(RequestEvent $event): void
     {

@@ -2,14 +2,11 @@
 
 namespace App\Mail;
 
-class RegisterMail implements MailInterface
+readonly class RegisterMail implements MailInterface
 {
-    private array $params;
-
-    public function __construct(array $params)
-    {
-        $this->params = $params;
-    }
+    public function __construct(
+        private array $params
+    ) {}
 
     public function getSubject(): string
     {

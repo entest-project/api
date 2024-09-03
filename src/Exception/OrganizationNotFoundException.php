@@ -2,6 +2,8 @@
 
 namespace App\Exception;
 
-class OrganizationNotFoundException extends \Exception
+use Exception;
+
+final class OrganizationNotFoundException extends Exception
 {
 }

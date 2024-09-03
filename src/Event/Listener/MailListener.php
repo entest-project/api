@@ -6,14 +6,11 @@ use App\Event\MailEvent;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
-class MailListener
+readonly class MailListener
 {
-    private MailerInterface $mailer;
-
-    public function __construct(MailerInterface $mailer)
-    {
-        $this->mailer = $mailer;
-    }
+    public function __construct(
+        private MailerInterface $mailer
+    ) {}
 
     /**
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface

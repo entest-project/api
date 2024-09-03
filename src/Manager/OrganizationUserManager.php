@@ -9,20 +9,13 @@ use App\Repository\OrganizationRepository;
 use App\Repository\OrganizationUserRepository;
 use App\Repository\UserRepository;
 
-class OrganizationUserManager
+readonly class OrganizationUserManager
 {
-    private OrganizationRepository $organizationRepository;
-
-    private OrganizationUserRepository $organizationUserRepository;
-
-    private UserRepository $userRepository;
-
-    public function __construct(OrganizationRepository $organizationRepository, OrganizationUserRepository $organizationUserRepository, UserRepository $userRepository)
-    {
-        $this->organizationRepository = $organizationRepository;
-        $this->organizationUserRepository = $organizationUserRepository;
-        $this->userRepository = $userRepository;
-    }
+    public function __construct(
+        private OrganizationRepository $organizationRepository,
+        private OrganizationUserRepository $organizationUserRepository,
+        private UserRepository $userRepository
+    ) {}
 
     /**
      * @throws OrganizationNotFoundException

@@ -8,22 +8,13 @@ use App\Repository\OrganizationRepository;
 use App\Repository\OrganizationUserRepository;
 use App\Repository\ProjectRepository;
 
-class OrganizationManager
+readonly class OrganizationManager
 {
-    private OrganizationRepository $organizationRepository;
-
-    private OrganizationUserRepository $organizationUserRepository;
-
-    private ProjectRepository $projectRepository;
-
     public function __construct(
-        OrganizationRepository $organizationRepository,
-        OrganizationUserRepository $organizationUserRepository,
-        ProjectRepository $projectRepository
+        private OrganizationRepository $organizationRepository,
+        private OrganizationUserRepository $organizationUserRepository,
+        private ProjectRepository $projectRepository
     ) {
-        $this->organizationRepository = $organizationRepository;
-        $this->organizationUserRepository = $organizationUserRepository;
-        $this->projectRepository = $projectRepository;
     }
 
     /**
